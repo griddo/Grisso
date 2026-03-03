@@ -46,9 +46,7 @@ dist/
 scripts/
 └── build.js               # Build script (supports --config, --content, --output)
 
-plugin.js                  # PostCSS plugin: generates CSS from lib/ + PurgeCSS tree-shaking
 tokens-example.css         # Example CSS custom properties for consumers
-postcss.config.js          # PostCSS plugins: autoprefixer, dedup, sort, minify
 playground/
 ├── index.html             # Visual test page
 ├── grisso.config.mjs      # Example consumer config (extends defaults)
@@ -62,7 +60,7 @@ grisso-reduce/
 ## Build
 
 ```bash
-npm run build       # tsc + PostCSS → dist/grisso.css (full, ~156 KB)
+npm run build       # tsc + Lightning CSS → dist/grisso.css (full, ~156 KB)
 npm run typecheck   # Type-check sin emitir (tsc --noEmit)
 npm run lint        # Lint con Biome
 npm test            # Vitest (run once)
@@ -70,7 +68,7 @@ npm run test:watch  # Vitest (watch mode)
 npm run playground  # Build + tree-shake + open playground/index.html
 ```
 
-**Pipeline:** `src/*.ts` → tsc → `lib/` → generators produce raw CSS string → PostCSS (autoprefixer, dedup, sort, minify) → `dist/grisso.css`
+**Pipeline:** `src/*.ts` → tsc → `lib/` → generators produce raw CSS string → Lightning CSS (autoprefixer, media query merge, minify) → `dist/grisso.css`
 
 **Build script flags:**
 ```bash
@@ -83,26 +81,11 @@ node scripts/build.js --content "src/**/*.html" --output out.css # Tree-shaken b
 
 The package exposes:
 - `@hiscovega/grisso` → `dist/grisso.css` (pre-compiled CSS, style export)
-- `@hiscovega/grisso/plugin` → `plugin.js` (PostCSS plugin with tree-shaking via PurgeCSS)
+- `@hiscovega/grisso/build` → `lib/build.js` (programmatic API: `buildCSS()`)
 - `@hiscovega/grisso/config` → `lib/defaults.js` (default config for reference/extension)
 - `@hiscovega/grisso/tokens-example.css` → example CSS custom properties
 
-**Consumer usage (PostCSS):**
-```js
-// postcss.config.js
-import grisso from "@hiscovega/grisso/plugin";
-
-export default {
-  plugins: [
-    grisso({
-      content: ["./src/**/*.{js,ts,jsx,tsx,css}"],
-      config: "./grisso.config.mjs" // optional
-    })
-  ]
-}
-```
-
-**Consumer usage (programmatic, no PostCSS):**
+**Consumer usage (programmatic):**
 ```js
 import { buildCSS } from "@hiscovega/grisso/build";
 
@@ -224,10 +207,10 @@ npm run test:watch  # Watch mode
 
 ## Dependencies
 
-- **`purgecss`** (via `@fullhuman/postcss-purgecss`) — tree-shaking in `plugin.js`
+- **`purgecss`** — tree-shaking unused CSS classes
+- **`lightningcss`** — CSS optimization (autoprefixer, media query merge, minification)
+- **`browserslist`** — target browsers for autoprefixer
 - **typescript** (dev) — compiles `src/*.ts` → `lib/`
-- **postcss** + plugins (dev) — CSS optimization pipeline (autoprefixer, dedup, sort, minify)
-- **postcss-preset-env** (dev) — modern CSS features, stage 1
 - **@biomejs/biome** (dev) — linting and formatting
 - **vitest** (dev) — test runner
 ## Formatting

@@ -9,10 +9,6 @@
 		".": {
 			"style": "./dist/grisso.css"
 		},
-		"./plugin": {
-			"import": "./plugin.js",
-			"require": "./plugin.cjs"
-		},
 		"./build": "./lib/build.js",
 		"./config": "./lib/defaults.js",
 		"./tokens-example.css": "./tokens-example.css"
@@ -23,8 +19,6 @@
 	"files": [
 		"dist/",
 		"lib/",
-		"plugin.js",
-		"plugin.cjs",
 		"tokens-example.css",
 		"README.md"
 	],
@@ -50,13 +44,5 @@
 		"release-it": "^19.2.4",
 		"typescript": "^5.9.3",
 		"vitest": "^4.0.18"
-	},
-	"peerDependencies": {
-		"postcss": "^8.0.0"
-	},
-	"peerDependenciesMeta": {
-		"postcss": {
-			"optional": true
-		}
 	}
 }

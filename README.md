@@ -12,7 +12,7 @@ npm install @hiscovega/grisso
 
 ### Opción A: CSS directo
 
-Importa el CSS pre-compilado directamente. Útil para desarrollo o cuando no usas PostCSS.
+Importa el CSS pre-compilado directamente. Útil para desarrollo.
 
 ```css
 /* En tu CSS global */
@@ -25,32 +25,9 @@ O en HTML:
 <link rel="stylesheet" href="node_modules/@hiscovega/grisso/dist/grisso.css" />
 ```
 
-### Opción B: PostCSS plugin (recomendado — con tree-shaking)
+### Opción B: API programática
 
-Añade el plugin a tu configuración de PostCSS. El CSS de Grisso se inyecta automáticamente y solo las clases usadas llegan al bundle final.
-
-```js
-// postcss.config.js
-import grisso from "@hiscovega/grisso/plugin";
-
-export default {
-  plugins: [
-    grisso({
-      content: ["./src/**/*.{js,ts,jsx,tsx,css}"],
-    }),
-  ],
-};
-```
-
-Sin `content`, se incluye todo el CSS (útil en desarrollo):
-
-```js
-grisso();
-```
-
-### Opción C: API programática (sin PostCSS)
-
-Usa `buildCSS()` directamente desde Node.js. Genera, purga y optimiza CSS sin depender de PostCSS — ideal para scripts de build, herramientas custom o entornos donde PostCSS no está disponible.
+Usa `buildCSS()` directamente desde Node.js. Genera, purga y optimiza CSS — ideal para scripts de build, herramientas custom o integración con cualquier bundler.
 
 ```js
 import { buildCSS } from "@hiscovega/grisso/build";
@@ -172,16 +149,7 @@ export default {
 };
 ```
 
-Pasa la ruta al plugin:
-
-```js
-grisso({
-  content: ["./src/**/*.{js,ts,jsx,tsx,css}"],
-  config: "./grisso.config.mjs",
-});
-```
-
-Si no se pasa `config`, el plugin busca automáticamente `grisso.config.mjs` en el directorio de trabajo. Si no existe, usa los defaults.
+Si no se pasa `config` a `buildCSS()`, busca automáticamente `grisso.config.mjs` en el directorio de trabajo. Si no existe, usa los defaults.
 
 Los defaults se pueden consultar importando `@hiscovega/grisso/config`.
 
@@ -208,7 +176,7 @@ Importa los tokens antes que Grisso en tu CSS global:
 
 ```css
 @import "./tokens.css";
-@import "@hiscovega/grisso"; /* o via plugin de PostCSS */
+@import "@hiscovega/grisso";
 ```
 
 ## Clases disponibles
