@@ -388,6 +388,78 @@
 		</div>
 	</section>
 
+	<!-- ─── State Variants ───────────────────────────────────────── -->
+	<section class="playground-section p-lg">
+		<h2 class="text-2">State variants</h2>
+		<p class="text-3 mb-sm">Todas las utilidades generan variantes de estado: <code>hover-</code>, <code>focus-</code>, <code>focus-visible-</code>, <code>active-</code>, <code>disabled-</code>. Interactúa con los elementos para verlas en acción.</p>
+
+		<h3 class="text-2 mt-md mb-sm">hover-bg / hover-text</h3>
+		<div class="flex gap-md flex-wrap">
+			<div class="p-md bg-2 hover-bg-3" style="cursor: pointer; border-radius: 4px;">
+				<div class="label">hover-bg-3</div>
+				<span class="text-2 hover-text-1">Hover me</span>
+			</div>
+			<div class="p-md bg-3 hover-bg-5" style="cursor: pointer; border-radius: 4px;">
+				<div class="label">hover-bg-5</div>
+				<span>Hover me</span>
+			</div>
+			<div class="p-md bg-2 hover-bg-4" style="cursor: pointer; border-radius: 4px;">
+				<div class="label">hover-bg-4</div>
+				<span>Hover me</span>
+			</div>
+		</div>
+
+		<h3 class="text-2 mt-md mb-sm">hover-shadow / hover-opacity</h3>
+		<div class="flex gap-lg flex-wrap">
+			<div class="bg-ui p-md shadow-sm hover-shadow-xl" style="cursor: pointer; border-radius: 4px; transition: box-shadow 0.2s;">
+				<div class="label">hover-shadow-xl</div>
+				Hover for shadow
+			</div>
+			<div class="bg-3 p-md opacity-3 hover-opacity-6" style="cursor: pointer; border-radius: 4px; transition: opacity 0.2s;">
+				<div class="label">hover-opacity-6</div>
+				Hover for opacity
+			</div>
+		</div>
+
+		<h3 class="text-2 mt-md mb-sm">focus-border / focus-visible-border</h3>
+		<div class="flex gap-md flex-wrap">
+			<div>
+				<div class="label mb-xs">focus-border-3</div>
+				<input type="text" placeholder="Click to focus" class="p-sm border-sm border-1 focus-border-3" style="outline: none; border-radius: 4px; font-size: 14px; transition: border-color 0.15s;" />
+			</div>
+			<div>
+				<div class="label mb-xs">focus-visible-border-3</div>
+				<input type="text" placeholder="Tab to focus" class="p-sm border-sm border-1 focus-visible-border-3" style="outline: none; border-radius: 4px; font-size: 14px; transition: border-color 0.15s;" />
+			</div>
+		</div>
+
+		<h3 class="text-2 mt-md mb-sm">active-bg</h3>
+		<div class="flex gap-md flex-wrap">
+			<button type="button" class="p-sm bg-3 active-bg-5 text-1" style="border: none; border-radius: 4px; cursor: pointer; font-size: 14px;">
+				<div class="label">active-bg-5</div>
+				Press me
+			</button>
+		</div>
+
+		<h3 class="text-2 mt-md mb-sm">disabled-opacity / disabled-bg</h3>
+		<div class="flex gap-md flex-wrap items-center">
+			<button type="button" disabled class="p-sm bg-3 disabled-bg-disabled disabled-opacity-3 text-1" style="border: none; border-radius: 4px; font-size: 14px;">
+				<div class="label">disabled-bg-disabled + disabled-opacity-3</div>
+				Disabled button
+			</button>
+			<input type="text" disabled placeholder="Disabled input" class="p-sm border-sm border-1 disabled-bg-disabled disabled-opacity-3" style="border-radius: 4px; font-size: 14px;" />
+		</div>
+
+		<h3 class="text-2 mt-md mb-sm">Responsive + State</h3>
+		<p class="text-3 mb-sm">Combina breakpoints con estados: <code>tablet-hover-bg-5</code></p>
+		<div class="flex gap-md flex-wrap">
+			<div class="p-md bg-2 hover-bg-3 tablet-hover-bg-5" style="cursor: pointer; border-radius: 4px;">
+				<div class="label">hover-bg-3 / tablet-hover-bg-5</div>
+				<span class="text-2">Hover: bg-3 en mobile, bg-5 en tablet+</span>
+			</div>
+		</div>
+	</section>
+
 	<!-- ─── Responsive ───────────────────────────────────────────── -->
 	<section class="p-lg">
 		<h2 class="text-2">Responsive (redimensiona el navegador)</h2>
