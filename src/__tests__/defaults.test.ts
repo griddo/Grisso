@@ -63,8 +63,7 @@ describe("defaults", () => {
 		}
 	});
 
-	it("safelist incluye /^bg-/ por defecto", () => {
-		expect(defaults.safelist).toHaveLength(1);
-		expect(defaults.safelist[0]).toEqual(/^bg-/);
+	it("safelist está vacío por defecto", () => {
+		expect(defaults.safelist).toHaveLength(0);
 	});
 });

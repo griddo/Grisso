@@ -58,10 +58,9 @@ describe("resolveConfig", () => {
 			"__fixtures__/extend-safelist.config.mjs",
 		);
 		const config = await resolveConfig(extendSafelistPath);
-		// Default [/^bg-/] + extended [/^p-/]
-		expect(config.safelist).toHaveLength(2);
-		expect(config.safelist[0]).toEqual(/^bg-/);
-		expect(config.safelist[1]).toEqual(/^p-/);
+		// Default [] + extended [/^p-/]
+		expect(config.safelist).toHaveLength(1);
+		expect(config.safelist[0]).toEqual(/^p-/);
 	});
 
 	it("top-level safelist reemplaza default", async () => {

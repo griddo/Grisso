@@ -61,12 +61,13 @@ describe("buildCSS", () => {
 	});
 
 	it("safelist de config se aplica durante tree-shaking", async () => {
-		// Default config tiene safelist: [/^bg-/]
+		// Default config tiene safelist vacío, añadimos bg-* via opciones
 		const css = await buildCSS({
 			content: [sampleHTML],
+			safelist: [/^bg-/],
 			minify: false,
 		});
-		// bg-* está protegido por la safelist del config por defecto
+		// bg-* está protegido por la safelist
 		expect(css).toContain("bg-");
 	});
 });

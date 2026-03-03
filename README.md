@@ -238,13 +238,13 @@ export default {
     shadows: {
       "2xl": "var(--box-shadow-2xl)",
     },
-    // Se concatena con el default [/^bg-/]
+    // Se concatena con el default []
     safelist: [/^p-/],
   },
 };
 ```
 
-La `safelist` controla qué clases se protegen del tree-shaking. Por defecto incluye `[/^bg-/]`. En top-level reemplaza, en `extend` se concatena. Acepta `RegExp` y `string`.
+La `safelist` controla qué clases se protegen del tree-shaking. Por defecto está vacía. En top-level reemplaza, en `extend` se concatena. Acepta `RegExp` y `string`.
 
 Si no se pasa `config` a `buildCSS()`, busca automáticamente `grisso.config.mjs` en el directorio de trabajo. Si no existe, usa los defaults.
 
