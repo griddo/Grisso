@@ -9,3 +9,4 @@ lib/
 
 # Generated playground CSS
 playground/grisso.css
+.npmrc
