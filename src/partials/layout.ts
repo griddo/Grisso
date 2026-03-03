@@ -1,4 +1,4 @@
-import { complexClass, simpleClass } from "../generators.js";
+import { complexClass, customClass, simpleClass } from "../generators.js";
 import type { GrissoConfig } from "../types.js";
 
 export default function layout(config: GrissoConfig): string {
@@ -35,8 +35,6 @@ export default function layout(config: GrissoConfig): string {
 	for (let i = 1; i <= columns; i++) {
 		css += simpleClass(`columns-${i}`, "columns", String(i), breakpoints);
 	}
-	// columns (spacing tokens)
-	css += complexClass("columns-", "columns", spacing, breakpoints);
 
 	// float
 	const float: Record<string, string> = {
@@ -115,14 +113,14 @@ export default function layout(config: GrissoConfig): string {
 	const zIndex: Record<string, string> = {
 		auto: "auto",
 		"0": "0",
-		"1": "10",
+		"10": "10",
 		"20": "20",
 		"30": "30",
 		"40": "40",
 		"50": "50",
 	};
 	const zIndexNeg: Record<string, string> = {
-		"1": "-10",
+		"10": "-10",
 		"20": "-20",
 		"30": "-30",
 		"40": "-40",
@@ -132,14 +130,31 @@ export default function layout(config: GrissoConfig): string {
 	css += complexClass("-z-", "z-index", zIndexNeg, breakpoints);
 
 	// top/right/bottom/left
-	css += simpleClass("top-0", "top", "0", breakpoints);
-	css += simpleClass("right-0", "right", "0", breakpoints);
-	css += simpleClass("bottom-0", "bottom", "0", breakpoints);
-	css += simpleClass("left-0", "left", "0", breakpoints);
 	css += complexClass("top-", "top", spacing, breakpoints);
 	css += complexClass("right-", "right", spacing, breakpoints);
 	css += complexClass("bottom-", "bottom", spacing, breakpoints);
 	css += complexClass("left-", "left", spacing, breakpoints);
+
+	// inset (top + right + bottom + left)
+	css += complexClass("inset-", "inset", spacing, breakpoints);
+
+	// inset-x (left + right)
+	for (const [key, value] of Object.entries(spacing)) {
+		css += customClass(
+			`inset-x-${key}`,
+			{ left: value, right: value },
+			breakpoints,
+		);
+	}
+
+	// inset-y (top + bottom)
+	for (const [key, value] of Object.entries(spacing)) {
+		css += customClass(
+			`inset-y-${key}`,
+			{ top: value, bottom: value },
+			breakpoints,
+		);
+	}
 
 	return css;
 }

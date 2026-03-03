@@ -2,8 +2,37 @@ import { complexClass, simpleClass } from "../generators.js";
 import type { GrissoConfig } from "../types.js";
 import { fractionPercent } from "../utils.js";
 
+const fractions: [number, number][] = [
+	[1, 2],
+	[1, 3],
+	[2, 3],
+	[1, 4],
+	[2, 4],
+	[3, 4],
+	[1, 5],
+	[2, 5],
+	[3, 5],
+	[4, 5],
+	[1, 6],
+	[2, 6],
+	[3, 6],
+	[4, 6],
+	[5, 6],
+	[1, 12],
+	[2, 12],
+	[3, 12],
+	[4, 12],
+	[5, 12],
+	[6, 12],
+	[7, 12],
+	[8, 12],
+	[9, 12],
+	[10, 12],
+	[11, 12],
+];
+
 export default function sizing(config: GrissoConfig): string {
-	const { columns, breakpoints } = config;
+	const { breakpoints } = config;
 	let css = "";
 
 	// width
@@ -17,11 +46,11 @@ export default function sizing(config: GrissoConfig): string {
 		fit: "fit-content",
 	};
 	css += complexClass("w-", "width", width, breakpoints);
-	for (let i = 1; i <= columns; i++) {
+	for (const [n, d] of fractions) {
 		css += simpleClass(
-			`w-${i}`,
+			`w-${n}/${d}`,
 			"width",
-			fractionPercent(i, columns),
+			fractionPercent(n, d),
 			breakpoints,
 		);
 	}
@@ -39,11 +68,11 @@ export default function sizing(config: GrissoConfig): string {
 		fit: "fit-content",
 	};
 	css += complexClass("h-", "height", height, breakpoints);
-	for (let i = 1; i <= columns; i++) {
+	for (const [n, d] of fractions) {
 		css += simpleClass(
-			`h-${i}`,
+			`h-${n}/${d}`,
 			"height",
-			fractionPercent(i, columns),
+			fractionPercent(n, d),
 			breakpoints,
 		);
 	}

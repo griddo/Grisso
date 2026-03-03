@@ -28,6 +28,12 @@ describe("simpleClass", () => {
 		const mediaCount = (css.match(/@media/g) || []).length;
 		expect(mediaCount).toBe(Object.keys(breakpoints).length);
 	});
+
+	it("escapa / en classNames", () => {
+		const css = simpleClass("w-1/2", "width", "50%", breakpoints);
+		expect(css).toContain(".w-1\\/2 { width: 50%; }");
+		expect(css).toContain(".tablet-w-1\\/2 { width: 50%; }");
+	});
 });
 
 describe("complexClass", () => {
@@ -68,6 +74,14 @@ describe("complexClass", () => {
 		expect(css).toContain(".mt-sm");
 		expect(css).toContain(".mt-md");
 		expect(css).not.toContain(".p-");
+	});
+
+	it("escapa / en token names", () => {
+		const fractionTokens: TokenMap = { "1/2": "50%", "1/3": "33.3333%" };
+		const css = complexClass("w-", "width", fractionTokens, breakpoints);
+		expect(css).toContain(".w-1\\/2 { width: 50%; }");
+		expect(css).toContain(".w-1\\/3 { width: 33.3333%; }");
+		expect(css).toContain(".tablet-w-1\\/2");
 	});
 });
 

@@ -111,7 +111,7 @@ export default function typography(config: GrissoConfig): string {
 	const fontWeight: Record<string, string> = {
 		thin: "100",
 		extralight: "200",
-		light: "200",
+		light: "300",
 		normal: "400",
 		medium: "500",
 		semibold: "600",
@@ -122,7 +122,14 @@ export default function typography(config: GrissoConfig): string {
 	css += complexClass("font-", "font-weight", fontWeight, breakpoints);
 
 	// letter-spacing
-	const letterSpacing = omit(spacing, "auto");
+	const letterSpacing: Record<string, string> = {
+		tighter: "-0.05em",
+		tight: "-0.025em",
+		normal: "0em",
+		wide: "0.025em",
+		wider: "0.05em",
+		widest: "0.1em",
+	};
 	css += complexClass(
 		"tracking-",
 		"letter-spacing",
@@ -136,7 +143,7 @@ export default function typography(config: GrissoConfig): string {
 		...lineHeight,
 		none: "1",
 		tight: "1.25",
-		snug: "1.3755",
+		snug: "1.375",
 		normal: "1.5",
 		relaxed: "1.625",
 		loose: "2",

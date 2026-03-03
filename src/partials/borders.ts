@@ -25,6 +25,35 @@ export default function borders(config: GrissoConfig): string {
 	// border-width
 	css += complexClass("border-", "border-width", borderWidth, breakpoints);
 
+	// border-{side}-width
+	css += complexClass(
+		"border-t-",
+		"border-top-width",
+		borderWidth,
+		breakpoints,
+	);
+	css += complexClass(
+		"border-r-",
+		"border-right-width",
+		borderWidth,
+		breakpoints,
+	);
+	css += complexClass(
+		"border-b-",
+		"border-bottom-width",
+		borderWidth,
+		breakpoints,
+	);
+	css += complexClass(
+		"border-l-",
+		"border-left-width",
+		borderWidth,
+		breakpoints,
+	);
+
+	// border-color
+	css += complexClass("border-", "border-color", extendedColors, breakpoints);
+
 	// border-style
 	css += complexClass("border-", "border-style", borderStyle, breakpoints);
 

@@ -11,7 +11,7 @@ src/                       # TypeScript source
 ├── index.ts              # Entry: generateCSS(configPath?)
 ├── types.ts              # Shared types: GrissoConfig, PartialFn, TokenMap...
 ├── defaults.ts           # Default config (breakpoints, spacing, colors, etc.)
-├── generators.ts         # Core generators: simpleClass, complexClass, customClass
+├── generators.ts         # Core generators: simpleClass, complexClass, customClass (with CSS escaping)
 ├── resolve-config.ts     # Loads grisso.config.mjs, merges with defaults
 ├── utils.ts              # Helpers: omit(), fractionPercent()
 ├── build.ts              # buildCSS() — generate, purge, optimize pipeline
@@ -19,13 +19,13 @@ src/                       # TypeScript source
 ├── optimize.ts           # optimizeCSS() — media query merge + Lightning CSS
 ├── partials/
 │   ├── index.ts           # Ordered registry of generators
-│   ├── layout.ts          # display, position, overflow, z-index, visibility, columns...
+│   ├── layout.ts          # display, position, overflow, z-index, visibility, columns, inset...
 │   ├── flex-and-grid.ts   # flex/grid direction, wrap, align, justify, gap...
 │   ├── spacing.ts         # margin, padding (with directional variants)
-│   ├── sizing.ts          # width, height (with fraction support)
+│   ├── sizing.ts          # width, height (with Tailwind fraction support: w-1/2, h-1/3...)
 │   ├── backgrounds.ts     # bg colors, attachment, clip, position, size...
-│   ├── borders.ts         # width, style, divide_*, outline_*
-│   ├── typography.ts      # text colors, align, weight, spacing, line-height...
+│   ├── borders.ts         # width, style, color, border-{side}-width, divide_*, outline_*
+│   ├── typography.ts      # text colors, align, weight, tracking (semantic), line-height...
 │   ├── effects.ts         # opacity, shadows, overlay
 │   └── icons.ts           # icon colors
 └── __tests__/
@@ -139,6 +139,8 @@ export default {
 
 ## Architecture: Three Core Generator Functions
 
+All three generators automatically escape special characters in class names (e.g. `/` → `\/`) via an internal `escapeCSS()` helper, so fraction-based names like `w-1/2` produce valid CSS selectors (`.w-1\/2`).
+
 ### 1. `simpleClass(className, property, value, breakpoints)`
 
 For single-value utilities. Generates base class + responsive variants.
@@ -146,6 +148,9 @@ For single-value utilities. Generates base class + responsive variants.
 ```js
 simpleClass("flex", "display", "flex", breakpoints)
 // Output: .flex, .tablet-flex, .desktop-flex, .ultrawide-flex
+
+simpleClass("w-1/2", "width", "50%", breakpoints)
+// Output: .w-1\/2 { width: 50%; }
 ```
 
 ### 2. `complexClass(prefix, properties, tokens, breakpoints)`
@@ -175,7 +180,11 @@ customClass("divide-x", { "border-right-width": "0", "border-left-width": "1px" 
 - **Breakpoints (mobile-first):** tablet (700px), desktop (1024px), ultrawide (1680px)
 - **All values use CSS custom properties** (`var(--spc-sm)`, `var(--text-1)`) for theming
 - **Directional suffixes:** `-t`, `-r`, `-b`, `-l` for sides; `-x`, `-y` for inline/block
-- **Grid:** 12 columns
+- **Sizing fractions:** Tailwind-style `w-1/2`, `w-2/3`, `h-1/4`, etc. (escaped as `\/` in CSS)
+- **z-index:** Tailwind-aligned `z-10`, `z-20`..`z-50` (name = value)
+- **Inset utilities:** `inset-{spacing}`, `inset-x-{spacing}`, `inset-y-{spacing}`
+- **Tracking:** Semantic scale `tracking-tight`, `tracking-wide`, etc. (not spacing tokens)
+- **Border utilities:** `border-{color}`, `border-t-{width}`, `border-r-{width}`, etc.
 - **Config is centralized** in `src/defaults.ts` — add new scales/tokens there
 - **Documentation and comments are in Spanish**
 
@@ -200,7 +209,7 @@ npm run test:watch  # Watch mode
 | File | Covers |
 |---|---|
 | `utils.test.ts` | `omit()`, `fractionPercent()` |
-| `generators.test.ts` | `simpleClass`, `complexClass`, `customClass` |
+| `generators.test.ts` | `simpleClass`, `complexClass`, `customClass`, CSS escaping |
 | `defaults.test.ts` | Default config structure and token format |
 | `resolve-config.test.ts` | Config override, extend, merge logic |
 | `optimize.test.ts` | Media query merging, minification |

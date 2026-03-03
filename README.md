@@ -219,7 +219,7 @@ Importa los tokens antes que Grisso en tu CSS global:
 {breakpoint}-{propiedad}-{escala}
 ```
 
-Ejemplos: `flex`, `tablet-flex`, `p-md`, `desktop-mt-lg`, `text-center`
+Ejemplos: `flex`, `tablet-flex`, `p-md`, `desktop-mt-lg`, `text-center`, `w-1/2`, `z-10`, `tracking-tight`
 
 ### Breakpoints (mobile-first)
 
@@ -232,22 +232,22 @@ Ejemplos: `flex`, `tablet-flex`, `p-md`, `desktop-mt-lg`, `text-center`
 
 ### Categorías
 
-| Categoría      | Ejemplos                                                             |
-| -------------- | -------------------------------------------------------------------- |
-| **Layout**     | `flex`, `block`, `hidden`, `relative`, `absolute`, `overflow-hidden` |
-| **Flex/Grid**  | `flex-col`, `flex-wrap`, `items-center`, `justify-between`, `gap-md` |
-| **Spacing**    | `p-sm`, `pt-lg`, `mx-auto`, `mt-xs`, `mb-md`                         |
-| **Sizing**     | `w-full`, `h-full`, `w-1`, `max-w-full`                              |
-| **Tipografía** | `text-1`, `text-center`, `font-bold`, `leading-tight`                |
-| **Fondos**     | `bg-1`, `bg-ui`, `bg-cover`, `bg-center`                             |
-| **Bordes**     | `border-sm`, `divide-x`, `outline-none`                              |
-| **Efectos**    | `shadow-md`, `opacity-3`, `overlay-2`                                |
-| **Iconos**     | `icon-1`, `icon-3`                                                   |
+| Categoría      | Ejemplos                                                                      |
+| -------------- | ----------------------------------------------------------------------------- |
+| **Layout**     | `flex`, `block`, `hidden`, `relative`, `absolute`, `overflow-hidden`, `inset-0`, `inset-x-sm`, `z-10` |
+| **Flex/Grid**  | `flex-col`, `flex-wrap`, `items-center`, `justify-between`, `gap-md`          |
+| **Spacing**    | `p-sm`, `pt-lg`, `mx-auto`, `mt-xs`, `mb-md`                                 |
+| **Sizing**     | `w-full`, `h-full`, `w-1/2`, `w-2/3`, `h-1/4`, `max-w-full`                  |
+| **Tipografía** | `text-1`, `text-center`, `font-bold`, `font-light`, `leading-snug`, `tracking-tight` |
+| **Fondos**     | `bg-1`, `bg-ui`, `bg-cover`, `bg-center`                                     |
+| **Bordes**     | `border-sm`, `border-1`, `border-t-sm`, `divide-x`, `outline-none`           |
+| **Efectos**    | `shadow-md`, `opacity-3`, `overlay-2`                                         |
+| **Iconos**     | `icon-1`, `icon-3`                                                            |
 
 ## Build
 
 ```bash
-npm run build       # Compila TS + genera dist/grisso.css (~156 KB)
+npm run build       # Compila TS + genera dist/grisso.css (~154 KB)
 npm run typecheck   # Type-check sin emitir (tsc --noEmit)
 npm run lint        # Lint con Biome
 npm test            # Tests con Vitest
@@ -266,16 +266,16 @@ node scripts/build.js --content "src/**/*.html" --output out.css       # Tree-sh
 node scripts/build.js --config conf.mjs --content "src/**" --output x  # Todo junto
 ```
 
-Con `--content`, se usa PurgeCSS para eliminar clases no usadas (156 KB → ~4 KB en el playground).
+Con `--content`, se usa PurgeCSS para eliminar clases no usadas (~154 KB → ~4 KB en el playground).
 
 ## Desarrollo: Añadir nuevas utilities
 
-1. Edita el partial correspondiente en `src/js/partials/{category}.ts`
+1. Edita el partial correspondiente en `src/partials/{category}.ts`
 2. Usa `simpleClass`, `complexClass` o `customClass` con los tokens del config
 3. Ejecuta `npm run build`
 
 ```ts
-// src/js/partials/layout.ts
+// src/partials/layout.ts
 import { simpleClass, complexClass } from "../generators.js";
 
 // Clase simple — genera .flex + variantes responsive

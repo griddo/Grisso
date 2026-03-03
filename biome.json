@@ -9,6 +9,13 @@
 		}
 	},
 	"files": {
-		"includes": ["**", "!dist", "!lib", "!node_modules", "!.claude"]
+		"includes": [
+			"**",
+			"!dist",
+			"!lib",
+			"!node_modules",
+			"!.claude",
+			"!playground/grisso.css"
+		]
 	}
 }
