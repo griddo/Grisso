@@ -66,7 +66,24 @@ describe("purgeCSS", () => {
 		}
 	});
 
-	it("preserva safelist (bg-*) aunque no se use", async () => {
+	it("preserva safelist (bg-*) cuando se pasa explícitamente", async () => {
+		setupTmpDir();
+		const htmlPath = path.join(tmpDir, "test.html");
+		writeFileSync(htmlPath, '<div class="flex">Hello</div>');
+
+		try {
+			const result = await purgeCSS(fullCSS, {
+				content: [htmlPath],
+				safelist: [/^bg-/],
+			});
+			expect(result).toContain(".bg-1");
+			expect(result).toContain(".bg-2");
+		} finally {
+			cleanTmpDir();
+		}
+	});
+
+	it("sin safelist no preserva bg-* automáticamente", async () => {
 		setupTmpDir();
 		const htmlPath = path.join(tmpDir, "test.html");
 		writeFileSync(htmlPath, '<div class="flex">Hello</div>');
@@ -75,9 +92,8 @@ describe("purgeCSS", () => {
 			const result = await purgeCSS(fullCSS, {
 				content: [htmlPath],
 			});
-			// bg-* está en la safelist por defecto
-			expect(result).toContain(".bg-1");
-			expect(result).toContain(".bg-2");
+			expect(result).not.toContain(".bg-1");
+			expect(result).not.toContain(".bg-2");
 		} finally {
 			cleanTmpDir();
 		}

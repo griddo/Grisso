@@ -22,6 +22,8 @@ export interface GrissoConfig {
 	opacity: TokenMap;
 	shadows: TokenMap;
 	borderColors: TokenMap;
+	/** Patrones de clases protegidas del tree-shaking */
+	safelist: (string | RegExp)[];
 	[key: string]: unknown;
 }
 

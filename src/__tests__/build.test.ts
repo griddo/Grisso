@@ -49,4 +49,24 @@ describe("buildCSS", () => {
 		// El fixture reemplaza spacing, así que debe tener los valores custom
 		expect(css).toContain("8px");
 	});
+
+	it("safelist en BuildOptions protege clases del tree-shaking", async () => {
+		const css = await buildCSS({
+			content: [sampleHTML],
+			safelist: ["^shadow-"],
+			minify: false,
+		});
+		// shadow-* no se usa en sample.html pero está en safelist
+		expect(css).toContain("shadow-");
+	});
+
+	it("safelist de config se aplica durante tree-shaking", async () => {
+		// Default config tiene safelist: [/^bg-/]
+		const css = await buildCSS({
+			content: [sampleHTML],
+			minify: false,
+		});
+		// bg-* está protegido por la safelist del config por defecto
+		expect(css).toContain("bg-");
+	});
 });

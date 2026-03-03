@@ -44,7 +44,10 @@ export async function resolveConfig(
 			extend as Record<string, unknown>,
 		)) {
 			const current = (config as Record<string, unknown>)[key];
-			if (
+			if (key in config && Array.isArray(current) && Array.isArray(value)) {
+				// Arrays se concatenan (e.g. safelist)
+				(config as Record<string, unknown>)[key] = [...current, ...value];
+			} else if (
 				key in config &&
 				typeof current === "object" &&
 				current !== null &&

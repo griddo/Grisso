@@ -7,6 +7,8 @@ import type { GrissoConfig } from "./types.js";
 const defaults: GrissoConfig = {
 	columns: 12,
 
+	safelist: [/^bg-/],
+
 	breakpoints: {
 		tablet: "(min-width: 700px)",
 		desktop: "(min-width: 1024px)",

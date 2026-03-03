@@ -10,24 +10,9 @@ npm install @hiscovega/grisso
 
 ## Uso
 
-### Opción A: CSS directo
+### CLI
 
-Importa el CSS pre-compilado directamente. Útil para desarrollo.
-
-```css
-/* En tu CSS global */
-@import "@hiscovega/grisso";
-```
-
-O en HTML:
-
-```html
-<link rel="stylesheet" href="node_modules/@hiscovega/grisso/dist/grisso.css" />
-```
-
-### Opción B: CLI
-
-Genera CSS desde la terminal. Ideal para scripts de build y CI/CD.
+Genera CSS desde la terminal. Forma recomendada de usar Grisso, ideal para scripts de build y CI/CD.
 
 ```bash
 # CSS completo a stdout
@@ -42,6 +27,9 @@ npx grisso build --config grisso.config.mjs --output dist/grisso.css
 # Tree-shaking (solo clases usadas)
 npx grisso build --content "src/**/*.tsx" --content "src/**/*.css" --output dist/grisso.css
 
+# Proteger clases del tree-shaking
+npx grisso build --content "src/**/*.tsx" --safelist "^p-" --safelist "^m-" --output dist/grisso.css
+
 # Sin minificar (útil para depuración)
 npx grisso build --no-minify --output dist/grisso.css
 
@@ -55,13 +43,14 @@ npx grisso build | pbcopy
 |---|---|
 | `--config <ruta>` | Ruta a `grisso.config.mjs` |
 | `--content <glob>` | Globs para tree-shaking (repetible) |
+| `--safelist <regex>` | Patrones de clases a preservar (repetible) |
 | `--output <ruta>` | Archivo de salida (sin `--output` → stdout) |
 | `--no-minify` | Deshabilitar minificación |
 | `--help, -h` | Ayuda del comando |
 
 Sin `--output`, el CSS va a stdout y los mensajes de estado a stderr, siguiendo la convención Unix.
 
-### Opción C: API programática
+### API programática
 
 Usa `buildCSS()` directamente desde Node.js. Genera, purga y optimiza CSS — ideal para scripts de build, herramientas custom o integración con cualquier bundler.
 
@@ -78,6 +67,7 @@ const css = await buildCSS();
 |---|---|---|---|
 | `config` | `string` | — | Ruta a `grisso.config.mjs` personalizado |
 | `content` | `string[]` | — | Globs de archivos a escanear para tree-shaking |
+| `safelist` | `(string \| RegExp)[]` | — | Patrones de clases a preservar (se mergea con `config.safelist`) |
 | `minify` | `boolean` | `true` | Minificar el CSS de salida |
 
 Sin `content`, se incluye todo el CSS. Con `content`, se eliminan las clases no usadas via PurgeCSS.
@@ -173,7 +163,7 @@ export default {
     lg: "24px",
   },
 
-  // `extend` MERGEA con los defaults
+  // `extend` MERGEA con los defaults (arrays se concatenan)
   extend: {
     foregroundColors: {
       5: "var(--text-5)",
@@ -181,9 +171,13 @@ export default {
     shadows: {
       "2xl": "var(--box-shadow-2xl)",
     },
+    // Se concatena con el default [/^bg-/]
+    safelist: [/^p-/],
   },
 };
 ```
+
+La `safelist` controla qué clases se protegen del tree-shaking. Por defecto incluye `[/^bg-/]`. En top-level reemplaza, en `extend` se concatena. Acepta `RegExp` y `string`.
 
 Si no se pasa `config` a `buildCSS()`, busca automáticamente `grisso.config.mjs` en el directorio de trabajo. Si no existe, usa los defaults.
 
@@ -261,7 +255,7 @@ npm run playground  # Build + tree-shake + abre playground/index.html
 
 ### CLI
 
-El CLI se usa internamente y está disponible para consumidores via `npx grisso build`. Ver [Opción B: CLI](#opción-b-cli) para detalles completos.
+El CLI se usa internamente y está disponible para consumidores via `npx grisso build`. Ver [CLI](#cli) para detalles completos.
 
 Con `--content`, se usa PurgeCSS para eliminar clases no usadas (~154 KB → ~4 KB en el playground).
 

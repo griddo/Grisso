@@ -75,6 +75,7 @@ grisso build                                              # CSS completo a stdou
 grisso build --output dist/grisso.css                     # Escribir a archivo
 grisso build --config path/to/config.mjs                  # Custom config
 grisso build --content "src/**/*.html" --output out.css   # Tree-shaken build
+grisso build --safelist "^p-" --safelist "^m-"            # Proteger clases del purge
 grisso build --no-minify                                  # Sin minificar
 grisso --help                                             # Ayuda general
 grisso --version                                          # Versión
@@ -102,6 +103,7 @@ const css = await buildCSS();
 const css = await buildCSS({
   content: ["./src/**/*.{js,ts,jsx,tsx,css}"],
   config: "./grisso.config.mjs",
+  safelist: ["^p-", /^m-/], // se mergea con config.safelist
   minify: true, // default
 });
 ```
@@ -118,13 +120,21 @@ export default {
   // Top-level keys REPLACE defaults entirely
   spacing: { sm: "8px", md: "16px", lg: "24px" },
 
-  // `extend` MERGES with defaults
+  // Safelist: patrones de clases protegidas del tree-shaking
+  // Top-level reemplaza el default [/^bg-/]
+  safelist: [/^p-/, /^m-/],
+
+  // `extend` MERGES with defaults (arrays se concatenan)
   extend: {
     foregroundColors: { "5": "var(--text-5)" },
     shadows: { "2xl": "var(--box-shadow-2xl)" },
+    // extend.safelist se concatena con el default [/^bg-/]
+    safelist: [/^p-/],
   },
 };
 ```
+
+Safelist acepta `RegExp` y `string` (strings se convierten a `RegExp` internamente).
 
 ## Architecture: Three Core Generator Functions
 

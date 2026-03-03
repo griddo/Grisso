@@ -17,6 +17,7 @@ describe("defaults", () => {
 			"opacity",
 			"shadows",
 			"borderColors",
+			"safelist",
 		];
 		for (const key of expectedKeys) {
 			expect(defaults).toHaveProperty(key);
@@ -60,5 +61,10 @@ describe("defaults", () => {
 		for (const value of Object.values(defaults.shadows)) {
 			expect(value).toMatch(/^var\(--box-shadow-.+\)$/);
 		}
+	});
+
+	it("safelist incluye /^bg-/ por defecto", () => {
+		expect(defaults.safelist).toHaveLength(1);
+		expect(defaults.safelist[0]).toEqual(/^bg-/);
 	});
 });

@@ -117,4 +117,24 @@ describe("CLI", () => {
 		const shakenSize = fs.statSync(shakenOut).size;
 		expect(shakenSize).toBeLessThan(fullSize * 0.5);
 	}, 60_000);
+
+	it("build --safelist protege clases del tree-shaking", async () => {
+		const out = tmpOutput();
+		await run([
+			"build",
+			"--content",
+			sampleHTML,
+			"--safelist",
+			"^shadow-",
+			"--output",
+			out,
+		]);
+		const css = fs.readFileSync(out, "utf8");
+		expect(css).toContain("shadow-");
+	}, 60_000);
+
+	it("build --help muestra --safelist", async () => {
+		const { stdout } = await run(["build", "--help"]);
+		expect(stdout).toContain("--safelist");
+	});
 });

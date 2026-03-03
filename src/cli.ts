@@ -41,6 +41,7 @@ Uso:
 Opciones:
   --config <ruta>     Ruta a grisso.config.mjs
   --content <glob>    Globs para tree-shaking (repetible)
+  --safelist <regex>  Patrones de clases a preservar (repetible)
   --output <ruta>     Archivo de salida (sin --output → stdout)
   --no-minify         Deshabilitar minificación
   --help, -h          Muestra esta ayuda
@@ -49,6 +50,7 @@ Ejemplos:
   grisso build                                          # CSS completo a stdout
   grisso build --output dist/grisso.css                 # Escribir a archivo
   grisso build --content "src/**/*.tsx" --output out.css # Tree-shaking
+  grisso build --safelist "^p-" --safelist "^m-"        # Proteger clases
   grisso build --no-minify                              # Sin minificar`);
 }
 
@@ -59,6 +61,7 @@ async function runBuild(argv: string[]): Promise<void> {
 		options: {
 			config: { type: "string" },
 			content: { type: "string", multiple: true },
+			safelist: { type: "string", multiple: true },
 			output: { type: "string" },
 			minify: { type: "boolean", default: true },
 			help: { type: "boolean", short: "h", default: false },
@@ -77,6 +80,8 @@ async function runBuild(argv: string[]): Promise<void> {
 
 	const content =
 		values.content && values.content.length > 0 ? values.content : undefined;
+	const safelist =
+		values.safelist && values.safelist.length > 0 ? values.safelist : undefined;
 
 	if (values.output) {
 		const label = content
@@ -89,6 +94,7 @@ async function runBuild(argv: string[]): Promise<void> {
 		config: values.config,
 		content,
 		minify: values.minify,
+		safelist,
 	});
 
 	if (values.output) {

@@ -45,7 +45,7 @@ export async function purgeCSS(
 			},
 		],
 		safelist: {
-			greedy: [/^bg-/, ...(options.safelist ?? [])],
+			greedy: options.safelist ?? [],
 		},
 	});
 
