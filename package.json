@@ -9,7 +9,10 @@
 		".": {
 			"style": "./dist/grisso.css"
 		},
-		"./plugin": "./plugin.js",
+		"./plugin": {
+			"import": "./plugin.js",
+			"require": "./plugin.cjs"
+		},
 		"./config": "./lib/defaults.js",
 		"./tokens-example.css": "./tokens-example.css"
 	},
@@ -20,6 +23,7 @@
 		"dist/",
 		"lib/",
 		"plugin.js",
+		"plugin.cjs",
 		"tokens-example.css",
 		"README.md"
 	],
