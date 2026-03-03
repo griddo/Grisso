@@ -220,6 +220,32 @@
 		</div>
 	</section>
 
+	<!-- ─── CSS Modules tree-shaking ─────────────────────────────── -->
+	<section class="playground-section p-lg">
+		<h2 class="text-2">CSS Modules (tree-shaking con composes)</h2>
+		<p class="text-3 mb-sm">Las clases de abajo se preservan porque <code>example.module.css</code> las usa vía <code>composes: ... from global</code>.</p>
+		<div class="label mb-xs">playground/example.module.css</div>
+		<pre class="bg-2 p-sm" style="font-size: 12px; overflow-x: auto;"><code>.card {
+  composes: flex flex-col gap-sm p-md bg-ui shadow-lg from global;
+}
+.cardTitle {
+  composes: text-1 font-bold from global;
+}
+.badge {
+  composes: inline-flex items-center p-xs bg-3 text-3 from global;
+}</code></pre>
+		<div class="mt-md">
+			<div class="label mb-xs">Resultado visual (usando las clases directamente)</div>
+			<div class="flex flex-col gap-sm p-md bg-ui shadow-lg" style="max-width: 360px;">
+				<div class="flex justify-between items-center">
+					<span class="text-1 font-bold">Card title</span>
+					<span class="inline-flex items-center p-xs bg-3 text-3" style="font-size: 11px; border-radius: 4px;">Badge</span>
+				</div>
+				<p class="text-2 mt-xs" style="margin: 0;">Contenido del card usando clases extraídas de composes.</p>
+			</div>
+		</div>
+	</section>
+
 	<!-- ─── Responsive ───────────────────────────────────────────── -->
 	<section class="p-lg">
 		<h2 class="text-2">Responsive (redimensiona el navegador)</h2>

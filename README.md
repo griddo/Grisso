@@ -36,16 +36,16 @@ import grisso from "@griddo/grisso/plugin";
 export default {
   plugins: [
     grisso({
-      content: ["./src/**/*.{js,ts,jsx,tsx,css}"]
-    })
-  ]
-}
+      content: ["./src/**/*.{js,ts,jsx,tsx,css}"],
+    }),
+  ],
+};
 ```
 
 Sin `content`, se incluye todo el CSS (útil en desarrollo):
 
 ```js
-grisso()
+grisso();
 ```
 
 ## Configuración personalizada
@@ -65,7 +65,7 @@ export default {
   // `extend` MERGEA con los defaults
   extend: {
     foregroundColors: {
-      "5": "var(--text-5)",
+      5: "var(--text-5)",
     },
     shadows: {
       "2xl": "var(--box-shadow-2xl)",
@@ -79,8 +79,8 @@ Pasa la ruta al plugin:
 ```js
 grisso({
   content: ["./src/**/*.{js,ts,jsx,tsx,css}"],
-  config: "./grisso.config.mjs"
-})
+  config: "./grisso.config.mjs",
+});
 ```
 
 Si no se pasa `config`, el plugin busca automáticamente `grisso.config.mjs` en el directorio de trabajo. Si no existe, usa los defaults.
@@ -125,26 +125,26 @@ Ejemplos: `flex`, `tablet-flex`, `p-md`, `desktop-mt-lg`, `text-center`
 
 ### Breakpoints (mobile-first)
 
-| Prefijo | Tamaño |
-|---|---|
-| *(sin prefijo)* | 0px+ |
-| `tablet-` | 700px+ |
-| `desktop-` | 1024px+ |
-| `ultrawide-` | 1680px+ |
+| Prefijo         | Tamaño  |
+| --------------- | ------- |
+| _(sin prefijo)_ | 0px+    |
+| `tablet-`       | 700px+  |
+| `desktop-`      | 1024px+ |
+| `ultrawide-`    | 1680px+ |
 
 ### Categorías
 
-| Categoría | Ejemplos |
-|---|---|
-| **Layout** | `flex`, `block`, `hidden`, `relative`, `absolute`, `overflow-hidden` |
-| **Flex/Grid** | `flex-col`, `flex-wrap`, `items-center`, `justify-between`, `gap-md` |
-| **Spacing** | `p-sm`, `pt-lg`, `mx-auto`, `mt-xs`, `mb-md` |
-| **Sizing** | `w-full`, `h-full`, `w-1`, `max-w-full` |
-| **Tipografía** | `text-1`, `text-center`, `font-bold`, `leading-tight` |
-| **Fondos** | `bg-1`, `bg-ui`, `bg-cover`, `bg-center` |
-| **Bordes** | `border-sm`, `divide-x`, `outline-none` |
-| **Efectos** | `shadow-md`, `opacity-3`, `overlay-2` |
-| **Iconos** | `icon-1`, `icon-3` |
+| Categoría      | Ejemplos                                                             |
+| -------------- | -------------------------------------------------------------------- |
+| **Layout**     | `flex`, `block`, `hidden`, `relative`, `absolute`, `overflow-hidden` |
+| **Flex/Grid**  | `flex-col`, `flex-wrap`, `items-center`, `justify-between`, `gap-md` |
+| **Spacing**    | `p-sm`, `pt-lg`, `mx-auto`, `mt-xs`, `mb-md`                         |
+| **Sizing**     | `w-full`, `h-full`, `w-1`, `max-w-full`                              |
+| **Tipografía** | `text-1`, `text-center`, `font-bold`, `leading-tight`                |
+| **Fondos**     | `bg-1`, `bg-ui`, `bg-cover`, `bg-center`                             |
+| **Bordes**     | `border-sm`, `divide-x`, `outline-none`                              |
+| **Efectos**    | `shadow-md`, `opacity-3`, `overlay-2`                                |
+| **Iconos**     | `icon-1`, `icon-3`                                                   |
 
 ## Build
 

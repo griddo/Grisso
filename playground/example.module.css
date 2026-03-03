@@ -1,0 +1,24 @@
+/**
+ * Ejemplo de CSS Modules con composes from global.
+ * El tree-shaker de Grisso detecta estas clases y las preserva en el output.
+ */
+
+.card {
+	composes: flex flex-col gap-sm p-md bg-ui shadow-lg from global;
+}
+
+.cardHeader {
+	composes: flex justify-between items-center from global;
+}
+
+.cardTitle {
+	composes: text-1 font-bold from global;
+}
+
+.cardBody {
+	composes: text-2 mt-xs from global;
+}
+
+.badge {
+	composes: inline-flex items-center p-xs bg-3 text-3 from global;
+}

@@ -25,7 +25,7 @@
 		"typecheck": "tsc --noEmit",
 		"lint": "biome check .",
 		"lint:fix": "biome check --write .",
-		"playground": "npm run build && node scripts/build.js --config playground/grisso.config.mjs --content playground/index.html --output playground/grisso.css && open playground/index.html",
+		"playground": "npm run build && node scripts/build.js --config playground/grisso.config.mjs --content playground/index.html --content playground/example.module.css --output playground/grisso.css && open playground/index.html",
 		"prepublishOnly": "npm run build"
 	},
 	"dependencies": {
