@@ -5,7 +5,7 @@
 ## Instalación
 
 ```bash
-npm install @griddo/grisso
+npm install @hiscovega/grisso
 ```
 
 ## Uso
@@ -16,13 +16,13 @@ Importa el CSS pre-compilado directamente. Útil para desarrollo o cuando no usa
 
 ```css
 /* En tu CSS global */
-@import "@griddo/grisso";
+@import "@hiscovega/grisso";
 ```
 
 O en HTML:
 
 ```html
-<link rel="stylesheet" href="node_modules/@griddo/grisso/dist/grisso.css" />
+<link rel="stylesheet" href="node_modules/@hiscovega/grisso/dist/grisso.css" />
 ```
 
 ### Opción B: PostCSS plugin (recomendado — con tree-shaking)
@@ -31,7 +31,7 @@ Añade el plugin a tu configuración de PostCSS. El CSS de Grisso se inyecta aut
 
 ```js
 // postcss.config.js
-import grisso from "@griddo/grisso/plugin";
+import grisso from "@hiscovega/grisso/plugin";
 
 export default {
   plugins: [
@@ -53,19 +53,10 @@ grisso();
 Usa `buildCSS()` directamente desde Node.js. Genera, purga y optimiza CSS sin depender de PostCSS — ideal para scripts de build, herramientas custom o entornos donde PostCSS no está disponible.
 
 ```js
-import { buildCSS } from "@griddo/grisso/build";
+import { buildCSS } from "@hiscovega/grisso/build";
 
 // Build completo (todo el CSS, minificado)
 const css = await buildCSS();
-
-// Build con tree-shaking
-const css = await buildCSS({
-  content: ["./src/**/*.{js,ts,jsx,tsx,css}"],
-  config: "./grisso.config.mjs",
-});
-
-// Build sin minificar
-const css = await buildCSS({ minify: false });
 ```
 
 **Opciones de `buildCSS()`:**
@@ -77,6 +68,83 @@ const css = await buildCSS({ minify: false });
 | `minify` | `boolean` | `true` | Minificar el CSS de salida |
 
 Sin `content`, se incluye todo el CSS. Con `content`, se eliminan las clases no usadas via PurgeCSS.
+
+#### Ejemplos
+
+**Tree-shaking** — solo las clases que usa tu proyecto:
+
+```js
+const css = await buildCSS({
+  content: ["./src/**/*.{js,ts,jsx,tsx}", "./src/**/*.css"],
+});
+```
+
+**Config personalizada + tree-shaking:**
+
+```js
+const css = await buildCSS({
+  config: "./grisso.config.mjs",
+  content: ["./src/**/*.{js,ts,jsx,tsx,css}"],
+});
+```
+
+**CSS sin minificar** (útil para depuración):
+
+```js
+const css = await buildCSS({ minify: false });
+```
+
+**Script de build** — genera un archivo CSS para producción:
+
+```js
+// scripts/build-css.mjs
+import { writeFileSync } from "node:fs";
+import { buildCSS } from "@hiscovega/grisso/build";
+
+const css = await buildCSS({
+  content: ["./src/**/*.{jsx,tsx,css}"],
+  config: "./grisso.config.mjs",
+});
+
+writeFileSync("./dist/styles.css", css);
+console.log(`CSS generado: ${css.length} bytes`);
+```
+
+**Integración con Vite** (plugin custom):
+
+```js
+// vite.config.js
+import { buildCSS } from "@hiscovega/grisso/build";
+
+export default {
+  plugins: [
+    {
+      name: "grisso",
+      async buildStart() {
+        const css = await buildCSS({
+          content: ["./src/**/*.{jsx,tsx,css}"],
+        });
+        this.emitFile({ type: "asset", fileName: "grisso.css", source: css });
+      },
+    },
+  ],
+};
+```
+
+**Servidor de desarrollo** — generar CSS on-the-fly:
+
+```js
+// Ejemplo con Express
+import express from "express";
+import { buildCSS } from "@hiscovega/grisso/build";
+
+const app = express();
+
+app.get("/grisso.css", async (req, res) => {
+  const css = await buildCSS({ minify: false });
+  res.type("text/css").send(css);
+});
+```
 
 ## Configuración personalizada
 
@@ -115,14 +183,14 @@ grisso({
 
 Si no se pasa `config`, el plugin busca automáticamente `grisso.config.mjs` en el directorio de trabajo. Si no existe, usa los defaults.
 
-Los defaults se pueden consultar importando `@griddo/grisso/config`.
+Los defaults se pueden consultar importando `@hiscovega/grisso/config`.
 
 ## Design Tokens (CSS custom properties)
 
 Grisso usa CSS custom properties para todos los valores. Copia `tokens-example.css` y adapta los valores a tu design system:
 
 ```bash
-cp node_modules/@griddo/grisso/tokens-example.css src/tokens.css
+cp node_modules/@hiscovega/grisso/tokens-example.css src/tokens.css
 ```
 
 ```css
@@ -140,7 +208,7 @@ Importa los tokens antes que Grisso en tu CSS global:
 
 ```css
 @import "./tokens.css";
-@import "@griddo/grisso"; /* o via plugin de PostCSS */
+@import "@hiscovega/grisso"; /* o via plugin de PostCSS */
 ```
 
 ## Clases disponibles

@@ -15,7 +15,7 @@ import { purgeCSS } from "./lib/purge.js";
  *
  * @example
  * // postcss.config.js del proyecto consumidor
- * import grisso from "@griddo/grisso/plugin";
+ * import grisso from "@hiscovega/grisso/plugin";
  * export default {
  *   plugins: [
  *     grisso({ content: ["./src/**\/*.{js,ts,jsx,tsx,css}"] })

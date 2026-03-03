@@ -2,7 +2,7 @@
 
 ## What is Grisso
 
-Grisso (`@griddo/grisso`) is Griddo's CSS utility class library, similar in concept to Tailwind CSS. It generates responsive utility classes from TypeScript using generator functions. All values reference CSS custom properties (design tokens), enabling theming. Consumers can extend or override tokens via `grisso.config.mjs`.
+Grisso (`@hiscovega/grisso`) is Griddo's CSS utility class library, similar in concept to Tailwind CSS. It generates responsive utility classes from TypeScript using generator functions. All values reference CSS custom properties (design tokens), enabling theming. Consumers can extend or override tokens via `grisso.config.mjs`.
 
 ## Project Structure
 
@@ -75,15 +75,15 @@ node scripts/build.js --content "src/**/*.html" --output out.css # Tree-shaken b
 ## Distribution (npm package)
 
 The package exposes:
-- `@griddo/grisso` → `dist/grisso.css` (pre-compiled CSS, style export)
-- `@griddo/grisso/plugin` → `plugin.js` (PostCSS plugin with tree-shaking via PurgeCSS)
-- `@griddo/grisso/config` → `lib/defaults.js` (default config for reference/extension)
-- `@griddo/grisso/tokens-example.css` → example CSS custom properties
+- `@hiscovega/grisso` → `dist/grisso.css` (pre-compiled CSS, style export)
+- `@hiscovega/grisso/plugin` → `plugin.js` (PostCSS plugin with tree-shaking via PurgeCSS)
+- `@hiscovega/grisso/config` → `lib/defaults.js` (default config for reference/extension)
+- `@hiscovega/grisso/tokens-example.css` → example CSS custom properties
 
 **Consumer usage (PostCSS):**
 ```js
 // postcss.config.js
-import grisso from "@griddo/grisso/plugin";
+import grisso from "@hiscovega/grisso/plugin";
 
 export default {
   plugins: [
@@ -97,7 +97,7 @@ export default {
 
 **Consumer usage (programmatic, no PostCSS):**
 ```js
-import { buildCSS } from "@griddo/grisso/build";
+import { buildCSS } from "@hiscovega/grisso/build";
 
 // Full CSS, minified
 const css = await buildCSS();

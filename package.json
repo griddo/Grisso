@@ -39,12 +39,14 @@
 		"prepublishOnly": "npm run build",
 		"release": "release-it"
 	},
+	"dependencies": {
+		"browserslist": "^4.24.0",
+		"lightningcss": "^1.28.0",
+		"purgecss": "^6.0.0"
+	},
 	"devDependencies": {
 		"@biomejs/biome": "2.4.5",
 		"@types/node": "^25.3.3",
-		"browserslist": "^4.24.0",
-		"lightningcss": "^1.28.0",
-		"purgecss": "^6.0.0",
 		"release-it": "^19.2.4",
 		"typescript": "^5.9.3",
 		"vitest": "^4.0.18"
