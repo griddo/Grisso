@@ -50,6 +50,49 @@ npx grisso build | pbcopy
 
 Sin `--output`, el CSS va a stdout y los mensajes de estado a stderr, siguiendo la convención Unix.
 
+#### `grisso tokens`
+
+Genera un scaffold con todas las CSS custom properties (design tokens) que necesitas definir. Extrae dinámicamente los tokens de la config resuelta.
+
+```bash
+# Scaffold CSS a stdout
+npx grisso tokens
+
+# Escribir a archivo
+npx grisso tokens --output tokens.css
+
+# Con config personalizada (refleja extends/overrides)
+npx grisso tokens --config grisso.config.mjs --output tokens.css
+
+# Config resuelta como JSON
+npx grisso tokens --format json
+```
+
+**Flags de `grisso tokens`:**
+
+| Flag              | Descripción                                       |
+| ----------------- | ------------------------------------------------- |
+| `--config <ruta>` | Ruta a `grisso.config.mjs`                        |
+| `--format <fmt>`  | Formato de salida: `css` (default) o `json`       |
+| `--output <ruta>` | Archivo de salida (sin `--output` → stdout)       |
+| `--help, -h`      | Ayuda del comando                                 |
+
+El scaffold CSS genera un `:root { }` con todas las properties vacías, agrupadas por sección, listo para rellenar:
+
+```css
+:root {
+	/* ─── Spacing ─── */
+	--spc-4xs: ;
+	--spc-3xs: ;
+	/* ... */
+
+	/* ─── Colors: marca ─── */
+	--brand-1: ;
+	--brand-2: ;
+	/* ... */
+}
+```
+
 ### API programática
 
 Usa `buildCSS()` directamente desde Node.js. Genera, purga y optimiza CSS — ideal para scripts de build, herramientas custom o integración con cualquier bundler.
@@ -134,6 +177,30 @@ export default {
 };
 ```
 
+#### `extractTokens()` — scaffold de tokens
+
+Usa `extractTokens()` para generar programáticamente el scaffold de custom properties (o JSON) desde la config resuelta.
+
+```js
+import { extractTokens } from "@hiscovega/grisso/tokens";
+
+// Scaffold CSS con todas las custom properties
+const css = await extractTokens();
+
+// JSON con los token maps resueltos
+const json = await extractTokens({
+  format: "json",
+  config: "./grisso.config.mjs",
+});
+```
+
+**Opciones de `extractTokens()`:**
+
+| Opción   | Tipo             | Default | Descripción                               |
+| -------- | ---------------- | ------- | ----------------------------------------- |
+| `config` | `string`         | —       | Ruta a `grisso.config.mjs` personalizado  |
+| `format` | `"css" \| "json"` | `"css"` | Formato de salida                         |
+
 **Servidor de desarrollo** — generar CSS on-the-fly:
 
 ```js
@@ -185,7 +252,14 @@ Los defaults se pueden consultar importando `@hiscovega/grisso/config`.
 
 ## Design Tokens (CSS custom properties)
 
-Grisso usa CSS custom properties para todos los valores. Copia `tokens-example.css` y adapta los valores a tu design system:
+Grisso usa CSS custom properties para todos los valores. Genera un scaffold con todas las properties que necesitas definir:
+
+```bash
+# Genera scaffold dinámico desde tu config resuelta
+npx grisso tokens --output src/tokens.css
+```
+
+Alternativamente, copia el ejemplo estático:
 
 ```bash
 cp node_modules/@hiscovega/grisso/tokens-example.css src/tokens.css

@@ -9,7 +9,8 @@ Grisso (`@hiscovega/grisso`) is Griddo's CSS utility class library, similar in c
 ```
 src/                       # TypeScript source
 ├── index.ts              # Entry: generateCSS(configPath?)
-├── cli.ts                # CLI entry point: grisso build [opciones]
+├── cli.ts                # CLI entry point: grisso build | grisso tokens
+├── tokens.ts             # extractTokens() — token scaffold generation (CSS/JSON)
 ├── types.ts              # Shared types: GrissoConfig, PartialFn, TokenMap...
 ├── defaults.ts           # Default config (breakpoints, spacing, colors, etc.)
 ├── generators.ts         # Core generators: simpleClass, complexClass, customClass (with CSS escaping)
@@ -38,6 +39,7 @@ src/                       # TypeScript source
     ├── optimize.test.ts
     ├── purge.test.ts
     ├── build.test.ts
+    ├── tokens.test.ts
     └── cli.test.ts
 
 lib/                       # Compiled JS output from tsc (gitignored, published via npm)
@@ -83,12 +85,24 @@ grisso --version                                          # Versión
 
 Sin `--output`, el CSS va a stdout (mensajes de estado a stderr). Convención Unix para pipear: `grisso build | pbcopy`, `grisso build > out.css`.
 
+**CLI (`grisso tokens`):**
+```bash
+grisso tokens                                              # Scaffold CSS a stdout
+grisso tokens --output tokens.css                          # Escribir a archivo
+grisso tokens --config path/to/config.mjs                  # Usa config custom
+grisso tokens --format json                                # Config resuelta como JSON
+grisso tokens --help                                       # Ayuda del comando
+```
+
+Genera un scaffold CSS (o JSON) con todas las custom properties referenciadas en la config resuelta. El consumidor lo usa como punto de partida para definir sus tokens.
+
 ## Distribution (npm package)
 
 The package exposes:
 - `grisso` CLI → `lib/cli.js` (via `bin` in package.json, usable with `npx grisso build`)
 - `@hiscovega/grisso` → `dist/grisso.css` (pre-compiled CSS, style export)
 - `@hiscovega/grisso/build` → `lib/build.js` (programmatic API: `buildCSS()`)
+- `@hiscovega/grisso/tokens` → `lib/tokens.js` (programmatic API: `extractTokens()`)
 - `@hiscovega/grisso/config` → `lib/defaults.js` (default config for reference/extension)
 - `@hiscovega/grisso/tokens-example.css` → example CSS custom properties
 
@@ -109,6 +123,17 @@ const css = await buildCSS({
 ```
 
 `buildCSS()` runs the full pipeline: generate → purge (if `content`) → optimize (Lightning CSS: media query merge, autoprefixer, minification).
+
+**Token extraction (programmatic):**
+```js
+import { extractTokens } from "@hiscovega/grisso/tokens";
+
+// Scaffold CSS con todas las custom properties
+const css = await extractTokens();
+
+// JSON con los token maps resueltos
+const json = await extractTokens({ format: "json", config: "./grisso.config.mjs" });
+```
 
 ## Consumer Configuration (`grisso.config.mjs`)
 
@@ -214,6 +239,7 @@ npm run test:watch  # Watch mode
 | `optimize.test.ts` | Media query merging, minification |
 | `purge.test.ts` | Tree-shaking, safelist, CSS Modules extractor |
 | `build.test.ts` | Full `buildCSS()` pipeline (integration) |
+| `tokens.test.ts` | `extractTokens()` CSS and JSON output |
 | `cli.test.ts` | CLI integration (subprocess via `execFile`) |
 
 **Fixtures** live in `src/__tests__/__fixtures__/` (test config, sample HTML, sample CSS Module).

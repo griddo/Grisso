@@ -10,6 +10,7 @@
 			"style": "./dist/grisso.css"
 		},
 		"./build": "./lib/build.js",
+		"./tokens": "./lib/tokens.js",
 		"./config": "./lib/defaults.js",
 		"./tokens-example.css": "./tokens-example.css"
 	},

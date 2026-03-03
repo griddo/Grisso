@@ -57,6 +57,7 @@ describe("CLI", () => {
 		expect(exitCode).toBe(0);
 		expect(stdout).toContain("grisso");
 		expect(stdout).toContain("build");
+		expect(stdout).toContain("tokens");
 	});
 
 	it("sin argumentos imprime ayuda y exit 1", async () => {
@@ -136,5 +137,38 @@ describe("CLI", () => {
 	it("build --help muestra --safelist", async () => {
 		const { stdout } = await run(["build", "--help"]);
 		expect(stdout).toContain("--safelist");
+	});
+
+	it("tokens --help muestra ayuda del comando", async () => {
+		const { stdout, exitCode } = await run(["tokens", "--help"]);
+		expect(exitCode).toBe(0);
+		expect(stdout).toContain("--config");
+		expect(stdout).toContain("--format");
+		expect(stdout).toContain("--output");
+	});
+
+	it("tokens sin --output envía scaffold CSS a stdout", async () => {
+		const { stdout, exitCode } = await run(["tokens"]);
+		expect(exitCode).toBe(0);
+		expect(stdout).toContain(":root {");
+		expect(stdout).toContain("--spc-sm: ;");
+	});
+
+	it("tokens --format json genera JSON válido", async () => {
+		const { stdout, exitCode } = await run(["tokens", "--format", "json"]);
+		expect(exitCode).toBe(0);
+		const data = JSON.parse(stdout);
+		expect(data).toHaveProperty("spacing");
+		expect(data).toHaveProperty("brandColors");
+	});
+
+	it("tokens --output escribe archivo", async () => {
+		const out = tmpOutput();
+		const { stderr, exitCode } = await run(["tokens", "--output", out]);
+		expect(exitCode).toBe(0);
+		expect(fs.existsSync(out)).toBe(true);
+		const content = fs.readFileSync(out, "utf8");
+		expect(content).toContain(":root {");
+		expect(stderr).toContain("KB");
 	});
 });

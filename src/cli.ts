@@ -25,6 +25,7 @@ Uso:
 
 Comandos:
   build     Genera CSS de utilidades
+  tokens    Genera scaffold de tokens (custom properties)
 
 Opciones globales:
   --help, -h      Muestra esta ayuda
@@ -113,6 +114,71 @@ async function runBuild(argv: string[]): Promise<void> {
 	}
 }
 
+/** Texto de ayuda del comando tokens */
+function printTokensHelp(): void {
+	console.log(`grisso tokens — Genera scaffold de tokens (custom properties)
+
+Uso:
+  grisso tokens [opciones]
+
+Opciones:
+  --config <ruta>     Ruta a grisso.config.mjs
+  --format <fmt>      Formato de salida: css (default) o json
+  --output <ruta>     Archivo de salida (sin --output → stdout)
+  --help, -h          Muestra esta ayuda
+
+Ejemplos:
+  grisso tokens                                        # Scaffold CSS a stdout
+  grisso tokens --output tokens.css                    # Escribir a archivo
+  grisso tokens --config grisso.config.mjs             # Usa config custom
+  grisso tokens --format json                          # Config como JSON`);
+}
+
+/** Comando tokens: genera scaffold de tokens */
+async function runTokens(argv: string[]): Promise<void> {
+	const { values } = parseArgs({
+		args: argv,
+		options: {
+			config: { type: "string" },
+			format: { type: "string" },
+			output: { type: "string" },
+			help: { type: "boolean", short: "h", default: false },
+		},
+		strict: true,
+	});
+
+	if (values.help) {
+		printTokensHelp();
+		return;
+	}
+
+	const format = values.format as "css" | "json" | undefined;
+	if (format && format !== "css" && format !== "json") {
+		console.error(`Formato no soportado: ${format} (usa "css" o "json")`);
+		process.exit(1);
+	}
+
+	// Import dinámico para que --help sea instantáneo
+	const { extractTokens } = await import("./tokens.js");
+
+	const output = await extractTokens({ config: values.config, format });
+
+	if (values.output) {
+		const outputPath = path.resolve(values.output);
+		const dir = path.dirname(outputPath);
+		if (!fs.existsSync(dir)) {
+			fs.mkdirSync(dir, { recursive: true });
+		}
+		fs.writeFileSync(outputPath, output);
+		const kb = (Buffer.byteLength(output, "utf8") / 1024).toFixed(1);
+		console.error(
+			`Generado ${path.relative(process.cwd(), outputPath)} (${kb} KB)`,
+		);
+	} else {
+		process.stdout.write(output);
+	}
+}
+
 /** Punto de entrada */
 async function main(): Promise<void> {
 	const { values, positionals } = parseArgs({
@@ -144,8 +210,11 @@ async function main(): Promise<void> {
 
 	switch (command) {
 		case "build":
-			// Pasar solo los args después de "build"
+			// Pasar solo los args después del comando
 			await runBuild(process.argv.slice(3));
+			break;
+		case "tokens":
+			await runTokens(process.argv.slice(3));
 			break;
 		default:
 			console.error(`Comando desconocido: ${command}`);
