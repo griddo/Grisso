@@ -1,0 +1,7 @@
+.wrapper {
+	composes: flex gap-md from global;
+}
+
+.title {
+	composes: text-1 font-bold from global;
+}

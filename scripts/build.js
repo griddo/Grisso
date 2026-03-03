@@ -1,9 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import postcss from "postcss";
-import { generateCSS } from "../lib/index.js";
-import postcssConfig from "../postcss.config.js";
+import { buildCSS } from "../lib/build.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -31,25 +29,14 @@ async function build() {
 		? path.resolve(outputPath)
 		: path.resolve(__dirname, "../dist/grisso.css");
 
-	let css;
+	console.log(
+		content.length > 0 ? "Generating tree-shaken CSS..." : "Generating CSS...",
+	);
 
-	if (content.length > 0) {
-		// Tree-shaking: usar el plugin con PurgeCSS
-		console.log("Generating tree-shaken CSS...");
-		const grissoPlugin = (await import("../plugin.js")).default;
-		const plugin = grissoPlugin({ content, config: configPath });
-		const result = await postcss([plugin]).process("", { from: undefined });
-		css = result.css;
-	} else {
-		// Full build: generar todo + PostCSS pipeline
-		console.log("Generating CSS...");
-		const rawCSS = await generateCSS(configPath);
-		console.log("Running PostCSS pipeline...");
-		const result = await postcss(postcssConfig.plugins).process(rawCSS, {
-			from: undefined,
-		});
-		css = result.css;
-	}
+	const css = await buildCSS({
+		config: configPath,
+		content: content.length > 0 ? content : undefined,
+	});
 
 	const dir = path.dirname(output);
 	if (!fs.existsSync(dir)) {

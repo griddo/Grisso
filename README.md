@@ -48,6 +48,36 @@ Sin `content`, se incluye todo el CSS (útil en desarrollo):
 grisso();
 ```
 
+### Opción C: API programática (sin PostCSS)
+
+Usa `buildCSS()` directamente desde Node.js. Genera, purga y optimiza CSS sin depender de PostCSS — ideal para scripts de build, herramientas custom o entornos donde PostCSS no está disponible.
+
+```js
+import { buildCSS } from "@griddo/grisso/build";
+
+// Build completo (todo el CSS, minificado)
+const css = await buildCSS();
+
+// Build con tree-shaking
+const css = await buildCSS({
+  content: ["./src/**/*.{js,ts,jsx,tsx,css}"],
+  config: "./grisso.config.mjs",
+});
+
+// Build sin minificar
+const css = await buildCSS({ minify: false });
+```
+
+**Opciones de `buildCSS()`:**
+
+| Opción | Tipo | Default | Descripción |
+|---|---|---|---|
+| `config` | `string` | — | Ruta a `grisso.config.mjs` personalizado |
+| `content` | `string[]` | — | Globs de archivos a escanear para tree-shaking |
+| `minify` | `boolean` | `true` | Minificar el CSS de salida |
+
+Sin `content`, se incluye todo el CSS. Con `content`, se eliminan las clases no usadas via PurgeCSS.
+
 ## Configuración personalizada
 
 Crea un `grisso.config.mjs` en la raíz de tu proyecto para extender o reemplazar los tokens por defecto. Sigue el patrón de Tailwind v3:
@@ -152,6 +182,8 @@ Ejemplos: `flex`, `tablet-flex`, `p-md`, `desktop-mt-lg`, `text-center`
 npm run build       # Compila TS + genera dist/grisso.css (~156 KB)
 npm run typecheck   # Type-check sin emitir (tsc --noEmit)
 npm run lint        # Lint con Biome
+npm test            # Tests con Vitest
+npm run test:watch  # Tests en modo watch
 npm run playground  # Build + tree-shake + abre playground/index.html
 ```
 

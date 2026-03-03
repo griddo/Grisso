@@ -1,9 +1,12 @@
 import { generateCSS } from "./lib/index.js";
+import { purgeCSS } from "./lib/purge.js";
 
 /**
  * PostCSS plugin de Grisso.
  * Genera CSS desde JS y aplica tree-shaking usando PurgeCSS
  * si se pasan rutas de contenido.
+ *
+ * No aplica optimización (el consumidor tiene su propio pipeline PostCSS).
  *
  * @param {Object} options
  * @param {string[]} [options.content] - Rutas glob de archivos a escanear para tree-shaking.
@@ -25,50 +28,13 @@ export default function grissoPlugin(options = {}) {
 	return {
 		postcssPlugin: "postcss-grisso",
 		async Once(root, { parse }) {
-			const grissoSource = await generateCSS(configPath);
+			let css = await generateCSS(configPath);
 
-			if (!content || content.length === 0) {
-				// Sin tree-shaking: inyectar todo el CSS
-				const grissoRoot = parse(grissoSource);
-				grissoRoot.each((node) => root.prepend(node.clone()));
-				return;
+			if (content && content.length > 0) {
+				css = await purgeCSS(css, { content });
 			}
 
-			// Con tree-shaking: usar PurgeCSS para eliminar clases no usadas
-			const { PurgeCSS } = await import("purgecss");
-
-			const purgecss = new PurgeCSS();
-			const [result] = await purgecss.purge({
-				content,
-				css: [{ raw: grissoSource }],
-				extractors: [
-					{
-						// Extractor para uso directo en HTML/JSX: class="flex gap-md"
-						extractor: (content) => content.match(/[A-Za-z0-9_-]+/g) || [],
-						extensions: ["html", "jsx", "tsx", "js", "ts"],
-					},
-					{
-						// Extractor para CSS Modules: composes: flex gap-md from global
-						extractor: (content) => {
-							const matches = content.match(/composes:\s*([^;]+)\s*from\s+global/g) || [];
-							const classes = [];
-							for (const match of matches) {
-								const classStr = match.replace(/composes:\s*/, "").replace(/\s*from\s+global/, "");
-								classes.push(...classStr.trim().split(/\s+/));
-							}
-							return classes;
-						},
-						extensions: ["css"],
-					},
-				],
-				safelist: {
-					// Preservar clases de fondo (bg-) que pueden construirse dinámicamente
-					greedy: [/^bg-/],
-				},
-			});
-
-			const purgedCSS = result ? result.css : grissoSource;
-			const grissoRoot = parse(purgedCSS);
+			const grissoRoot = parse(css);
 			grissoRoot.each((node) => root.prepend(node.clone()));
 		},
 	};

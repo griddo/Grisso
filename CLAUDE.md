@@ -14,6 +14,11 @@ src/js/                    # TypeScript source
 ├── generators.ts         # Core generators: simpleClass, complexClass, customClass
 ├── resolve-config.ts     # Loads grisso.config.mjs, merges with defaults
 ├── utils.ts              # Helpers: omit(), fractionPercent()
+├── build.ts              # buildCSS() — generate, purge, optimize pipeline
+├── purge.ts              # purgeCSS() — tree-shaking via PurgeCSS
+├── optimize.ts           # optimizeCSS() — media query merge + Lightning CSS
+├── *.test.ts             # Vitest tests (co-located with source)
+├── __fixtures__/         # Test fixtures (config, HTML, CSS samples)
 └── partials/
     ├── index.ts           # Ordered registry of generators
     ├── layout.ts          # display, position, overflow, z-index, visibility, columns...
@@ -53,6 +58,8 @@ grisso-reduce/
 npm run build       # tsc + PostCSS → dist/grisso.css (full, ~156 KB)
 npm run typecheck   # Type-check sin emitir (tsc --noEmit)
 npm run lint        # Lint con Biome
+npm test            # Vitest (run once)
+npm run test:watch  # Vitest (watch mode)
 npm run playground  # Build + tree-shake + open playground/index.html
 ```
 
@@ -73,7 +80,7 @@ The package exposes:
 - `@griddo/grisso/config` → `lib/defaults.js` (default config for reference/extension)
 - `@griddo/grisso/tokens-example.css` → example CSS custom properties
 
-**Consumer usage:**
+**Consumer usage (PostCSS):**
 ```js
 // postcss.config.js
 import grisso from "@griddo/grisso/plugin";
@@ -87,6 +94,23 @@ export default {
   ]
 }
 ```
+
+**Consumer usage (programmatic, no PostCSS):**
+```js
+import { buildCSS } from "@griddo/grisso/build";
+
+// Full CSS, minified
+const css = await buildCSS();
+
+// Tree-shaken + custom config
+const css = await buildCSS({
+  content: ["./src/**/*.{js,ts,jsx,tsx,css}"],
+  config: "./grisso.config.mjs",
+  minify: true, // default
+});
+```
+
+`buildCSS()` runs the full pipeline: generate → purge (if `content`) → optimize (Lightning CSS: media query merge, autoprefixer, minification).
 
 ## Consumer Configuration (`grisso.config.mjs`)
 
@@ -152,7 +176,31 @@ customClass("divide-x", { "border-right-width": "0", "border-left-width": "1px" 
 
 1. Edit the appropriate partial in `src/js/partials/{category}.ts`
 2. Use `simpleClass`, `complexClass`, or `customClass` with the config tokens
-3. Run `npm run build` to compile TS and regenerate CSS
+3. Run `npm test` to verify
+4. Run `npm run build` to compile TS and regenerate CSS
+
+## Tests
+
+Tests use **Vitest** and are co-located with source files (`src/js/*.test.ts`). Test files are excluded from the `tsc` build via `tsconfig.json`.
+
+```bash
+npm test            # Run all tests once
+npm run test:watch  # Watch mode
+```
+
+**Test modules:**
+
+| File | Covers |
+|---|---|
+| `utils.test.ts` | `omit()`, `fractionPercent()` |
+| `generators.test.ts` | `simpleClass`, `complexClass`, `customClass` |
+| `defaults.test.ts` | Default config structure and token format |
+| `resolve-config.test.ts` | Config override, extend, merge logic |
+| `optimize.test.ts` | Media query merging, minification |
+| `purge.test.ts` | Tree-shaking, safelist, CSS Modules extractor |
+| `build.test.ts` | Full `buildCSS()` pipeline (integration) |
+
+**Fixtures** live in `src/js/__fixtures__/` (test config, sample HTML, sample CSS Module).
 
 ## grisso-reduce (Tree-Shaking)
 
@@ -165,6 +213,7 @@ customClass("divide-x", { "border-right-width": "0", "border-left-width": "1px" 
 - **postcss** + plugins (dev) — CSS optimization pipeline (autoprefixer, dedup, sort, minify)
 - **postcss-preset-env** (dev) — modern CSS features, stage 1
 - **@biomejs/biome** (dev) — linting and formatting
+- **vitest** (dev) — test runner
 ## Formatting
 
 - Tabs for indentation
