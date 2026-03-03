@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { fractionPercent, omit } from "./utils.js";
+import { fractionPercent, omit } from "../utils.js";
 
 describe("omit", () => {
 	it("elimina las keys indicadas", () => {

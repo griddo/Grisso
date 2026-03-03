@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import defaults from "./defaults.js";
+import defaults from "../defaults.js";
 
 describe("defaults", () => {
 	it("tiene todas las keys esperadas del GrissoConfig", () => {

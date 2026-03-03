@@ -1,7 +1,7 @@
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
-import { buildCSS } from "./build.js";
+import { buildCSS } from "../build.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const sampleHTML = path.join(__dirname, "__fixtures__/sample.html");

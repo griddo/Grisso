@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { complexClass, customClass, simpleClass } from "./generators.js";
-import type { Breakpoints, TokenMap } from "./types.js";
+import { complexClass, customClass, simpleClass } from "../generators.js";
+import type { Breakpoints, TokenMap } from "../types.js";
 
 const breakpoints: Breakpoints = {
 	tablet: "(min-width: 700px)",

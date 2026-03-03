@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { optimizeCSS } from "./optimize.js";
+import { optimizeCSS } from "../optimize.js";
 
 describe("optimizeCSS", () => {
 	it("produce CSS válido", async () => {

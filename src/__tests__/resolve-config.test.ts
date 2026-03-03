@@ -1,8 +1,8 @@
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
-import defaults from "./defaults.js";
-import { resolveConfig } from "./resolve-config.js";
+import defaults from "../defaults.js";
+import { resolveConfig } from "../resolve-config.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const fixturePath = path.join(__dirname, "__fixtures__/test.config.mjs");

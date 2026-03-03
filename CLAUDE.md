@@ -7,7 +7,7 @@ Grisso (`@hiscovega/grisso`) is Griddo's CSS utility class library, similar in c
 ## Project Structure
 
 ```
-src/js/                    # TypeScript source
+src/                       # TypeScript source
 ├── index.ts              # Entry: generateCSS(configPath?)
 ├── types.ts              # Shared types: GrissoConfig, PartialFn, TokenMap...
 ├── defaults.ts           # Default config (breakpoints, spacing, colors, etc.)
@@ -17,19 +17,26 @@ src/js/                    # TypeScript source
 ├── build.ts              # buildCSS() — generate, purge, optimize pipeline
 ├── purge.ts              # purgeCSS() — tree-shaking via PurgeCSS
 ├── optimize.ts           # optimizeCSS() — media query merge + Lightning CSS
-├── *.test.ts             # Vitest tests (co-located with source)
-├── __fixtures__/         # Test fixtures (config, HTML, CSS samples)
-└── partials/
-    ├── index.ts           # Ordered registry of generators
-    ├── layout.ts          # display, position, overflow, z-index, visibility, columns...
-    ├── flex-and-grid.ts   # flex/grid direction, wrap, align, justify, gap...
-    ├── spacing.ts         # margin, padding (with directional variants)
-    ├── sizing.ts          # width, height (with fraction support)
-    ├── backgrounds.ts     # bg colors, attachment, clip, position, size...
-    ├── borders.ts         # width, style, divide_*, outline_*
-    ├── typography.ts      # text colors, align, weight, spacing, line-height...
-    ├── effects.ts         # opacity, shadows, overlay
-    └── icons.ts           # icon colors
+├── partials/
+│   ├── index.ts           # Ordered registry of generators
+│   ├── layout.ts          # display, position, overflow, z-index, visibility, columns...
+│   ├── flex-and-grid.ts   # flex/grid direction, wrap, align, justify, gap...
+│   ├── spacing.ts         # margin, padding (with directional variants)
+│   ├── sizing.ts          # width, height (with fraction support)
+│   ├── backgrounds.ts     # bg colors, attachment, clip, position, size...
+│   ├── borders.ts         # width, style, divide_*, outline_*
+│   ├── typography.ts      # text colors, align, weight, spacing, line-height...
+│   ├── effects.ts         # opacity, shadows, overlay
+│   └── icons.ts           # icon colors
+└── __tests__/
+    ├── __fixtures__/      # Test fixtures (config, HTML, CSS samples)
+    ├── utils.test.ts
+    ├── generators.test.ts
+    ├── defaults.test.ts
+    ├── resolve-config.test.ts
+    ├── optimize.test.ts
+    ├── purge.test.ts
+    └── build.test.ts
 
 lib/                       # Compiled JS output from tsc (gitignored, published via npm)
 
@@ -63,7 +70,7 @@ npm run test:watch  # Vitest (watch mode)
 npm run playground  # Build + tree-shake + open playground/index.html
 ```
 
-**Pipeline:** `src/js/*.ts` → tsc → `lib/` → generators produce raw CSS string → PostCSS (autoprefixer, dedup, sort, minify) → `dist/grisso.css`
+**Pipeline:** `src/*.ts` → tsc → `lib/` → generators produce raw CSS string → PostCSS (autoprefixer, dedup, sort, minify) → `dist/grisso.css`
 
 **Build script flags:**
 ```bash
@@ -169,19 +176,19 @@ customClass("divide-x", { "border-right-width": "0", "border-left-width": "1px" 
 - **All values use CSS custom properties** (`var(--spc-sm)`, `var(--text-1)`) for theming
 - **Directional suffixes:** `-t`, `-r`, `-b`, `-l` for sides; `-x`, `-y` for inline/block
 - **Grid:** 12 columns
-- **Config is centralized** in `src/js/defaults.ts` — add new scales/tokens there
+- **Config is centralized** in `src/defaults.ts` — add new scales/tokens there
 - **Documentation and comments are in Spanish**
 
 ## How to Add a New Utility
 
-1. Edit the appropriate partial in `src/js/partials/{category}.ts`
+1. Edit the appropriate partial in `src/partials/{category}.ts`
 2. Use `simpleClass`, `complexClass`, or `customClass` with the config tokens
 3. Run `npm test` to verify
 4. Run `npm run build` to compile TS and regenerate CSS
 
 ## Tests
 
-Tests use **Vitest** and are co-located with source files (`src/js/*.test.ts`). Test files are excluded from the `tsc` build via `tsconfig.json`.
+Tests live in `src/__tests__/` and are excluded from the `tsc` build via `tsconfig.json`.
 
 ```bash
 npm test            # Run all tests once
@@ -200,7 +207,7 @@ npm run test:watch  # Watch mode
 | `purge.test.ts` | Tree-shaking, safelist, CSS Modules extractor |
 | `build.test.ts` | Full `buildCSS()` pipeline (integration) |
 
-**Fixtures** live in `src/js/__fixtures__/` (test config, sample HTML, sample CSS Module).
+**Fixtures** live in `src/__tests__/__fixtures__/` (test config, sample HTML, sample CSS Module).
 
 ## grisso-reduce (Tree-Shaking)
 
@@ -209,7 +216,7 @@ npm run test:watch  # Watch mode
 ## Dependencies
 
 - **`purgecss`** (via `@fullhuman/postcss-purgecss`) — tree-shaking in `plugin.js`
-- **typescript** (dev) — compiles `src/js/*.ts` → `lib/`
+- **typescript** (dev) — compiles `src/*.ts` → `lib/`
 - **postcss** + plugins (dev) — CSS optimization pipeline (autoprefixer, dedup, sort, minify)
 - **postcss-preset-env** (dev) — modern CSS features, stage 1
 - **@biomejs/biome** (dev) — linting and formatting
