@@ -9,6 +9,7 @@ Grisso (`@hiscovega/grisso`) is Griddo's CSS utility class library, similar in c
 ```
 src/                       # TypeScript source
 ├── index.ts              # Entry: generateCSS(configPath?)
+├── cli.ts                # CLI entry point: grisso build [opciones]
 ├── types.ts              # Shared types: GrissoConfig, PartialFn, TokenMap...
 ├── defaults.ts           # Default config (breakpoints, spacing, colors, etc.)
 ├── generators.ts         # Core generators: simpleClass, complexClass, customClass (with CSS escaping)
@@ -36,15 +37,13 @@ src/                       # TypeScript source
     ├── resolve-config.test.ts
     ├── optimize.test.ts
     ├── purge.test.ts
-    └── build.test.ts
+    ├── build.test.ts
+    └── cli.test.ts
 
 lib/                       # Compiled JS output from tsc (gitignored, published via npm)
 
 dist/
 └── grisso.css             # Generated output — do not edit manually
-
-scripts/
-└── build.js               # Build script (supports --config, --content, --output)
 
 tokens-example.css         # Example CSS custom properties for consumers
 playground/
@@ -70,16 +69,23 @@ npm run playground  # Build + tree-shake + open playground/index.html
 
 **Pipeline:** `src/*.ts` → tsc → `lib/` → generators produce raw CSS string → Lightning CSS (autoprefixer, media query merge, minify) → `dist/grisso.css`
 
-**Build script flags:**
+**CLI (`grisso build`):**
 ```bash
-node scripts/build.js                                           # Full build → dist/grisso.css
-node scripts/build.js --config path/to/config.mjs               # Custom config
-node scripts/build.js --content "src/**/*.html" --output out.css # Tree-shaken build
+grisso build                                              # CSS completo a stdout
+grisso build --output dist/grisso.css                     # Escribir a archivo
+grisso build --config path/to/config.mjs                  # Custom config
+grisso build --content "src/**/*.html" --output out.css   # Tree-shaken build
+grisso build --no-minify                                  # Sin minificar
+grisso --help                                             # Ayuda general
+grisso --version                                          # Versión
 ```
+
+Sin `--output`, el CSS va a stdout (mensajes de estado a stderr). Convención Unix para pipear: `grisso build | pbcopy`, `grisso build > out.css`.
 
 ## Distribution (npm package)
 
 The package exposes:
+- `grisso` CLI → `lib/cli.js` (via `bin` in package.json, usable with `npx grisso build`)
 - `@hiscovega/grisso` → `dist/grisso.css` (pre-compiled CSS, style export)
 - `@hiscovega/grisso/build` → `lib/build.js` (programmatic API: `buildCSS()`)
 - `@hiscovega/grisso/config` → `lib/defaults.js` (default config for reference/extension)
@@ -198,6 +204,7 @@ npm run test:watch  # Watch mode
 | `optimize.test.ts` | Media query merging, minification |
 | `purge.test.ts` | Tree-shaking, safelist, CSS Modules extractor |
 | `build.test.ts` | Full `buildCSS()` pipeline (integration) |
+| `cli.test.ts` | CLI integration (subprocess via `execFile`) |
 
 **Fixtures** live in `src/__tests__/__fixtures__/` (test config, sample HTML, sample CSS Module).
 

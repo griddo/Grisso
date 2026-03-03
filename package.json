@@ -16,6 +16,9 @@
 	"engines": {
 		"node": ">=24"
 	},
+	"bin": {
+		"grisso": "lib/cli.js"
+	},
 	"files": [
 		"dist/",
 		"lib/",
@@ -23,11 +26,11 @@
 		"README.md"
 	],
 	"scripts": {
-		"build": "tsc && node scripts/build.js",
+		"build": "tsc && node lib/cli.js build --output dist/grisso.css",
 		"typecheck": "tsc --noEmit",
 		"lint": "biome check .",
 		"lint:fix": "biome check --write .",
-		"playground": "npm run build && node scripts/build.js --config playground/grisso.config.mjs --content playground/index.html --content playground/example.module.css --output playground/grisso.css && open playground/index.html",
+		"playground": "npm run build && node lib/cli.js build --config playground/grisso.config.mjs --content playground/index.html --content playground/example.module.css --output playground/grisso.css && open playground/index.html",
 		"test": "vitest run",
 		"test:watch": "vitest",
 		"prepublishOnly": "npm run build",

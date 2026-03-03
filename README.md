@@ -25,7 +25,43 @@ O en HTML:
 <link rel="stylesheet" href="node_modules/@hiscovega/grisso/dist/grisso.css" />
 ```
 
-### Opción B: API programática
+### Opción B: CLI
+
+Genera CSS desde la terminal. Ideal para scripts de build y CI/CD.
+
+```bash
+# CSS completo a stdout
+npx grisso build
+
+# Escribir a archivo
+npx grisso build --output dist/grisso.css
+
+# Con config personalizada
+npx grisso build --config grisso.config.mjs --output dist/grisso.css
+
+# Tree-shaking (solo clases usadas)
+npx grisso build --content "src/**/*.tsx" --content "src/**/*.css" --output dist/grisso.css
+
+# Sin minificar (útil para depuración)
+npx grisso build --no-minify --output dist/grisso.css
+
+# Pipear a otro comando
+npx grisso build | pbcopy
+```
+
+**Flags de `grisso build`:**
+
+| Flag | Descripción |
+|---|---|
+| `--config <ruta>` | Ruta a `grisso.config.mjs` |
+| `--content <glob>` | Globs para tree-shaking (repetible) |
+| `--output <ruta>` | Archivo de salida (sin `--output` → stdout) |
+| `--no-minify` | Deshabilitar minificación |
+| `--help, -h` | Ayuda del comando |
+
+Sin `--output`, el CSS va a stdout y los mensajes de estado a stderr, siguiendo la convención Unix.
+
+### Opción C: API programática
 
 Usa `buildCSS()` directamente desde Node.js. Genera, purga y optimiza CSS — ideal para scripts de build, herramientas custom o integración con cualquier bundler.
 
@@ -223,16 +259,9 @@ npm run test:watch  # Tests en modo watch
 npm run playground  # Build + tree-shake + abre playground/index.html
 ```
 
-### Build script
+### CLI
 
-El script de build acepta flags opcionales:
-
-```bash
-node scripts/build.js                                                  # Full build → dist/grisso.css
-node scripts/build.js --config grisso.config.mjs                       # Con config personalizada
-node scripts/build.js --content "src/**/*.html" --output out.css       # Tree-shaken
-node scripts/build.js --config conf.mjs --content "src/**" --output x  # Todo junto
-```
+El CLI se usa internamente y está disponible para consumidores via `npx grisso build`. Ver [Opción B: CLI](#opción-b-cli) para detalles completos.
 
 Con `--content`, se usa PurgeCSS para eliminar clases no usadas (~154 KB → ~4 KB en el playground).
 
