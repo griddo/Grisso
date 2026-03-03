@@ -1,6 +1,6 @@
 import { complexClass } from "../generators.js";
-import { omit } from "../utils.js";
 import type { GrissoConfig } from "../types.js";
+import { omit } from "../utils.js";
 
 export default function spacingPartial(config: GrissoConfig): string {
 	const { breakpoints, spacing } = config;

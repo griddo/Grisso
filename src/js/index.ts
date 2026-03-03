@@ -1,5 +1,5 @@
-import { resolveConfig } from "./resolve-config.js";
 import partials from "./partials/index.js";
+import { resolveConfig } from "./resolve-config.js";
 
 /**
  * Genera el CSS completo de Grisso.

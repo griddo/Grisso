@@ -1,5 +1,5 @@
-import { describe, it, expect } from "vitest";
-import { simpleClass, complexClass, customClass } from "./generators.js";
+import { describe, expect, it } from "vitest";
+import { complexClass, customClass, simpleClass } from "./generators.js";
 import type { Breakpoints, TokenMap } from "./types.js";
 
 const breakpoints: Breakpoints = {
@@ -89,11 +89,7 @@ describe("customClass", () => {
 	});
 
 	it("genera variantes responsive", () => {
-		const css = customClass(
-			"truncate",
-			{ overflow: "hidden" },
-			breakpoints,
-		);
+		const css = customClass("truncate", { overflow: "hidden" }, breakpoints);
 		expect(css).toContain(".tablet-truncate");
 		expect(css).toContain(".desktop-truncate");
 	});

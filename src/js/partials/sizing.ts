@@ -1,6 +1,6 @@
-import { simpleClass, complexClass } from "../generators.js";
-import { fractionPercent } from "../utils.js";
+import { complexClass, simpleClass } from "../generators.js";
 import type { GrissoConfig } from "../types.js";
+import { fractionPercent } from "../utils.js";
 
 export default function sizing(config: GrissoConfig): string {
 	const { columns, breakpoints } = config;

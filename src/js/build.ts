@@ -1,6 +1,6 @@
 import { generateCSS } from "./index.js";
-import { purgeCSS } from "./purge.js";
 import { optimizeCSS } from "./optimize.js";
+import { purgeCSS } from "./purge.js";
 
 export interface BuildOptions {
 	/** Ruta a grisso.config.mjs del consumidor */

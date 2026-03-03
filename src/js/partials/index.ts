@@ -1,13 +1,13 @@
 import type { PartialFn } from "../types.js";
-import layout from "./layout.js";
-import flexAndGrid from "./flex-and-grid.js";
-import spacingPartial from "./spacing.js";
-import sizing from "./sizing.js";
 import backgrounds from "./backgrounds.js";
 import borders from "./borders.js";
-import typography from "./typography.js";
 import effects from "./effects.js";
+import flexAndGrid from "./flex-and-grid.js";
 import icons from "./icons.js";
+import layout from "./layout.js";
+import sizing from "./sizing.js";
+import spacingPartial from "./spacing.js";
+import typography from "./typography.js";
 
 /**
  * Registry de partials en el orden de importación de grisso.scss.

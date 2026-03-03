@@ -9,7 +9,9 @@ import type { GrissoConfig } from "./types.js";
  * - Top-level keys reemplazan los defaults completamente
  * - `extend` mergea superficialmente con defaults
  */
-export async function resolveConfig(configPath?: string): Promise<GrissoConfig> {
+export async function resolveConfig(
+	configPath?: string,
+): Promise<GrissoConfig> {
 	let userConfig: Record<string, unknown>;
 
 	if (configPath) {

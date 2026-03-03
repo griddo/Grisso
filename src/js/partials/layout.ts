@@ -1,4 +1,4 @@
-import { simpleClass, complexClass } from "../generators.js";
+import { complexClass, simpleClass } from "../generators.js";
 import type { GrissoConfig } from "../types.js";
 
 export default function layout(config: GrissoConfig): string {
@@ -77,7 +77,12 @@ export default function layout(config: GrissoConfig): string {
 		"right-top": "right top",
 		top: "top",
 	};
-	css += complexClass("object-", "object-position", objectPosition, breakpoints);
+	css += complexClass(
+		"object-",
+		"object-position",
+		objectPosition,
+		breakpoints,
+	);
 
 	// overflow
 	const overflow: Record<string, string> = {

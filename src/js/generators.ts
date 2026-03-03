@@ -1,4 +1,4 @@
-import type { Breakpoints, TokenMap, Declarations } from "./types.js";
+import type { Breakpoints, Declarations, TokenMap } from "./types.js";
 
 /**
  * Generadores de clases CSS utility.

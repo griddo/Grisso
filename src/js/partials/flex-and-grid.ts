@@ -1,6 +1,6 @@
-import { simpleClass, complexClass } from "../generators.js";
-import { omit } from "../utils.js";
+import { complexClass, simpleClass } from "../generators.js";
 import type { GrissoConfig } from "../types.js";
+import { omit } from "../utils.js";
 
 export default function flexAndGrid(config: GrissoConfig): string {
 	const { columns, breakpoints, spacing } = config;
@@ -209,12 +209,7 @@ export default function flexAndGrid(config: GrissoConfig): string {
 			String(i),
 			breakpoints,
 		);
-		css += simpleClass(
-			`row-end-${i}`,
-			"grid-row-end",
-			String(i),
-			breakpoints,
-		);
+		css += simpleClass(`row-end-${i}`, "grid-row-end", String(i), breakpoints);
 	}
 	css += simpleClass("row-span-full", "grid-row", "1 / -1", breakpoints);
 	css += simpleClass("row-start-auto", "grid-row-start", "auto", breakpoints);
@@ -251,12 +246,7 @@ export default function flexAndGrid(config: GrissoConfig): string {
 		max: "max-content",
 		fr: "minmax(0, 1fr)",
 	};
-	css += complexClass(
-		"auto-rows-",
-		"grid-auto-rows",
-		autoRows,
-		breakpoints,
-	);
+	css += complexClass("auto-rows-", "grid-auto-rows", autoRows, breakpoints);
 
 	// gap
 	const gap = omit(spacing, "auto");

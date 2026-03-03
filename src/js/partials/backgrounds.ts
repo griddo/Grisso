@@ -36,12 +36,7 @@ export default function backgrounds(config: GrissoConfig): string {
 		padding: "padding-box",
 		content: "content-box",
 	};
-	css += complexClass(
-		"bg-origin-",
-		"background-origin",
-		bgOrigin,
-		breakpoints,
-	);
+	css += complexClass("bg-origin-", "background-origin", bgOrigin, breakpoints);
 
 	// background-position
 	const bgPosition: Record<string, string> = {
@@ -55,12 +50,7 @@ export default function backgrounds(config: GrissoConfig): string {
 		"right-top": "right top",
 		top: "top",
 	};
-	css += complexClass(
-		"bg-",
-		"background-position",
-		bgPosition,
-		breakpoints,
-	);
+	css += complexClass("bg-", "background-position", bgPosition, breakpoints);
 
 	// background-repeat
 	const bgRepeat: Record<string, string> = {

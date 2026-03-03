@@ -1,6 +1,6 @@
-import { simpleClass, complexClass, customClass } from "../generators.js";
-import { omit } from "../utils.js";
+import { complexClass, customClass, simpleClass } from "../generators.js";
 import type { GrissoConfig } from "../types.js";
+import { omit } from "../utils.js";
 
 export default function typography(config: GrissoConfig): string {
 	const { breakpoints, foregroundColors, spacing } = config;
@@ -56,12 +56,7 @@ export default function typography(config: GrissoConfig): string {
 		sub: "sub",
 		super: "super",
 	};
-	css += complexClass(
-		"align-",
-		"vertical-align",
-		verticalAlign,
-		breakpoints,
-	);
+	css += complexClass("align-", "vertical-align", verticalAlign, breakpoints);
 
 	// white-space
 	const whiteSpace: Record<string, string> = {

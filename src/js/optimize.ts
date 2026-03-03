@@ -37,7 +37,7 @@ function mergeMediaQueries(css: string): string {
 			if (!mediaBlocks.has(query)) {
 				mediaBlocks.set(query, []);
 			}
-			mediaBlocks.get(query)!.push(content);
+			mediaBlocks.get(query)?.push(content);
 			i = j;
 		} else {
 			// Regla top-level (no @media)
@@ -82,8 +82,9 @@ export async function optimizeCSS(
 	// Agrupar media queries idénticas antes de transformar
 	const merged = mergeMediaQueries(css);
 
-	const { transform, browserslistToTargets, Features } =
-		await import("lightningcss");
+	const { transform, browserslistToTargets, Features } = await import(
+		"lightningcss"
+	);
 	const browserslist = (await import("browserslist")).default;
 
 	const targets = browserslistToTargets(browserslist("defaults"));

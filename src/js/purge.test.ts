@@ -1,7 +1,7 @@
-import { describe, it, expect } from "vitest";
-import { writeFileSync, mkdirSync, rmSync } from "node:fs";
+import { mkdirSync, rmSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { describe, expect, it } from "vitest";
 import { purgeCSS } from "./purge.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -86,10 +86,7 @@ describe("purgeCSS", () => {
 	it("extrae clases de CSS Modules (composes: ... from global)", async () => {
 		setupTmpDir();
 		const cssPath = path.join(tmpDir, "test.css");
-		writeFileSync(
-			cssPath,
-			".wrapper { composes: flex gap-md from global; }",
-		);
+		writeFileSync(cssPath, ".wrapper { composes: flex gap-md from global; }");
 
 		try {
 			const result = await purgeCSS(fullCSS, {

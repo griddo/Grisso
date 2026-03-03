@@ -23,8 +23,7 @@ export async function purgeCSS(
 		extractors: [
 			{
 				// Extractor para uso directo en HTML/JSX: class="flex gap-md"
-				extractor: (content: string) =>
-					content.match(/[A-Za-z0-9_-]+/g) || [],
+				extractor: (content: string) => content.match(/[A-Za-z0-9_-]+/g) || [],
 				extensions: ["html", "jsx", "tsx", "js", "ts"],
 			},
 			{

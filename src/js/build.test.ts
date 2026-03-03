@@ -1,6 +1,6 @@
-import { describe, it, expect } from "vitest";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { describe, expect, it } from "vitest";
 import { buildCSS } from "./build.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -43,10 +43,7 @@ describe("buildCSS", () => {
 	});
 
 	it("acepta config personalizada", async () => {
-		const configPath = path.join(
-			__dirname,
-			"__fixtures__/test.config.mjs",
-		);
+		const configPath = path.join(__dirname, "__fixtures__/test.config.mjs");
 		const css = await buildCSS({ config: configPath, minify: false });
 		expect(css.length).toBeGreaterThan(0);
 		// El fixture reemplaza spacing, así que debe tener los valores custom

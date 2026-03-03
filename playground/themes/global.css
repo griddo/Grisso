@@ -33,7 +33,9 @@
 }
 
 /* Reset base para el playground */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
 	box-sizing: border-box;
 }
 
