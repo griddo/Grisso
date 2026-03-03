@@ -2,6 +2,9 @@
 
 > Librería de utility CSS de Griddo con variantes responsive y de estado, basada en CSS custom properties (design tokens).
 
+> [!WARNING]
+> En la versión estable 2.0, el paquete se moverá a `@griddo/grisso`. El nombre actual `@hiscovega/grisso` dejará de recibir actualizaciones a partir de ese momento.
+
 ## Instalación
 
 ```bash
