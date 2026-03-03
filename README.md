@@ -1,6 +1,6 @@
 # Grisso
 
-> Librería de utility CSS de Griddo — similar a Tailwind CSS pero con valores basados en CSS custom properties (design tokens).
+> Librería de utility CSS de Griddo con valores basados en CSS custom properties (design tokens).
 
 ## Instalación
 
@@ -39,14 +39,14 @@ npx grisso build | pbcopy
 
 **Flags de `grisso build`:**
 
-| Flag | Descripción |
-|---|---|
-| `--config <ruta>` | Ruta a `grisso.config.mjs` |
-| `--content <glob>` | Globs para tree-shaking (repetible) |
-| `--safelist <regex>` | Patrones de clases a preservar (repetible) |
-| `--output <ruta>` | Archivo de salida (sin `--output` → stdout) |
-| `--no-minify` | Deshabilitar minificación |
-| `--help, -h` | Ayuda del comando |
+| Flag                 | Descripción                                 |
+| -------------------- | ------------------------------------------- |
+| `--config <ruta>`    | Ruta a `grisso.config.mjs`                  |
+| `--content <glob>`   | Globs para tree-shaking (repetible)         |
+| `--safelist <regex>` | Patrones de clases a preservar (repetible)  |
+| `--output <ruta>`    | Archivo de salida (sin `--output` → stdout) |
+| `--no-minify`        | Deshabilitar minificación                   |
+| `--help, -h`         | Ayuda del comando                           |
 
 Sin `--output`, el CSS va a stdout y los mensajes de estado a stderr, siguiendo la convención Unix.
 
@@ -63,12 +63,12 @@ const css = await buildCSS();
 
 **Opciones de `buildCSS()`:**
 
-| Opción | Tipo | Default | Descripción |
-|---|---|---|---|
-| `config` | `string` | — | Ruta a `grisso.config.mjs` personalizado |
-| `content` | `string[]` | — | Globs de archivos a escanear para tree-shaking |
-| `safelist` | `(string \| RegExp)[]` | — | Patrones de clases a preservar (se mergea con `config.safelist`) |
-| `minify` | `boolean` | `true` | Minificar el CSS de salida |
+| Opción     | Tipo                   | Default | Descripción                                                      |
+| ---------- | ---------------------- | ------- | ---------------------------------------------------------------- |
+| `config`   | `string`               | —       | Ruta a `grisso.config.mjs` personalizado                         |
+| `content`  | `string[]`             | —       | Globs de archivos a escanear para tree-shaking                   |
+| `safelist` | `(string \| RegExp)[]` | —       | Patrones de clases a preservar (se mergea con `config.safelist`) |
+| `minify`   | `boolean`              | `true`  | Minificar el CSS de salida                                       |
 
 Sin `content`, se incluye todo el CSS. Con `content`, se eliminan las clases no usadas via PurgeCSS.
 
@@ -151,7 +151,7 @@ app.get("/grisso.css", async (req, res) => {
 
 ## Configuración personalizada
 
-Crea un `grisso.config.mjs` en la raíz de tu proyecto para extender o reemplazar los tokens por defecto. Sigue el patrón de Tailwind v3:
+Crea un `grisso.config.mjs` en la raíz de tu proyecto para extender o reemplazar los tokens por defecto.
 
 ```js
 // grisso.config.mjs
@@ -230,17 +230,17 @@ Ejemplos: `flex`, `tablet-flex`, `p-md`, `desktop-mt-lg`, `text-center`, `w-1/2`
 
 ### Categorías
 
-| Categoría      | Ejemplos                                                                      |
-| -------------- | ----------------------------------------------------------------------------- |
+| Categoría      | Ejemplos                                                                                              |
+| -------------- | ----------------------------------------------------------------------------------------------------- |
 | **Layout**     | `flex`, `block`, `hidden`, `relative`, `absolute`, `overflow-hidden`, `inset-0`, `inset-x-sm`, `z-10` |
-| **Flex/Grid**  | `flex-col`, `flex-wrap`, `items-center`, `justify-between`, `gap-md`          |
-| **Spacing**    | `p-sm`, `pt-lg`, `mx-auto`, `mt-xs`, `mb-md`                                 |
-| **Sizing**     | `w-full`, `h-full`, `w-1/2`, `w-2/3`, `h-1/4`, `max-w-full`                  |
-| **Tipografía** | `text-1`, `text-center`, `font-bold`, `font-light`, `leading-snug`, `tracking-tight` |
-| **Fondos**     | `bg-1`, `bg-ui`, `bg-cover`, `bg-center`                                     |
-| **Bordes**     | `border-sm`, `border-1`, `border-t-sm`, `divide-x`, `outline-none`           |
-| **Efectos**    | `shadow-md`, `opacity-3`, `overlay-2`                                         |
-| **Iconos**     | `icon-1`, `icon-3`                                                            |
+| **Flex/Grid**  | `flex-col`, `flex-wrap`, `items-center`, `justify-between`, `gap-md`                                  |
+| **Spacing**    | `p-sm`, `pt-lg`, `mx-auto`, `mt-xs`, `mb-md`                                                          |
+| **Sizing**     | `w-full`, `h-full`, `w-1/2`, `w-2/3`, `h-1/4`, `max-w-full`                                           |
+| **Tipografía** | `text-1`, `text-center`, `font-bold`, `font-light`, `leading-snug`, `tracking-tight`                  |
+| **Fondos**     | `bg-1`, `bg-ui`, `bg-cover`, `bg-center`                                                              |
+| **Bordes**     | `border-sm`, `border-1`, `border-t-sm`, `divide-x`, `outline-none`                                    |
+| **Efectos**    | `shadow-md`, `opacity-3`, `overlay-2`                                                                 |
+| **Iconos**     | `icon-1`, `icon-3`                                                                                    |
 
 ## Build
 

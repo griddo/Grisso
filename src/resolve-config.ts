@@ -5,7 +5,6 @@ import type { GrissoConfig } from "./types.js";
 
 /**
  * Resuelve la configuración de Grisso.
- * Patrón Tailwind v3:
  * - Top-level keys reemplazan los defaults completamente
  * - `extend` mergea superficialmente con defaults
  */
