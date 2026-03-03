@@ -1,5 +1,5 @@
 node_modules/
 .DS_Store
 
-# Generated CSS output
-src/css/.grisso/grisso.css
+# Generated CSS output (publicado via npm files, no via git)
+dist/

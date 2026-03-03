@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Grisso Playground</title>
+	<link rel="stylesheet" href="themes/light.css" />
+	<link rel="stylesheet" href="themes/dark.css" />
+	<link rel="stylesheet" href="../dist/grisso.css" />
+	<style>
+		.playground-section {
+			border-bottom: 1px solid var(--border-1);
+		}
+		.label {
+			font-size: 11px;
+			font-family: monospace;
+			color: var(--text-3);
+			margin-bottom: 4px;
+		}
+		.swatch {
+			width: 48px;
+			height: 48px;
+			border-radius: 4px;
+			border: 1px solid var(--border-1);
+		}
+		.theme-toggle {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			padding: 6px 14px;
+			border: 1px solid var(--border-2);
+			border-radius: 6px;
+			background: var(--bg-2);
+			color: var(--text-1);
+			font-size: 13px;
+			font-family: system-ui, sans-serif;
+			cursor: pointer;
+			transition: background 0.15s, border-color 0.15s;
+		}
+		.theme-toggle:hover {
+			background: var(--bg-3);
+		}
+	</style>
+</head>
+<body>
+	<div class="flex justify-between items-center p-lg" style="border-bottom: 1px solid var(--border-1);">
+		<div>
+			<h1 class="text-1" style="margin: 0 0 4px;">Grisso Playground</h1>
+			<p class="text-3" style="margin: 0;">Prueba visual de las utility classes de <code>@griddo/grisso</code>.</p>
+		</div>
+		<button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()">
+			<span id="theme-icon">🌙</span>
+			<span id="theme-label">Dark</span>
+		</button>
+	</div>
+
+	<!-- ─── Layout ──────────────────────────────────────────────── -->
+	<section class="playground-section p-lg">
+		<h2 class="text-2">Layout: display</h2>
+		<div class="flex gap-md">
+			<div class="label">.flex</div>
+			<div class="label">.block</div>
+			<div class="label">.inline-flex</div>
+			<div class="label">.hidden</div>
+		</div>
+
+		<h2 class="text-2 mt-md">Position</h2>
+		<div class="flex gap-md">
+			<div class="label">.relative</div>
+			<div class="label">.absolute</div>
+			<div class="label">.fixed</div>
+			<div class="label">.sticky</div>
+		</div>
+	</section>
+
+	<!-- ─── Flex & Grid ─────────────────────────────────────────── -->
+	<section class="playground-section p-lg">
+		<h2 class="text-2">Flex</h2>
+		<div class="label mb-xs">flex + gap-md + items-center</div>
+		<div class="flex gap-md items-center bg-2 p-sm">
+			<div class="bg-3 p-xs">Item 1</div>
+			<div class="bg-3 p-xs">Item 2</div>
+			<div class="bg-3 p-xs">Item 3</div>
+		</div>
+
+		<div class="label mt-md mb-xs">flex + justify-between</div>
+		<div class="flex justify-between bg-2 p-sm">
+			<div class="bg-3 p-xs">Izquierda</div>
+			<div class="bg-3 p-xs">Derecha</div>
+		</div>
+
+		<div class="label mt-md mb-xs">flex + flex-col + gap-sm</div>
+		<div class="flex flex-col gap-sm bg-2 p-sm" style="max-width: 200px;">
+			<div class="bg-3 p-xs">Fila 1</div>
+			<div class="bg-3 p-xs">Fila 2</div>
+			<div class="bg-3 p-xs">Fila 3</div>
+		</div>
+	</section>
+
+	<!-- ─── Spacing ─────────────────────────────────────────────── -->
+	<section class="playground-section p-lg">
+		<h2 class="text-2">Spacing: padding</h2>
+		<div class="flex gap-sm flex-wrap">
+			<div class="label mb-xs">p-xs</div>
+			<div class="bg-3 p-xs">p-xs</div>
+			<div class="label mb-xs">p-sm</div>
+			<div class="bg-3 p-sm">p-sm</div>
+			<div class="label mb-xs">p-md</div>
+			<div class="bg-3 p-md">p-md</div>
+			<div class="label mb-xs">p-lg</div>
+			<div class="bg-3 p-lg">p-lg</div>
+			<div class="label mb-xs">p-xl</div>
+			<div class="bg-3 p-xl">p-xl</div>
+		</div>
+
+		<h2 class="text-2 mt-md">Spacing: margin</h2>
+		<div class="bg-2 p-sm">
+			<div class="bg-3 p-xs mt-sm">mt-sm</div>
+			<div class="bg-3 p-xs mt-md">mt-md</div>
+			<div class="bg-3 p-xs mt-lg">mt-lg</div>
+		</div>
+	</section>
+
+	<!-- ─── Tipografía ───────────────────────────────────────────── -->
+	<section class="playground-section p-lg">
+		<h2 class="text-2">Tipografía: colores de texto</h2>
+		<p class="text-1">text-1</p>
+		<p class="text-2">text-2</p>
+		<p class="text-3">text-3</p>
+		<p class="text-4">text-4</p>
+
+		<h2 class="text-2 mt-md">Alineación</h2>
+		<p class="text-left bg-2 p-xs">text-left</p>
+		<p class="text-center bg-2 p-xs mt-xs">text-center</p>
+		<p class="text-right bg-2 p-xs mt-xs">text-right</p>
+	</section>
+
+	<!-- ─── Fondos ───────────────────────────────────────────────── -->
+	<section class="playground-section p-lg">
+		<h2 class="text-2">Backgrounds</h2>
+		<div class="flex gap-sm flex-wrap">
+			<div>
+				<div class="label">bg-ui</div>
+				<div class="swatch bg-ui"></div>
+			</div>
+			<div>
+				<div class="label">bg-1</div>
+				<div class="swatch bg-1"></div>
+			</div>
+			<div>
+				<div class="label">bg-2</div>
+				<div class="swatch bg-2"></div>
+			</div>
+			<div>
+				<div class="label">bg-3</div>
+				<div class="swatch bg-3"></div>
+			</div>
+			<div>
+				<div class="label">bg-4</div>
+				<div class="swatch bg-4"></div>
+			</div>
+			<div>
+				<div class="label">bg-5</div>
+				<div class="swatch bg-5"></div>
+			</div>
+		</div>
+	</section>
+
+	<!-- ─── Efectos ──────────────────────────────────────────────── -->
+	<section class="playground-section p-lg">
+		<h2 class="text-2">Sombras</h2>
+		<div class="flex gap-lg flex-wrap">
+			<div class="bg-ui p-md shadow-sm">shadow-sm</div>
+			<div class="bg-ui p-md shadow-md">shadow-md</div>
+			<div class="bg-ui p-md shadow-lg">shadow-lg</div>
+			<div class="bg-ui p-md shadow-xl">shadow-xl</div>
+		</div>
+
+		<h2 class="text-2 mt-lg">Opacidad</h2>
+		<div class="flex gap-md">
+			<div class="bg-3 p-md opacity-1">opacity-1</div>
+			<div class="bg-3 p-md opacity-2">opacity-2</div>
+			<div class="bg-3 p-md opacity-3">opacity-3</div>
+			<div class="bg-3 p-md opacity-4">opacity-4</div>
+			<div class="bg-3 p-md opacity-5">opacity-5</div>
+			<div class="bg-3 p-md opacity-6">opacity-6</div>
+		</div>
+	</section>
+
+	<!-- ─── Responsive ───────────────────────────────────────────── -->
+	<section class="p-lg">
+		<h2 class="text-2">Responsive (redimensiona el navegador)</h2>
+		<div class="flex flex-col tablet-flex-row gap-md bg-2 p-md">
+			<div class="bg-3 p-sm">
+				<div class="label">flex-col en mobile</div>
+				<div class="label">tablet-flex-row en tablet+</div>
+			</div>
+			<div class="bg-3 p-sm">Item 2</div>
+			<div class="bg-3 p-sm">Item 3</div>
+		</div>
+
+		<div class="mt-md p-sm bg-2">
+			<div class="hidden tablet-block">
+				<strong>Solo visible en tablet+</strong> (tablet-block)
+			</div>
+			<div class="block tablet-hidden">
+				<strong>Solo visible en mobile</strong> (tablet-hidden)
+			</div>
+		</div>
+	</section>
+
+	<script>
+		const root = document.documentElement;
+		const icon = document.getElementById("theme-icon");
+		const label = document.getElementById("theme-label");
+
+		// Respetar preferencia del sistema al cargar
+		if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+			root.setAttribute("data-theme", "dark");
+			icon.textContent = "☀️";
+			label.textContent = "Light";
+		}
+
+		function toggleTheme() {
+			const isDark = root.getAttribute("data-theme") === "dark";
+			if (isDark) {
+				root.removeAttribute("data-theme");
+				icon.textContent = "🌙";
+				label.textContent = "Dark";
+			} else {
+				root.setAttribute("data-theme", "dark");
+				icon.textContent = "☀️";
+				label.textContent = "Light";
+			}
+		}
+	</script>
+</body>
+</html>

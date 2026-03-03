@@ -1,8 +1,10 @@
+@use "sass:map";
+@use "../../mixins" as *;
 ///
 /// `Line Height`
 /// `Utilities for controlling the leading (line height) of an element`
-$line-height: map-remove($spacing, "auto", "zero");
-$extended-line-height: map-merge(
+$line-height: map.remove($spacing, "auto", "zero");
+$extended-line-height: map.merge(
 	$line-height,
 	(
 		none: 1,

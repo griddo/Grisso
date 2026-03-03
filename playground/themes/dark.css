@@ -1,0 +1,47 @@
+/* playground/tokens-dark-theme.css — tokens dark para el playground de Grisso
+   Se activa añadiendo data-theme="dark" al elemento <html>.
+   Solo sobreescribe los tokens de color; spacing, borders-width,
+   opacidad y sombras heredan del :root definido en tokens.css.
+*/
+[data-theme="dark"] {
+	/* ─── Colors: texto ───────────────────────────────────────── */
+	--text-1: #f9fafb;
+	--text-2: #e5e7eb;
+	--text-3: #9ca3af;
+	--text-4: #6b7280;
+
+	/* ─── Colors: fondo ───────────────────────────────────────── */
+	--bg-ui: #0f172a;
+	--bg-1: #1e293b;
+	--bg-2: #334155;
+	--bg-3: #475569;
+	--bg-4: #64748b;
+	--bg-5: #94a3b8;
+	--bg-disabled: #334155;
+
+	/* ─── Colors: bordes ──────────────────────────────────────── */
+	--border-1: #334155;
+	--border-2: #475569;
+	--border-3: #64748b;
+	--border-4: #94a3b8;
+	--border-disabled: #334155;
+
+	/* ─── Colors: iconos ──────────────────────────────────────── */
+	--icon-1: #f9fafb;
+	--icon-2: #e5e7eb;
+	--icon-3: #9ca3af;
+	--icon-4: #6b7280;
+	--icon-disabled: #475569;
+
+	/* ─── Colors: overlays ────────────────────────────────────── */
+	--overlay-1: rgba(0 0 0 / 0.2);
+	--overlay-2: rgba(0 0 0 / 0.4);
+	--overlay-3: rgba(0 0 0 / 0.6);
+	--overlay-4: rgba(0 0 0 / 0.85);
+
+	/* ─── Sombras ─────────────────────────────────────────────── */
+	--box-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+	--box-shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4);
+	--box-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.5);
+	--box-shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.6);
+}

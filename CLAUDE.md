@@ -11,34 +11,59 @@ src/
 ├── grisso.scss              # Main entry - imports all partials
 ├── grisso.config.scss       # Configuration: breakpoints, spacing, colors, etc.
 ├── mixins.scss              # Core mixins: grisso_simple_class, grisso_complex_class
-├── partials/                # Utility class definitions organized by category
-│   ├── layout/              # display, position, overflow, z-index, visibility...
-│   ├── flex_and_grid/       # flex/grid direction, wrap, align, justify, gap...
-│   ├── spacing/             # margin, padding (with directional variants)
-│   ├── sizing/              # width, height
-│   ├── backgrounds/         # bg colors, attachment, clip, position, size...
-│   ├── borders/             # width, style, divide_*, outline_*
-│   ├── typography/          # text colors, align, weight, spacing, line-height...
-│   ├── effects/             # opacity, shadows, overlay
-│   └── icons/               # icon colors
-└── css/.grisso/
-    └── grisso.css           # Generated output (do not edit manually)
+└── partials/                # Utility class definitions organized by category
+    ├── layout/              # display, position, overflow, z-index, visibility...
+    ├── flex_and_grid/       # flex/grid direction, wrap, align, justify, gap...
+    ├── spacing/             # margin, padding (with directional variants)
+    ├── sizing/              # width, height
+    ├── backgrounds/         # bg colors, attachment, clip, position, size...
+    ├── borders/             # width, style, divide_*, outline_*
+    ├── typography/          # text colors, align, weight, spacing, line-height...
+    ├── effects/             # opacity, shadows, overlay
+    └── icons/               # icon colors
+
+dist/
+└── grisso.css               # Generated output — do not edit manually (ignored by git, published via npm)
 
 grisso-reduce/
-└── index.ts                 # Tree-shaking tool: removes unused classes from output
+└── index.ts                 # Alternative tree-shaking tool (composes-based)
 
+plugin.js                    # PostCSS plugin: CSS injection + PurgeCSS tree-shaking
+tokens-example.css           # Example CSS custom properties for consumers
 postcss.config.js            # PostCSS plugins: autoprefixer, dedup, sort, minify
+playground/
+├── index.html               # Visual test page
+└── tokens.css               # Token values for playground
 ```
 
 ## Build
 
 ```bash
-npm run prebuild    # SASS watch: compiles grisso.scss → grisso.css
-npm run optimize    # PostCSS: autoprefixer + dedup + sort + minify
-npm run build       # prebuild + optimize
+npm run build       # SCSS → dist/grisso.css (SASS + PostCSS)
+npm run watch       # SASS watch mode for development
+npm run playground  # Build + open playground/index.html in browser
 ```
 
-**Pipeline:** SCSS → SASS compiler → raw CSS → PostCSS (nesting, autoprefixer, dedup, sort, minify) → final CSS
+**Pipeline:** `src/grisso.scss` → SASS compiler → `dist/grisso.css` (raw) → PostCSS (nesting, autoprefixer, dedup, sort, minify) → `dist/grisso.css` (final)
+
+## Distribution (npm package)
+
+The package exposes:
+- `@griddo/grisso` → `dist/grisso.css` (pre-compiled CSS, style export)
+- `@griddo/grisso/plugin` → `plugin.js` (PostCSS plugin with tree-shaking via PurgeCSS)
+- `@griddo/grisso/tokens-example.css` → example CSS custom properties
+
+**Consumer usage:**
+```js
+// postcss.config.js
+module.exports = {
+  plugins: [
+    require("@griddo/grisso/plugin")({
+      content: ["./src/**/*.{js,ts,jsx,tsx,css}"]
+    })
+  ]
+}
+```
 
 ## Architecture: Two Core Mixin Patterns
 
@@ -88,9 +113,10 @@ For scale-based utilities. Iterates a SCSS map to generate class + scale + respo
 
 ## Dependencies
 
-- **sass** — SCSS compilation
-- **postcss** + plugins — CSS optimization pipeline (autoprefixer, dedup, sort, minify)
-- **postcss-preset-env** — modern CSS features, stage 1
+- **`@fullhuman/postcss-purgecss`** (runtime) — tree-shaking in `plugin.js`
+- **sass** (dev) — SCSS compilation
+- **postcss** + plugins (dev) — CSS optimization pipeline (autoprefixer, dedup, sort, minify)
+- **postcss-preset-env** (dev) — modern CSS features, stage 1
 
 ## Formatting
 

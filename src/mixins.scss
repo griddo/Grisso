@@ -3,8 +3,9 @@
 ///
 
 @use "sass:map";
-
-@import "./grisso.config.scss";
+@use "sass:list";
+@forward "./grisso.config";
+@use "./grisso.config" as *;
 
 @function get-grisso-config($key, $value) {
 	$v: map.get($key, $value);
@@ -14,9 +15,9 @@
 }
 
 @mixin media-query($key) {
-	$matched-breakpoint: map-get($breakpoints, $key);
+	$matched-breakpoint: map.get($breakpoints, $key);
 	@if not $matched-breakpoint {
-		// @warn #{ 'Breakpoint, ‘' + $key + '’ not found in `$grisso-config`. Make sure it’s set in the ‘breakpoints’ section.' };
+		// @warn #{ 'Breakpoint, '' + $key + '' not found in `$grisso-config`. Make sure it's set in the 'breakpoints' section.' };
 	} @else {
 		@media #{ $matched-breakpoint } {
 			@content;
@@ -47,8 +48,8 @@
 // the grisso.config.scss file.
 @mixin grisso_simple_class($className, $css) {
 	@each $name, $_ in $breakpoints {
-		$prop: nth($css, 1);
-		$value: nth($css, 2);
+		$prop: list.nth($css, 1);
+		$value: list.nth($css, 2);
 		.#{$className} {
 			#{$prop}: #{$value};
 		}

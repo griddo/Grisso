@@ -1,159 +1,142 @@
 # Grisso
 
-> Griddo CSS utility library.
+> Librería de utility CSS de Griddo — similar a Tailwind CSS pero con valores basados en CSS custom properties (design tokens).
 
-- [ Tipos de clases ](#tipos-de-clases)
-- [ Crear Clases ](#tipos-de-clases)
-- [ Build del SCSS -> CSS](#build)
-- [ Archivos GRISSO](#archivos-de-grisso)
-- [ Snippet para VSC y WebStorm](#snippets-para-vsc-y-webstorm)
+## Instalación
 
-## Tipos de clases
-
-**Esencialmente hay dos maneras de generar utilities de manera automática con las funciones provistas por GRISSO. Después hay algunas que están configuradas de manera aislada, como la utility `_width` que usa sus propios mixins.**
-
-### 1 Utilidades simples breakpoint + name:
-
-`flex`, `tablet--flex`, `desktop--flex`, etc..
-
-### 2 Utilidades complejas normalmente desde una escala de valores: breakpoint + name + scale:
-
-`p`, `p-sm`, `p-xl`, `tablet-p`, `tablet-p-xl`
-
----
-
-## Crear clases
-
-### Cómo añadir una nueva utility simple, por ejemplo un `display: flex`:
-
-Por emeplo en un archivo `_display.css` que importaremos en `grisso.scss` usando la función `grisso_simple_class`.
-
-```scss
-// _display.scss
-
-@include grisso_simple_class("flex", (display, flex));
+```bash
+npm install @griddo/grisso
 ```
 
-Esto genera
+## Uso
+
+### Opción A: CSS directo
+
+Importa el CSS pre-compilado directamente. Útil para desarrollo o cuando no usas PostCSS.
 
 ```css
-.flex {
-	display: flex;
-}
-
-@media (min-width: 700px) {
-	.tablet-flex {
-		display: flex;
-	}
-}
-
-@media (min-width: 1024) {
-	.desktop-flex {
-		display: flex;
-	}
-}
-
-/* etc ... */
+/* En tu CSS global */
+@import "@griddo/grisso";
 ```
 
-### Cómo añadir una nueva utility compleja por ejemplo un padding.
+O en HTML:
 
-Por emeplo en un archivo `_padding.css` que importaremos en `grisso.scss` usamos la función `grisso_complex_class`.
-
-```scss
-// _padding.scss
-
-@include grisso_complex_class("p-", padding, $spacing);
+```html
+<link rel="stylesheet" href="node_modules/@griddo/grisso/dist/grisso.css" />
 ```
 
-Esto genera
+### Opción B: PostCSS plugin (recomendado — con tree-shaking)
+
+Añade el plugin a tu configuración de PostCSS. El CSS de Grisso se inyecta automáticamente y solo las clases usadas llegan al bundle final.
+
+```bash
+npm install @griddo/grisso
+```
+
+```js
+// postcss.config.js
+module.exports = {
+  plugins: [
+    require("@griddo/grisso/plugin")({
+      content: ["./src/**/*.{js,ts,jsx,tsx,css}"]
+    })
+  ]
+}
+```
+
+Sin `content`, se incluye todo el CSS (útil en desarrollo):
+
+```js
+require("@griddo/grisso/plugin")()
+```
+
+## Design Tokens (CSS custom properties)
+
+Grisso usa CSS custom properties para todos los valores. Copia `tokens-example.css` y adapta los valores a tu design system:
+
+```bash
+cp node_modules/@griddo/grisso/tokens-example.css src/tokens.css
+```
 
 ```css
-.p {
-	display: flex;
+/* src/tokens.css */
+:root {
+  --spc-sm: 16px;
+  --spc-md: 24px;
+  --text-1: #111827;
+  --bg-1: #f9fafb;
+  /* ... ver tokens-example.css para la lista completa */
 }
-.p-sm {
-	display: flex;
-}
-.p-md {
-	display: flex;
-}
-.p-lg {
-	display: flex;
-}
-... @media (min-width: 700px) {
-	.tablet-p {
-		display: flex;
-	}
-	.tablet-p-sm {
-		display: flex;
-	}
-	.tablet-p-md {
-		display: flex;
-	}
-	.tablet-p-lg {
-		display: flex;
-	}
-}
-
-@media (min-width: 700px) {
-	.desktop-p {
-		display: flex;
-	}
-	.desktop-p-sm {
-		display: flex;
-	}
-	.desktop-p-md {
-		display: flex;
-	}
-	.desktop-p-lg {
-		display: flex;
-	}
-}
-
-/* etc ... */
 ```
+
+Importa los tokens antes que Grisso en tu CSS global:
+
+```css
+@import "./tokens.css";
+@import "@griddo/grisso"; /* o via plugin de PostCSS */
+```
+
+## Clases disponibles
+
+### Nomenclatura
+
+```
+{breakpoint}-{propiedad}-{escala}
+```
+
+Ejemplos: `flex`, `tablet-flex`, `p-md`, `desktop-mt-lg`, `text-center`
+
+### Breakpoints (mobile-first)
+
+| Prefijo | Tamaño |
+|---|---|
+| *(sin prefijo)* | 0px+ |
+| `tablet-` | 700px+ |
+| `desktop-` | 1024px+ |
+| `ultrawide-` | 1680px+ |
+
+### Categorías
+
+| Categoría | Ejemplos |
+|---|---|
+| **Layout** | `flex`, `block`, `hidden`, `relative`, `absolute`, `overflow-hidden` |
+| **Flex/Grid** | `flex-col`, `flex-wrap`, `items-center`, `justify-between`, `gap-md` |
+| **Spacing** | `p-sm`, `pt-lg`, `mx-auto`, `mt-xs`, `mb-md` |
+| **Sizing** | `w-full`, `h-full`, `w-1/2`, `max-w-full` |
+| **Tipografía** | `text-1`, `text-center`, `font-bold`, `leading-tight` |
+| **Fondos** | `bg-1`, `bg-ui`, `bg-cover`, `bg-center` |
+| **Bordes** | `border`, `border-2`, `rounded`, `outline-none` |
+| **Efectos** | `shadow-md`, `opacity-3`, `overlay-2` |
+| **Iconos** | `icon-1`, `icon-3` |
 
 ## Build
 
-- `yarn grisso:build` Crear `src/css/.grisso/grisso.css`
-
-- `yarn grisso:watch` El modo watch por si estamos trabajando constantemente (es un poco lento porque optimiza etc..)
-
-## Archivos de Grisso
-
-### `grisso.config.scss`
-
-Archivo de configuración los `breakpoints`, `breakpoint-sizes` y otras `primitives`.
-
-TODO: Utilizar las que hay en `src/themes/`
-
-### `grisso.scss`
-
-Archivo index para importar todos los partials y generar un `grisso.css` con todas las utiliti classes.
-
-### `partials`
-
-Todas las utility classes escritas en SASS
-
-### `partials/mixigs`
-
-Funciones y mixings para generar las utility classes.
-
-## Snippets para Visual Studio Code (y compatibles) y WebStorm
-
-Para agilizar y facilitar el rellenado de clases dentro de _composes:_, hay una utilidad de autocompletado que muestra las clases que existen en el ecosistema Grisso. Son un snippet para VSC y un Live Templata para WebStorm. Se activa escribiendo _grisso_ en los archivos scss. Como las clases de Grisso van evolucionando con el proyecto, estos snippets deben autogenerarse.
-
-- El snippet de Visual Studio Code se genera con el script npm **grisso:snippets**, que se lanza en cada build. Es un snippet que va asociado al proyecto, por lo que va en seguimiento en git, en **/.vscode/grisso.code-snippets**.
-- En el caso de WebStorm, es un Live Template. Como tal, va asociado al usuario, y hay que generarlo manualmente e importarlo cuando se necesecite.
-
-El comando que genera el snippet y live template es el siguiente:
-
 ```bash
-# Este genera solo la versión de VSC en la carpeta **/.vscode/grisso.code-snippets** es e
-npx tsx scripts/grisso-vsc-snippet-generator
-# es lo mismo que npm run grisso:snippets
-
-# Para generar la versión también de WebStorm
-npx tsx scripts/grisso-vsc-snippet-generator --webstorm
+npm run build    # Compila SCSS → dist/grisso.css
+npm run watch    # Modo watch para desarrollo
+npm run playground  # Build + abre playground/index.html en el navegador
 ```
+
+## Desarrollo: Añadir nuevas utilities
+
+1. Crea un partial en `src/partials/{category}/_name.scss`
+2. Usa `grisso_simple_class` o `grisso_complex_class`
+3. Importa el partial en `src/grisso.scss`
+4. Ejecuta `npm run build`
+
+```scss
+// src/partials/layout/_display.scss
+@include grisso_simple_class("flex", (display, flex));
+// Genera: .flex, .tablet-flex, .desktop-flex, .ultrawide-flex
+
+@include grisso_complex_class("p-", padding, $spacing);
+// Genera: .p-xs, .p-sm, ..., .tablet-p-xs, .desktop-p-sm, ...
+```
+
+## grisso-reduce (tree-shaking alternativo)
+
+`grisso-reduce/index.ts` es una herramienta alternativa de tree-shaking que escanea declaraciones `composes: ... from global` en archivos CSS y elimina clases no usadas del output.
+
+---
+
+Documentación en español — comentarios en el código SCSS en español.

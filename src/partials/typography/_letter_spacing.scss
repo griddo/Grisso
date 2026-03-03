@@ -1,5 +1,7 @@
+@use "sass:map";
+@use "../../mixins" as *;
 ///
 /// `Letter Spacing`
 /// `Utilities for controlling the tracking (letter spacing) of an element`
-$letter-spacing: map-remove($spacing, "auto");
+$letter-spacing: map.remove($spacing, "auto");
 @include grisso_complex_class("tracking-", letter-spacing, $letter-spacing);

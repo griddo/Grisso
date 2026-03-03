@@ -1,23 +1,39 @@
 {
 	"name": "@griddo/grisso",
-	"description": "Grisso",
+	"description": "Griddo CSS utility class library",
 	"version": "1.0.0",
 	"license": "UNLICENSED",
 	"private": false,
+	"exports": {
+		".": {
+			"style": "./dist/grisso.css"
+		},
+		"./plugin": "./plugin.js",
+		"./tokens-example.css": "./tokens-example.css"
+	},
+	"files": [
+		"dist/",
+		"plugin.js",
+		"tokens-example.css",
+		"README.md"
+	],
+	"scripts": {
+		"build": "sass --no-source-map ./src/grisso.scss ./dist/grisso.css && postcss -r --config ./src/grisso ./dist/grisso.css",
+		"watch": "sass --watch --no-source-map ./src/grisso.scss ./dist/grisso.css",
+		"playground": "npm run build && open playground/index.html",
+		"prepublishOnly": "npm run build"
+	},
 	"dependencies": {
+		"@fullhuman/postcss-purgecss": "^6.0.0"
+	},
+	"devDependencies": {
 		"postcss": "^8.4.47",
 		"postcss-cli": "^11.0.0",
 		"postcss-combine-duplicated-selectors": "^10.0.3",
 		"postcss-discard-empty": "^6.0.0",
 		"postcss-minify": "^1.1.0",
 		"postcss-preset-env": "^10.0.3",
-		"postcss-remove-classes": "^2.0.0",
 		"postcss-sort-media-queries": "^5.2.0",
 		"sass": "^1.79.1"
-	},
-	"scripts": {
-		"prebuild": " npx sass --watch --no-source-map ./src/grisso.scss ./src/css/.grisso/grisso.css",
-		"optimize": "postcss -r --config ./src/grisso ./src/css/.grisso/grisso.css",
-		"build": "npm run prebuild && npm run optimize"
 	}
 }

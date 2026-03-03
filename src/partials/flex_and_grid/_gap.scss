@@ -1,7 +1,9 @@
+@use "sass:map";
+@use "../../mixins" as *;
 ///
 /// `Gap`
 /// `Utilities for controlling gutters between grid and flexbox items.`
-$gap: map-remove($spacing, "auto");
+$gap: map.remove($spacing, "auto");
 @include grisso_complex_class("gap-", gap, $gap);
 @include grisso_complex_class("gap-x-", column-gap, $gap);
 @include grisso_complex_class("gap-y-", row-gap, $gap);
