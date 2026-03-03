@@ -1,0 +1,15 @@
+///
+/// `Divide Color`
+/// `Utilities for controlling the border color between elements.`
+@each $key, $value in $extended-colors {
+	.divide-#{$key} > * + * {
+		border-color: $value;
+	}
+	@each $mq, $_ in $breakpoints {
+		@include media-query($mq) {
+			.#{$mq}-divide-#{$key} > * + * {
+				border-color: $value;
+			}
+		}
+	}
+}

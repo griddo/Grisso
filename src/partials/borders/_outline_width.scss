@@ -1,0 +1,4 @@
+///
+/// `Outline Width`
+/// `Utilities for controlling the color of an element's outline.`
+@include grisso_complex_class("outline-", outline-width, $border-width);

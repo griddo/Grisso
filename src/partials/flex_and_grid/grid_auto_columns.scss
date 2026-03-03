@@ -1,0 +1,10 @@
+///
+/// `Grid Auto Columns`
+/// `Utilities for controlling the size of implicitly-created grid columns.`
+$auto-columns: (
+	"auto": auto,
+	"min": min-content,
+	"max": max-content,
+	"fr": "minmax(0, 1fr)",
+);
+@include grisso_complex_class("auto-cols-", grid-auto-columns, $auto-columns);

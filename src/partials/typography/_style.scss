@@ -1,0 +1,8 @@
+///
+/// `Font Style`
+/// `Utilities for controlling the style of text`
+$font-style: (
+	"italic": italic,
+	"not-italic": normal,
+);
+@include grisso_complex_class("", font-style, $font-style);

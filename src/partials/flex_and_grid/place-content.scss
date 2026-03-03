@@ -1,0 +1,18 @@
+///
+/// `Place Content`
+/// `Utilities for controlling how content is justified and aligned at the same time.`
+$place-content-config: (
+	"center": center,
+	"start": start,
+	"end": end,
+	"between": space-between,
+	"around": space-around,
+	"evenly": space-evenly,
+	"baseline": baseline,
+	"stretch": stretch,
+);
+@include grisso_complex_class(
+	"place-content-",
+	place-content,
+	$place-content-config
+);

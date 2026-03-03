@@ -1,0 +1,13 @@
+///
+/// `margin`
+///
+// margin
+@include grisso_complex_class("m-", margin, $spacing);
+// margin top, right, bottom, left
+@include grisso_complex_class("mt-", margin-top, $spacing);
+@include grisso_complex_class("mr-", margin-right, $spacing);
+@include grisso_complex_class("mb-", margin-bottom, $spacing);
+@include grisso_complex_class("ml-", margin-left, $spacing);
+// margin inline and block
+@include grisso_complex_class("mx-", margin-inline, $spacing);
+@include grisso_complex_class("my-", margin-block, $spacing);

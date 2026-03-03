@@ -1,0 +1,13 @@
+///
+/// `Background Attachment`
+/// `Utilities for controlling how a background image behaves when scrolling.`
+$background-attachment: (
+	"fixed": fixed,
+	"local": local,
+	"scroll": scroll,
+);
+@include grisso_complex_class(
+	"bg-",
+	background-attachment,
+	$background-attachment
+);

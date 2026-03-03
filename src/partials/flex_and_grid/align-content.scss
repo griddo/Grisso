@@ -1,0 +1,15 @@
+///
+/// `Align Content`
+/// `Utilities for controlling how rows are positioned in multi-row flex and grid containers.`
+$align-content-config: (
+	"normal": normal,
+	"center": center,
+	"start": flex-start,
+	"end": flex-end,
+	"between": space-between,
+	"around": space-around,
+	"evenly": space-evenly,
+	"baseline": baseline,
+	"stretch": stretch,
+);
+@include grisso_complex_class("content-", align-content, $align-content-config);

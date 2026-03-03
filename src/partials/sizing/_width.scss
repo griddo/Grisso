@@ -1,0 +1,19 @@
+///
+/// `Width, Min-Width and Max-Width`
+/// `Utilities for setting the maximum width of an element`
+$width: (
+	auto: auto,
+	0: 0,
+	full: 100%,
+	screen: 100vw,
+	min: min-content,
+	max: max-content,
+	fit: fit-content,
+);
+@include grisso_complex_class("w-", width, $width);
+@for $i from 1 through $columns {
+	@include grisso_simple_class("w-#{$i}", (width, calc($i / $columns * 100%)));
+}
+
+@include grisso_complex_class("min-w-", min-width, $width);
+@include grisso_complex_class("max-w-", min-width, $width);

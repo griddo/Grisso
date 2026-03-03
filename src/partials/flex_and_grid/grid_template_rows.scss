@@ -1,0 +1,11 @@
+///
+/// `Grid Template Rows`
+/// `Utilities for specifying the rows in a grid layout.`
+@for $i from 1 through $columns {
+	@include grisso_simple_class(
+		"grid-rows-#{$i}",
+		(grid-template-rows, "repeat(#{$i}, minmax(0, 1fr))")
+	);
+}
+
+@include grisso_simple_class("grid-rows-none", (grid-template-rows, "none"));

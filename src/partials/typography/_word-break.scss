@@ -1,0 +1,22 @@
+///
+/// `Word Break`
+/// `Utilities for controlling word breaks in an element.`
+$word-break: (
+	"all": break-all,
+	"keep": keep-all,
+);
+@include grisso_complex_class("break-", word-break, $word-break);
+@include grisso_simple_class("break-words", (overflow-wrap, "break-word"));
+.break-normal {
+	overflow-wrap: normal;
+	word-break: normal;
+}
+
+@each $mq, $_ in $breakpoints {
+	@include media-query($mq) {
+		.#{$mq}-break-normal {
+			overflow-wrap: normal;
+			word-break: normal;
+		}
+	}
+}

@@ -1,0 +1,18 @@
+///
+/// `Justify Content`
+/// `Utilities for controlling how flex and grid items are positioned along a container's main axis.`
+$justify-content-config: (
+	"normal": normal,
+	"start": flex-start,
+	"end": flex-end,
+	"center": center,
+	"between": space-between,
+	"around": space-around,
+	"evenly": space-evenly,
+	"stretch": stretch,
+);
+@include grisso_complex_class(
+	"justify-",
+	justify-content,
+	$justify-content-config
+);

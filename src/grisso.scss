@@ -1,0 +1,100 @@
+/* Functions */
+@import "mixins";
+
+/* Layout */
+@import "partials/layout/display";
+@import "partials/layout/columns";
+@import "partials/layout/float";
+@import "partials/layout/clear";
+@import "partials/layout/object-fit";
+@import "partials/layout/object-position";
+@import "partials/layout/overflow";
+@import "partials/layout/position";
+@import "partials/layout/visibility";
+@import "partials/layout/z-index";
+@import "partials/layout/trbl-layout";
+
+/* Flexbox & Grid */
+@import "partials/flex_and_grid/direction";
+@import "partials/flex_and_grid/wrap";
+@import "partials/flex_and_grid/flex";
+@import "partials/flex_and_grid/grow";
+@import "partials/flex_and_grid/shrink";
+@import "partials/flex_and_grid/order";
+
+@import "partials/flex_and_grid/justify-items";
+@import "partials/flex_and_grid/justify-content";
+@import "partials/flex_and_grid/justify-self";
+
+@import "partials/flex_and_grid/align-items";
+@import "partials/flex_and_grid/align-content";
+@import "partials/flex_and_grid/align-self";
+
+@import "partials/flex_and_grid/grid_template_columns";
+@import "partials/flex_and_grid/grid_column_start_end";
+
+@import "partials/flex_and_grid/grid_template_rows";
+@import "partials/flex_and_grid/grid_row_start_end";
+
+@import "partials/flex_and_grid/grid_auto_flow";
+@import "partials/flex_and_grid/grid_auto_columns";
+@import "partials/flex_and_grid/grid_auto_rows";
+
+@import "partials/flex_and_grid/gap";
+
+@import "partials/flex_and_grid/place-content";
+@import "partials/flex_and_grid/place-items";
+@import "partials/flex_and_grid/place-self";
+
+/* Spacing */
+@import "partials/spacing/margin";
+@import "partials/spacing/padding";
+
+/* Sizing */
+@import "partials/sizing/width";
+@import "partials/sizing/height";
+
+/* Backgrounds */
+@import "partials/backgrounds/colors";
+@import "partials/backgrounds/attachment";
+@import "partials/backgrounds/clip";
+@import "partials/backgrounds/origin";
+@import "partials/backgrounds/position";
+@import "partials/backgrounds/repeat";
+@import "partials/backgrounds/size";
+
+/* Borders */
+@import "partials/borders/vars";
+@import "partials/borders/width";
+@import "partials/borders/style";
+
+@import "partials/borders/divide_color";
+@import "partials/borders/divide_width";
+@import "partials/borders/divide_style";
+
+@import "partials/borders/outline_color";
+@import "partials/borders/outline_width";
+@import "partials/borders/outline_style";
+@import "partials/borders/outline_offset";
+
+/* Typography */
+@import "partials/typography/colors";
+@import "partials/typography/align";
+@import "partials/typography/transform";
+@import "partials/typography/overflow";
+@import "partials/typography/vertical";
+@import "partials/typography/whitespace";
+@import "partials/typography/word-break";
+@import "partials/typography/smoothing";
+@import "partials/typography/style";
+@import "partials/typography/weight";
+@import "partials/typography/letter_spacing";
+@import "partials/typography/line_height";
+
+/* Effects */
+@import "partials/effects/opacity";
+@import "partials/effects/shadows";
+@import "partials/effects/overlay";
+
+/* Icons */
+@import "partials/icons/colors";

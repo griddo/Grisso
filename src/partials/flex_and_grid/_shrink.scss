@@ -1,0 +1,5 @@
+///
+/// `Flex Shrink`
+/// `Utilities for controlling how flex items shrink.`
+@include grisso_simple_class("shrink", (flex-shrink, "1"));
+@include grisso_simple_class("shrink-0", (flex-shrink, "0"));

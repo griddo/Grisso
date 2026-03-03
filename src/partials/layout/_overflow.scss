@@ -1,0 +1,13 @@
+///
+/// `Overflow`
+/// `Utilities for controlling how an element handles content that is too large for the container.`
+$overflow: (
+	"auto": auto,
+	"hidden": hidden,
+	"clip": clip,
+	"visible": visible,
+	"scroll": scroll,
+);
+@include grisso_complex_class("overflow-", overflow, $overflow);
+@include grisso_complex_class("overflow-x-", overflow-x, $overflow);
+@include grisso_complex_class("overflow-y-", overflow-y, $overflow);

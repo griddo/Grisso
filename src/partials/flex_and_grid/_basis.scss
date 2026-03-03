@@ -1,0 +1,9 @@
+///
+/// `Flex Basis`
+/// `Utilities for controlling the initial size of flex items.`
+@for $i from 1 through $columns {
+	@include grisso_simple_class(
+		"basis-#{$i}",
+		(flex-basis, calc($i / $columns * 100%))
+	);
+}

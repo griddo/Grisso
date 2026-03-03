@@ -1,0 +1,14 @@
+///
+/// `padding`
+///
+$padding: map-remove($spacing, "auto");
+// padding
+@include grisso_complex_class("p-", padding, $padding);
+// padding top, right, bottom, left
+@include grisso_complex_class("pt-", padding-top, $padding);
+@include grisso_complex_class("pr-", padding-right, $padding);
+@include grisso_complex_class("pb-", padding-bottom, $padding);
+@include grisso_complex_class("pl-", padding-left, $padding);
+// padding inline and block
+@include grisso_complex_class("px-", padding-inline, $padding);
+@include grisso_complex_class("py-", padding-block, $padding);

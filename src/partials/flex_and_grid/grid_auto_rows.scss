@@ -1,0 +1,10 @@
+///
+/// `Grid Auto Rows`
+/// `Utilities for controlling the size of implicitly-created grid rows.`
+$auto-rows: (
+	"auto": auto,
+	"min": min-content,
+	"max": max-content,
+	"fr": "minmax(0, 1fr)",
+);
+@include grisso_complex_class("auto-rows-", grid-auto-rows, $auto-rows);

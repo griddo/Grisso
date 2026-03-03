@@ -1,0 +1,11 @@
+///
+/// `Place Self`
+/// `Utilities for controlling how an individual item is justified and aligned at the same time.`
+$place-self-config: (
+	"auto": auto,
+	"start": start,
+	"end": end,
+	"center": center,
+	"stretch": stretch,
+);
+@include grisso_complex_class("place-self-", place-self, $place-self-config);

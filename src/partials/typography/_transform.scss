@@ -1,0 +1,10 @@
+///
+/// `Text Transform`
+/// `Utilities for controlling the transformation of text`
+$text-transform: (
+	"uppercase": uppercase,
+	"lowercase": lowercase,
+	"capitalize": capitalize,
+	"normal-case": none,
+);
+@include grisso_complex_class("", text-transform, $text-transform);

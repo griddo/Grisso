@@ -1,0 +1,6 @@
+///
+/// `Visibility`
+/// `Utilities for controlling the visibility of an element..`
+@include grisso_simple_class("visible", (visibility, "visible"));
+@include grisso_simple_class("invisible", (visibility, "hidden"));
+@include grisso_simple_class("collapse", (visibility, "collapse"));

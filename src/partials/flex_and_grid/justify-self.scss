@@ -1,0 +1,9 @@
+///
+/// `Justify Self`
+/// `Utilities for controlling how an individual grid item is aligned along its inline axis.`
+$justify-self-config: ("auto", "start", "end", "center", "stretch");
+@include grisso_complex_class(
+	"justify-self-",
+	justify-content,
+	$justify-self-config
+);

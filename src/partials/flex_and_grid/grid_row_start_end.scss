@@ -1,0 +1,16 @@
+///
+/// `Grid Row Start / End`
+/// `Utilities for controlling how elements are sized and placed across grid rows.`
+@include grisso_simple_class("row-auto", (grid-row, "auto"));
+@for $i from 1 through $columns {
+	@include grisso_simple_class(
+		"row-span-#{$i}",
+		(grid-row, "span #{$i} / span #{$i}")
+	);
+	@include grisso_simple_class("row-start-#{$i}", (grid-row-start, #{$i}));
+	@include grisso_simple_class("row-end-#{$i}", (grid-row-end, #{$i}));
+}
+
+@include grisso_simple_class("row-span-full", (grid-row, "1 / -1"));
+@include grisso_simple_class("row-start-auto", (grid-row-start, "auto"));
+@include grisso_simple_class("row-end-auto", (grid-row-end, "auto"));

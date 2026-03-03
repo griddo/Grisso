@@ -1,0 +1,10 @@
+///
+/// `Background Clip`
+/// `Utilities for controlling the bounding box of an element's background.`
+$background-clip: (
+	"border": border-box,
+	"padding": padding-box,
+	"content": content-box,
+	"text": text,
+);
+@include grisso_complex_class("bg-clip-", background-clip, $background-clip);

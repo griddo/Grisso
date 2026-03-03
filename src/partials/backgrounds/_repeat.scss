@@ -1,0 +1,12 @@
+///
+/// `Background Repeat`
+/// `Utilities for controlling the repetition of an element's background image.`
+$background-repeat: (
+	"repeat": repeat,
+	"no-repeat": no-repeat,
+	"repeat-x": repeat-x,
+	"repeat-y": repeat-y,
+	"repeat-round": round,
+	"repeat-space": space,
+);
+@include grisso_complex_class("bg-", background-repeat, $background-repeat);

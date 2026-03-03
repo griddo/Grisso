@@ -1,0 +1,9 @@
+///
+/// `Flex Wrap`
+/// `Utilities for controlling how flex items wrap.`
+$wrap: (
+	"wrap": wrap,
+	"wrap-reverse": wrap-reverse,
+	"nowrap": nowrap,
+);
+@include grisso_complex_class("flex-", flex-wrap, $wrap);

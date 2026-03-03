@@ -1,0 +1,17 @@
+$extended-colors: map-merge(
+	$border-colors,
+	(
+		inherit: inherit,
+		current: currentColor,
+		"transparent": transparent,
+	)
+);
+
+$border-style: (
+	"solid": solid,
+	"dashed": dashed,
+	"dotted": dotted,
+	"double": double,
+	"hidden": hidden,
+	"none": none,
+);

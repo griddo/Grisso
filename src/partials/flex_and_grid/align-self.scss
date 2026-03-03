@@ -1,0 +1,12 @@
+///
+/// `Align Self`
+/// `Utilities for controlling how an individual flex or grid item is positioned along its container's cross axis.`
+$align-self-config: (
+	"auto": normal,
+	"start": flex-start,
+	"end": flex-end,
+	"center": center,
+	"baseline": baseline,
+	"stretch": stretch,
+);
+@include grisso_complex_class("self-", align-self, $align-self-config);

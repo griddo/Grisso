@@ -1,0 +1,9 @@
+///
+/// `Justify Items`
+/// `Utilities for controlling how grid items are aligned along their inline axis.`
+$justify-items-config: ("start", "end", "center", "stretch");
+@include grisso_complex_class(
+	"justify-items-",
+	justify-content,
+	$justify-items-config
+);

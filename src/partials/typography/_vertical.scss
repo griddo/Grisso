@@ -1,0 +1,14 @@
+///
+/// `Vertical Align`
+/// `Utilities for controlling the vertical alignment of an inline or table-cell box`
+$text-vertical: (
+	"baseline": baseline,
+	"top": top,
+	"middle": middle,
+	"bottom": bottom,
+	"text-top": text-top,
+	"text-bottom": text-bottom,
+	"sub": sub,
+	"super": super,
+);
+@include grisso_complex_class("align-", vertical-align, $text-vertical);

@@ -1,0 +1,27 @@
+///
+/// `display`
+///
+$display-config: (
+	"block": block,
+	"inline": inline,
+	"inline-block": inline-block,
+	"flex": flex,
+	"inline-flex": inline-flex,
+	"grid": grid,
+	"inline-grid": inline-grid,
+	"inline-table": inline-table,
+	"table": table,
+	"table-row": table-row,
+	"table-caption": table-caption,
+	"table-cell": table-cell,
+	"table-column": table-column,
+	"table-column-group": table-column-group,
+	"table-footer-group": table-footer-group,
+	"table-header-group": table-header-group,
+	"table-row-group": table-row-group,
+	"contents": contents,
+	"flow-root": flow-root,
+	"list-item": list-item,
+	"hidden": none,
+);
+@include grisso_complex_class("", display, $display-config);

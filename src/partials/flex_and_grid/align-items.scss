@@ -1,0 +1,11 @@
+///
+/// `Align Items`
+/// `Utilities for controlling how flex and grid items are positioned along a container's cross axis.`
+$align-items-config: (
+	"start": flex-start,
+	"end": flex-end,
+	"center": center,
+	"baseline": baseline,
+	"stretch": stretch,
+);
+@include grisso_complex_class("items-", align-items, $align-items-config);
