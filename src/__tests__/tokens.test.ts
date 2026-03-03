@@ -88,10 +88,11 @@ describe("extractTokens", () => {
 			expect(data).toHaveProperty("borderColors");
 		});
 
-		it("no incluye columns, breakpoints ni safelist", async () => {
+		it("no incluye columns, breakpoints, states ni safelist", async () => {
 			const data = JSON.parse(await extractTokens({ format: "json" }));
 			expect(data).not.toHaveProperty("columns");
 			expect(data).not.toHaveProperty("breakpoints");
+			expect(data).not.toHaveProperty("states");
 			expect(data).not.toHaveProperty("safelist");
 		});
 

@@ -1,10 +1,15 @@
 import { describe, expect, it } from "vitest";
 import { complexClass, customClass, simpleClass } from "../generators.js";
-import type { Breakpoints, TokenMap } from "../types.js";
+import type { Breakpoints, States, TokenMap } from "../types.js";
 
 const breakpoints: Breakpoints = {
 	tablet: "(min-width: 700px)",
 	desktop: "(min-width: 1024px)",
+};
+
+const states: States = {
+	hover: ":hover",
+	focus: ":focus",
 };
 
 describe("simpleClass", () => {
@@ -33,6 +38,33 @@ describe("simpleClass", () => {
 		const css = simpleClass("w-1/2", "width", "50%", breakpoints);
 		expect(css).toContain(".w-1\\/2 { width: 50%; }");
 		expect(css).toContain(".tablet-w-1\\/2 { width: 50%; }");
+	});
+
+	it("genera variantes de estado", () => {
+		const css = simpleClass("flex", "display", "flex", breakpoints, states);
+		expect(css).toContain(".hover-flex:hover { display: flex; }");
+		expect(css).toContain(".focus-flex:focus { display: flex; }");
+	});
+
+	it("genera variantes responsive + estado", () => {
+		const css = simpleClass("flex", "display", "flex", breakpoints, states);
+		expect(css).toContain(
+			"@media (min-width: 700px) { .tablet-hover-flex:hover { display: flex; } }",
+		);
+		expect(css).toContain(
+			"@media (min-width: 1024px) { .desktop-focus-flex:focus { display: flex; } }",
+		);
+	});
+
+	it("sin states no genera variantes de estado (backward compat)", () => {
+		const css = simpleClass("flex", "display", "flex", breakpoints);
+		expect(css).not.toContain("hover");
+		expect(css).not.toContain("focus");
+	});
+
+	it("escapa / en classNames con states", () => {
+		const css = simpleClass("w-1/2", "width", "50%", breakpoints, states);
+		expect(css).toContain(".hover-w-1\\/2:hover { width: 50%; }");
 	});
 });
 
@@ -82,6 +114,36 @@ describe("complexClass", () => {
 		expect(css).toContain(".w-1\\/2 { width: 50%; }");
 		expect(css).toContain(".w-1\\/3 { width: 33.3333%; }");
 		expect(css).toContain(".tablet-w-1\\/2");
+	});
+
+	it("genera variantes de estado por token", () => {
+		const css = complexClass("p-", "padding", tokens, breakpoints, states);
+		expect(css).toContain(".hover-p-sm:hover { padding: var(--spc-sm); }");
+		expect(css).toContain(".focus-p-md:focus { padding: var(--spc-md); }");
+	});
+
+	it("genera variantes responsive + estado", () => {
+		const css = complexClass("p-", "padding", tokens, breakpoints, states);
+		expect(css).toContain(
+			"@media (min-width: 700px) { .tablet-hover-p-sm:hover { padding: var(--spc-sm); } }",
+		);
+	});
+
+	it("sin states no genera variantes de estado (backward compat)", () => {
+		const css = complexClass("p-", "padding", tokens, breakpoints);
+		expect(css).not.toContain("hover");
+	});
+
+	it("escapa / en token names con states", () => {
+		const fractionTokens: TokenMap = { "1/2": "50%" };
+		const css = complexClass(
+			"w-",
+			"width",
+			fractionTokens,
+			breakpoints,
+			states,
+		);
+		expect(css).toContain(".hover-w-1\\/2:hover { width: 50%; }");
 	});
 });
 
@@ -136,5 +198,51 @@ describe("customClass", () => {
 		);
 		expect(css).toContain(".sr-only {");
 		expect(css).not.toContain(".sr-only >");
+	});
+
+	it("genera variantes de estado", () => {
+		const css = customClass(
+			"truncate",
+			{ overflow: "hidden", "text-overflow": "ellipsis" },
+			breakpoints,
+			undefined,
+			states,
+		);
+		expect(css).toContain(
+			".hover-truncate:hover { overflow: hidden; text-overflow: ellipsis; }",
+		);
+		expect(css).toContain(
+			".focus-truncate:focus { overflow: hidden; text-overflow: ellipsis; }",
+		);
+	});
+
+	it("pseudo va antes del selectorSuffix en state variants", () => {
+		const css = customClass(
+			"divide-x",
+			{ "border-left-width": "1px" },
+			breakpoints,
+			" > * + *",
+			states,
+		);
+		expect(css).toContain(".hover-divide-x:hover > * + *");
+		expect(css).toContain(".tablet-hover-divide-x:hover > * + *");
+	});
+
+	it("genera variantes responsive + estado", () => {
+		const css = customClass(
+			"truncate",
+			{ overflow: "hidden" },
+			breakpoints,
+			undefined,
+			states,
+		);
+		expect(css).toContain(
+			"@media (min-width: 700px) { .tablet-hover-truncate:hover { overflow: hidden; } }",
+		);
+	});
+
+	it("sin states no genera variantes de estado (backward compat)", () => {
+		const css = customClass("truncate", { overflow: "hidden" }, breakpoints);
+		expect(css).not.toContain("hover");
 	});
 });

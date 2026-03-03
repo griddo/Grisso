@@ -42,6 +42,7 @@ const SECTION_LABELS: Record<string, string> = {
 const NON_TOKEN_KEYS = new Set([
 	"columns",
 	"breakpoints",
+	"states",
 	"safelist",
 	"extend",
 ]);

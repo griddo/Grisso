@@ -2,7 +2,7 @@
 
 ## What is Grisso
 
-Grisso (`@hiscovega/grisso`) is Griddo's CSS utility class library, similar in concept to Tailwind CSS. It generates responsive utility classes from TypeScript using generator functions. All values reference CSS custom properties (design tokens), enabling theming. Consumers can extend or override tokens via `grisso.config.mjs`.
+Grisso (`@hiscovega/grisso`) is Griddo's CSS utility class library, similar in concept to Tailwind CSS. It generates responsive and state-variant utility classes from TypeScript using generator functions. All values reference CSS custom properties (design tokens), enabling theming. Consumers can extend or override tokens via `grisso.config.mjs`.
 
 ## Project Structure
 
@@ -11,8 +11,8 @@ src/                       # TypeScript source
 ├── index.ts              # Entry: generateCSS(configPath?)
 ├── cli.ts                # CLI entry point: grisso build | grisso tokens
 ├── tokens.ts             # extractTokens() — token scaffold generation (CSS/JSON)
-├── types.ts              # Shared types: GrissoConfig, PartialFn, TokenMap...
-├── defaults.ts           # Default config (breakpoints, spacing, colors, etc.)
+├── types.ts              # Shared types: GrissoConfig, PartialFn, TokenMap, States...
+├── defaults.ts           # Default config (breakpoints, states, spacing, colors, etc.)
 ├── generators.ts         # Core generators: simpleClass, complexClass, customClass (with CSS escaping)
 ├── resolve-config.ts     # Loads grisso.config.mjs, merges with defaults
 ├── utils.ts              # Helpers: omit(), fractionPercent()
@@ -61,7 +61,7 @@ grisso-reduce/
 ## Build
 
 ```bash
-npm run build       # tsc + Lightning CSS → dist/grisso.css (full, ~156 KB)
+npm run build       # tsc + Lightning CSS → dist/grisso.css (full, ~800 KB)
 npm run typecheck   # Type-check sin emitir (tsc --noEmit)
 npm run lint        # Lint con Biome
 npm test            # Vitest (run once)
@@ -145,6 +145,9 @@ export default {
   // Top-level keys REPLACE defaults entirely
   spacing: { sm: "8px", md: "16px", lg: "24px" },
 
+  // States: top-level reemplaza los 5 defaults (hover, focus, focus-visible, active, disabled)
+  states: { hover: ":hover", focus: ":focus" },
+
   // Safelist: patrones de clases protegidas del tree-shaking
   // Top-level reemplaza el default []
   safelist: [/^p-/, /^m-/],
@@ -165,43 +168,44 @@ Safelist acepta `RegExp` y `string` (strings se convierten a `RegExp` internamen
 
 All three generators automatically escape special characters in class names (e.g. `/` → `\/`) via an internal `escapeCSS()` helper, so fraction-based names like `w-1/2` produce valid CSS selectors (`.w-1\/2`).
 
-### 1. `simpleClass(className, property, value, breakpoints)`
+### 1. `simpleClass(className, property, value, breakpoints, states?)`
 
-For single-value utilities. Generates base class + responsive variants.
+For single-value utilities. Generates base class + state variants + responsive variants + responsive+state combos.
 
 ```js
-simpleClass("flex", "display", "flex", breakpoints)
-// Output: .flex, .tablet-flex, .desktop-flex, .ultrawide-flex
-
-simpleClass("w-1/2", "width", "50%", breakpoints)
-// Output: .w-1\/2 { width: 50%; }
+simpleClass("flex", "display", "flex", breakpoints, states)
+// Output: .flex, .hover-flex:hover, .focus-flex:focus, ...,
+//         .tablet-flex, .tablet-hover-flex:hover, ...
 ```
 
-### 2. `complexClass(prefix, properties, tokens, breakpoints)`
+### 2. `complexClass(prefix, properties, tokens, breakpoints, states?)`
 
-For scale-based utilities. Iterates a token map to generate class + scale + responsive variants.
+For scale-based utilities. Iterates a token map to generate class + scale + state + responsive variants.
 
 ```js
-complexClass("p-", "padding", spacing, breakpoints)
-// Output: .p-zero, .p-xs, .p-sm, ..., .tablet-p-xs, .desktop-p-sm, ...
+complexClass("p-", "padding", spacing, breakpoints, states)
+// Output: .p-sm, .hover-p-sm:hover, .focus-p-sm:focus, ...,
+//         .tablet-p-sm, .tablet-hover-p-sm:hover, ...
 ```
 
-### 3. `customClass(className, declarations, breakpoints, selectorSuffix?)`
+### 3. `customClass(className, declarations, breakpoints, selectorSuffix?, states?)`
 
-For special cases with multiple declarations or custom selectors.
+For special cases with multiple declarations or custom selectors. Pseudo goes before selectorSuffix.
 
 ```js
-customClass("truncate", { overflow: "hidden", "text-overflow": "ellipsis", "white-space": "nowrap" }, breakpoints)
-// Output: .truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+customClass("truncate", { overflow: "hidden", "text-overflow": "ellipsis", "white-space": "nowrap" }, breakpoints, undefined, states)
+// Output: .truncate { ... }, .hover-truncate:hover { ... }, .tablet-truncate { ... }
 
-customClass("divide-x", { "border-right-width": "0", "border-left-width": "1px" }, breakpoints, " > * + *")
-// Output: .divide-x > * + * { border-right-width: 0; border-left-width: 1px; }
+customClass("divide-x", { "border-right-width": "0", "border-left-width": "1px" }, breakpoints, " > * + *", states)
+// Output: .divide-x > * + * { ... }, .hover-divide-x:hover > * + * { ... }
 ```
 
 ## Key Conventions
 
-- **Naming pattern:** `{breakpoint}-{property}-{scale}` → e.g. `tablet-mt-lg`, `desktop-p-sm`
+- **Naming pattern:** `{breakpoint}-{state}-{property}-{scale}` → e.g. `tablet-mt-lg`, `hover-bg-1`, `tablet-hover-p-sm`
 - **Breakpoints (mobile-first):** tablet (700px), desktop (1024px), ultrawide (1680px)
+- **States:** hover, focus, focus-visible, active, disabled (configurable via `states` in config)
+- **Cascade order:** base → state → responsive → responsive+state
 - **All values use CSS custom properties** (`var(--spc-sm)`, `var(--text-1)`) for theming
 - **Directional suffixes:** `-t`, `-r`, `-b`, `-l` for sides; `-x`, `-y` for inline/block
 - **Sizing fractions:** Tailwind-style `w-1/2`, `w-2/3`, `h-1/4`, etc. (escaped as `\/` in CSS)
@@ -233,7 +237,7 @@ npm run test:watch  # Watch mode
 | File | Covers |
 |---|---|
 | `utils.test.ts` | `omit()`, `fractionPercent()` |
-| `generators.test.ts` | `simpleClass`, `complexClass`, `customClass`, CSS escaping |
+| `generators.test.ts` | `simpleClass`, `complexClass`, `customClass`, CSS escaping, state variants |
 | `defaults.test.ts` | Default config structure and token format |
 | `resolve-config.test.ts` | Config override, extend, merge logic |
 | `optimize.test.ts` | Media query merging, minification |

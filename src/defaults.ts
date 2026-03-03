@@ -15,6 +15,14 @@ const defaults: GrissoConfig = {
 		ultrawide: "(min-width: 1680px)",
 	},
 
+	states: {
+		hover: ":hover",
+		focus: ":focus",
+		"focus-visible": ":focus-visible",
+		active: ":active",
+		disabled: ":disabled",
+	},
+
 	spacing: {
 		auto: "auto",
 		zero: "0",

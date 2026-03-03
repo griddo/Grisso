@@ -1,4 +1,4 @@
-import type { Breakpoints, Declarations, TokenMap } from "./types.js";
+import type { Breakpoints, Declarations, States, TokenMap } from "./types.js";
 
 /**
  * Generadores de clases CSS utility.
@@ -11,7 +11,7 @@ function escapeCSS(name: string): string {
 }
 
 /**
- * Genera una clase simple con variantes responsive.
+ * Genera una clase simple con variantes responsive y de estado.
  * Equivalente al mixin grisso_simple_class.
  */
 export function simpleClass(
@@ -19,17 +19,33 @@ export function simpleClass(
 	property: string,
 	value: string,
 	breakpoints: Breakpoints,
+	states?: States,
 ): string {
 	const escaped = escapeCSS(className);
 	let css = `.${escaped} { ${property}: ${value}; }\n`;
+
+	// Variantes de estado
+	if (states) {
+		for (const [state, pseudo] of Object.entries(states)) {
+			css += `.${state}-${escaped}${pseudo} { ${property}: ${value}; }\n`;
+		}
+	}
+
 	for (const [bp, mq] of Object.entries(breakpoints)) {
 		css += `@media ${mq} { .${bp}-${escaped} { ${property}: ${value}; } }\n`;
+
+		// Variantes responsive + estado
+		if (states) {
+			for (const [state, pseudo] of Object.entries(states)) {
+				css += `@media ${mq} { .${bp}-${state}-${escaped}${pseudo} { ${property}: ${value}; } }\n`;
+			}
+		}
 	}
 	return css;
 }
 
 /**
- * Genera clases basadas en un mapa de tokens con variantes responsive.
+ * Genera clases basadas en un mapa de tokens con variantes responsive y de estado.
  * Equivalente al mixin grisso_complex_class.
  */
 export function complexClass(
@@ -37,6 +53,7 @@ export function complexClass(
 	properties: string | string[],
 	tokens: TokenMap,
 	breakpoints: Breakpoints,
+	states?: States,
 ): string {
 	const props = Array.isArray(properties) ? properties : [properties];
 	let css = "";
@@ -45,9 +62,28 @@ export function complexClass(
 		for (const prop of props) {
 			css += `.${escaped} { ${prop}: ${value}; }\n`;
 		}
+
+		// Variantes de estado
+		if (states) {
+			for (const [state, pseudo] of Object.entries(states)) {
+				for (const prop of props) {
+					css += `.${state}-${escaped}${pseudo} { ${prop}: ${value}; }\n`;
+				}
+			}
+		}
+
 		for (const [bp, mq] of Object.entries(breakpoints)) {
 			for (const prop of props) {
 				css += `@media ${mq} { .${bp}-${escaped} { ${prop}: ${value}; } }\n`;
+			}
+
+			// Variantes responsive + estado
+			if (states) {
+				for (const [state, pseudo] of Object.entries(states)) {
+					for (const prop of props) {
+						css += `@media ${mq} { .${bp}-${state}-${escaped}${pseudo} { ${prop}: ${value}; } }\n`;
+					}
+				}
 			}
 		}
 	}
@@ -55,7 +91,7 @@ export function complexClass(
 }
 
 /**
- * Genera una clase con declaraciones custom y variantes responsive.
+ * Genera una clase con declaraciones custom y variantes responsive y de estado.
  * Para casos especiales: divide >*+*, truncate, smoothing, outline-none, etc.
  */
 export function customClass(
@@ -63,6 +99,7 @@ export function customClass(
 	declarations: Declarations,
 	breakpoints: Breakpoints,
 	selectorSuffix?: string,
+	states?: States,
 ): string {
 	const escaped = escapeCSS(className);
 	const suffix = selectorSuffix || "";
@@ -70,8 +107,23 @@ export function customClass(
 		.map(([p, v]) => `${p}: ${v}`)
 		.join("; ");
 	let css = `.${escaped}${suffix} { ${decls}; }\n`;
+
+	// Variantes de estado: pseudo va antes del selectorSuffix
+	if (states) {
+		for (const [state, pseudo] of Object.entries(states)) {
+			css += `.${state}-${escaped}${pseudo}${suffix} { ${decls}; }\n`;
+		}
+	}
+
 	for (const [bp, mq] of Object.entries(breakpoints)) {
 		css += `@media ${mq} { .${bp}-${escaped}${suffix} { ${decls}; } }\n`;
+
+		// Variantes responsive + estado
+		if (states) {
+			for (const [state, pseudo] of Object.entries(states)) {
+				css += `@media ${mq} { .${bp}-${state}-${escaped}${pseudo}${suffix} { ${decls}; } }\n`;
+			}
+		}
 	}
 	return css;
 }

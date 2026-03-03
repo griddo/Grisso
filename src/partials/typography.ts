@@ -3,11 +3,11 @@ import type { GrissoConfig } from "../types.js";
 import { omit } from "../utils.js";
 
 export default function typography(config: GrissoConfig): string {
-	const { breakpoints, foregroundColors, spacing } = config;
+	const { breakpoints, states, foregroundColors, spacing } = config;
 	let css = "";
 
 	// text-color
-	css += complexClass("text-", "color", foregroundColors, breakpoints);
+	css += complexClass("text-", "color", foregroundColors, breakpoints, states);
 
 	// text-align
 	const textAlign: Record<string, string> = {
@@ -18,7 +18,7 @@ export default function typography(config: GrissoConfig): string {
 		start: "start",
 		end: "end",
 	};
-	css += complexClass("text-", "text-align", textAlign, breakpoints);
+	css += complexClass("text-", "text-align", textAlign, breakpoints, states);
 
 	// text-transform
 	const textTransform: Record<string, string> = {
@@ -27,14 +27,20 @@ export default function typography(config: GrissoConfig): string {
 		capitalize: "capitalize",
 		"normal-case": "none",
 	};
-	css += complexClass("", "text-transform", textTransform, breakpoints);
+	css += complexClass("", "text-transform", textTransform, breakpoints, states);
 
 	// text-overflow
 	const textOverflow: Record<string, string> = {
 		ellipsis: "ellipsis",
 		clip: "clip",
 	};
-	css += complexClass("text-", "text-overflow", textOverflow, breakpoints);
+	css += complexClass(
+		"text-",
+		"text-overflow",
+		textOverflow,
+		breakpoints,
+		states,
+	);
 	css += customClass(
 		"truncate",
 		{
@@ -43,6 +49,8 @@ export default function typography(config: GrissoConfig): string {
 			"white-space": "nowrap",
 		},
 		breakpoints,
+		undefined,
+		states,
 	);
 
 	// vertical-align
@@ -56,7 +64,13 @@ export default function typography(config: GrissoConfig): string {
 		sub: "sub",
 		super: "super",
 	};
-	css += complexClass("align-", "vertical-align", verticalAlign, breakpoints);
+	css += complexClass(
+		"align-",
+		"vertical-align",
+		verticalAlign,
+		breakpoints,
+		states,
+	);
 
 	// white-space
 	const whiteSpace: Record<string, string> = {
@@ -67,19 +81,33 @@ export default function typography(config: GrissoConfig): string {
 		"pre-wrap": "pre-wrap",
 		"break-spaces": "break-spaces",
 	};
-	css += complexClass("whitespace-", "white-space", whiteSpace, breakpoints);
+	css += complexClass(
+		"whitespace-",
+		"white-space",
+		whiteSpace,
+		breakpoints,
+		states,
+	);
 
 	// word-break
 	const wordBreak: Record<string, string> = {
 		all: "break-all",
 		keep: "keep-all",
 	};
-	css += complexClass("break-", "word-break", wordBreak, breakpoints);
-	css += simpleClass("break-words", "overflow-wrap", "break-word", breakpoints);
+	css += complexClass("break-", "word-break", wordBreak, breakpoints, states);
+	css += simpleClass(
+		"break-words",
+		"overflow-wrap",
+		"break-word",
+		breakpoints,
+		states,
+	);
 	css += customClass(
 		"break-normal",
 		{ "overflow-wrap": "normal", "word-break": "normal" },
 		breakpoints,
+		undefined,
+		states,
 	);
 
 	// font-smoothing
@@ -90,6 +118,8 @@ export default function typography(config: GrissoConfig): string {
 			"-moz-osx-font-smoothing": "grayscale",
 		},
 		breakpoints,
+		undefined,
+		states,
 	);
 	css += customClass(
 		"subpixel-antialiased",
@@ -98,6 +128,8 @@ export default function typography(config: GrissoConfig): string {
 			"-moz-osx-font-smoothing": "auto",
 		},
 		breakpoints,
+		undefined,
+		states,
 	);
 
 	// font-style
@@ -105,7 +137,7 @@ export default function typography(config: GrissoConfig): string {
 		italic: "italic",
 		"not-italic": "normal",
 	};
-	css += complexClass("", "font-style", fontStyle, breakpoints);
+	css += complexClass("", "font-style", fontStyle, breakpoints, states);
 
 	// font-weight
 	const fontWeight: Record<string, string> = {
@@ -119,7 +151,7 @@ export default function typography(config: GrissoConfig): string {
 		extrabold: "800",
 		black: "900",
 	};
-	css += complexClass("font-", "font-weight", fontWeight, breakpoints);
+	css += complexClass("font-", "font-weight", fontWeight, breakpoints, states);
 
 	// letter-spacing
 	const letterSpacing: Record<string, string> = {
@@ -135,6 +167,7 @@ export default function typography(config: GrissoConfig): string {
 		"letter-spacing",
 		letterSpacing,
 		breakpoints,
+		states,
 	);
 
 	// line-height
@@ -153,6 +186,7 @@ export default function typography(config: GrissoConfig): string {
 		"line-height",
 		extendedLineHeight,
 		breakpoints,
+		states,
 	);
 
 	return css;

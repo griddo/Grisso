@@ -2,11 +2,17 @@ import { complexClass } from "../generators.js";
 import type { GrissoConfig } from "../types.js";
 
 export default function backgrounds(config: GrissoConfig): string {
-	const { breakpoints, backgroundColors } = config;
+	const { breakpoints, states, backgroundColors } = config;
 	let css = "";
 
 	// background-color
-	css += complexClass("bg-", "background-color", backgroundColors, breakpoints);
+	css += complexClass(
+		"bg-",
+		"background-color",
+		backgroundColors,
+		breakpoints,
+		states,
+	);
 
 	// background-attachment
 	const bgAttachment: Record<string, string> = {
@@ -19,6 +25,7 @@ export default function backgrounds(config: GrissoConfig): string {
 		"background-attachment",
 		bgAttachment,
 		breakpoints,
+		states,
 	);
 
 	// background-clip
@@ -28,7 +35,13 @@ export default function backgrounds(config: GrissoConfig): string {
 		content: "content-box",
 		text: "text",
 	};
-	css += complexClass("bg-clip-", "background-clip", bgClip, breakpoints);
+	css += complexClass(
+		"bg-clip-",
+		"background-clip",
+		bgClip,
+		breakpoints,
+		states,
+	);
 
 	// background-origin
 	const bgOrigin: Record<string, string> = {
@@ -36,7 +49,13 @@ export default function backgrounds(config: GrissoConfig): string {
 		padding: "padding-box",
 		content: "content-box",
 	};
-	css += complexClass("bg-origin-", "background-origin", bgOrigin, breakpoints);
+	css += complexClass(
+		"bg-origin-",
+		"background-origin",
+		bgOrigin,
+		breakpoints,
+		states,
+	);
 
 	// background-position
 	const bgPosition: Record<string, string> = {
@@ -50,7 +69,13 @@ export default function backgrounds(config: GrissoConfig): string {
 		"right-top": "right top",
 		top: "top",
 	};
-	css += complexClass("bg-", "background-position", bgPosition, breakpoints);
+	css += complexClass(
+		"bg-",
+		"background-position",
+		bgPosition,
+		breakpoints,
+		states,
+	);
 
 	// background-repeat
 	const bgRepeat: Record<string, string> = {
@@ -61,7 +86,13 @@ export default function backgrounds(config: GrissoConfig): string {
 		"repeat-round": "round",
 		"repeat-space": "space",
 	};
-	css += complexClass("bg-", "background-repeat", bgRepeat, breakpoints);
+	css += complexClass(
+		"bg-",
+		"background-repeat",
+		bgRepeat,
+		breakpoints,
+		states,
+	);
 
 	// background-size
 	const bgSize: Record<string, string> = {
@@ -73,7 +104,7 @@ export default function backgrounds(config: GrissoConfig): string {
 		revert: "revert",
 		unset: "unset",
 	};
-	css += complexClass("bg-", "background-size", bgSize, breakpoints);
+	css += complexClass("bg-", "background-size", bgSize, breakpoints, states);
 
 	return css;
 }

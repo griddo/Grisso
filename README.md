@@ -1,6 +1,6 @@
 # Grisso
 
-> Librería de utility CSS de Griddo con valores basados en CSS custom properties (design tokens).
+> Librería de utility CSS de Griddo con variantes responsive y de estado, basada en CSS custom properties (design tokens).
 
 ## Instalación
 
@@ -230,6 +230,13 @@ export default {
     lg: "24px",
   },
 
+  // States: reemplaza los 5 defaults (hover, focus, focus-visible, active, disabled)
+  // Solo genera variantes para los estados listados
+  states: {
+    hover: ":hover",
+    focus: ":focus",
+  },
+
   // `extend` MERGEA con los defaults (arrays se concatenan)
   extend: {
     foregroundColors: {
@@ -245,6 +252,8 @@ export default {
 ```
 
 La `safelist` controla qué clases se protegen del tree-shaking. Por defecto está vacía. En top-level reemplaza, en `extend` se concatena. Acepta `RegExp` y `string`.
+
+Los `states` controlan qué variantes de estado se generan. Cada entrada es `nombre: pseudo-clase`. Top-level reemplaza completamente; `extend.states` mergea con los defaults.
 
 Si no se pasa `config` a `buildCSS()`, busca automáticamente `grisso.config.mjs` en el directorio de trabajo. Si no existe, usa los defaults.
 
@@ -288,10 +297,10 @@ Importa los tokens antes que Grisso en tu CSS global:
 ### Nomenclatura
 
 ```
-{breakpoint}-{propiedad}-{escala}
+{breakpoint}-{state}-{propiedad}-{escala}
 ```
 
-Ejemplos: `flex`, `tablet-flex`, `p-md`, `desktop-mt-lg`, `text-center`, `w-1/2`, `z-10`, `tracking-tight`
+Ejemplos: `flex`, `tablet-flex`, `p-md`, `hover-bg-1`, `focus-border-1`, `tablet-hover-p-sm`, `desktop-mt-lg`, `w-1/2`
 
 ### Breakpoints (mobile-first)
 
@@ -301,6 +310,22 @@ Ejemplos: `flex`, `tablet-flex`, `p-md`, `desktop-mt-lg`, `text-center`, `w-1/2`
 | `tablet-`       | 700px+  |
 | `desktop-`      | 1024px+ |
 | `ultrawide-`    | 1680px+ |
+
+### State variants
+
+Todas las utilidades generan variantes de estado automáticamente. El tree-shaking elimina las no usadas.
+
+| Prefijo            | Pseudo-clase     |
+| ------------------ | ---------------- |
+| `hover-`           | `:hover`         |
+| `focus-`           | `:focus`         |
+| `focus-visible-`   | `:focus-visible` |
+| `active-`          | `:active`        |
+| `disabled-`        | `:disabled`      |
+
+Se combinan con breakpoints: `tablet-hover-bg-1`, `desktop-focus-p-sm`.
+
+Orden del cascade: base → state → responsive → responsive+state.
 
 ### Categorías
 
@@ -319,7 +344,7 @@ Ejemplos: `flex`, `tablet-flex`, `p-md`, `desktop-mt-lg`, `text-center`, `w-1/2`
 ## Build
 
 ```bash
-npm run build       # Compila TS + genera dist/grisso.css (~154 KB)
+npm run build       # Compila TS + genera dist/grisso.css (~800 KB)
 npm run typecheck   # Type-check sin emitir (tsc --noEmit)
 npm run lint        # Lint con Biome
 npm test            # Tests con Vitest
@@ -331,7 +356,7 @@ npm run playground  # Build + tree-shake + abre playground/index.html
 
 El CLI se usa internamente y está disponible para consumidores via `npx grisso build`. Ver [CLI](#cli) para detalles completos.
 
-Con `--content`, se usa PurgeCSS para eliminar clases no usadas (~154 KB → ~4 KB en el playground).
+Con `--content`, se usa PurgeCSS para eliminar clases no usadas (~800 KB → ~4 KB en el playground).
 
 ## Desarrollo: Añadir nuevas utilities
 
@@ -343,11 +368,11 @@ Con `--content`, se usa PurgeCSS para eliminar clases no usadas (~154 KB → ~4 
 // src/partials/layout.ts
 import { simpleClass, complexClass } from "../generators.js";
 
-// Clase simple — genera .flex + variantes responsive
-simpleClass("flex", "display", "flex", breakpoints);
+// Clase simple — genera .flex + variantes de estado y responsive
+simpleClass("flex", "display", "flex", breakpoints, states);
 
-// Clase basada en tokens — genera .p-xs, .p-sm, etc. + variantes responsive
-complexClass("p-", "padding", spacing, breakpoints);
+// Clase basada en tokens — genera .p-xs, .hover-p-xs:hover, .tablet-p-xs, etc.
+complexClass("p-", "padding", spacing, breakpoints, states);
 ```
 
 ## Publicación (release)

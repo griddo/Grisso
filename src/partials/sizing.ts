@@ -32,7 +32,7 @@ const fractions: [number, number][] = [
 ];
 
 export default function sizing(config: GrissoConfig): string {
-	const { breakpoints } = config;
+	const { breakpoints, states } = config;
 	let css = "";
 
 	// width
@@ -45,17 +45,18 @@ export default function sizing(config: GrissoConfig): string {
 		max: "max-content",
 		fit: "fit-content",
 	};
-	css += complexClass("w-", "width", width, breakpoints);
+	css += complexClass("w-", "width", width, breakpoints, states);
 	for (const [n, d] of fractions) {
 		css += simpleClass(
 			`w-${n}/${d}`,
 			"width",
 			fractionPercent(n, d),
 			breakpoints,
+			states,
 		);
 	}
-	css += complexClass("min-w-", "min-width", width, breakpoints);
-	css += complexClass("max-w-", "max-width", width, breakpoints);
+	css += complexClass("min-w-", "min-width", width, breakpoints, states);
+	css += complexClass("max-w-", "max-width", width, breakpoints, states);
 
 	// height
 	const height: Record<string, string> = {
@@ -67,17 +68,18 @@ export default function sizing(config: GrissoConfig): string {
 		max: "max-content",
 		fit: "fit-content",
 	};
-	css += complexClass("h-", "height", height, breakpoints);
+	css += complexClass("h-", "height", height, breakpoints, states);
 	for (const [n, d] of fractions) {
 		css += simpleClass(
 			`h-${n}/${d}`,
 			"height",
 			fractionPercent(n, d),
 			breakpoints,
+			states,
 		);
 	}
-	css += complexClass("min-h-", "min-height", height, breakpoints);
-	css += complexClass("max-h-", "max-height", height, breakpoints);
+	css += complexClass("min-h-", "min-height", height, breakpoints, states);
+	css += complexClass("max-h-", "max-height", height, breakpoints, states);
 
 	return css;
 }

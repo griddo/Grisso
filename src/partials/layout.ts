@@ -2,7 +2,7 @@ import { complexClass, customClass, simpleClass } from "../generators.js";
 import type { GrissoConfig } from "../types.js";
 
 export default function layout(config: GrissoConfig): string {
-	const { columns, breakpoints, spacing } = config;
+	const { columns, breakpoints, states, spacing } = config;
 	let css = "";
 
 	// display
@@ -29,11 +29,17 @@ export default function layout(config: GrissoConfig): string {
 		"list-item": "list-item",
 		hidden: "none",
 	};
-	css += complexClass("", "display", display, breakpoints);
+	css += complexClass("", "display", display, breakpoints, states);
 
 	// columns (numeric)
 	for (let i = 1; i <= columns; i++) {
-		css += simpleClass(`columns-${i}`, "columns", String(i), breakpoints);
+		css += simpleClass(
+			`columns-${i}`,
+			"columns",
+			String(i),
+			breakpoints,
+			states,
+		);
 	}
 
 	// float
@@ -42,7 +48,7 @@ export default function layout(config: GrissoConfig): string {
 		right: "right",
 		none: "none",
 	};
-	css += complexClass("float-", "float", float, breakpoints);
+	css += complexClass("float-", "float", float, breakpoints, states);
 
 	// clear
 	const clear: Record<string, string> = {
@@ -51,7 +57,7 @@ export default function layout(config: GrissoConfig): string {
 		both: "both",
 		none: "none",
 	};
-	css += complexClass("clear-", "clear", clear, breakpoints);
+	css += complexClass("clear-", "clear", clear, breakpoints, states);
 
 	// object-fit
 	const objectFit: Record<string, string> = {
@@ -61,7 +67,7 @@ export default function layout(config: GrissoConfig): string {
 		none: "none",
 		"scale-down": "scale-down",
 	};
-	css += complexClass("object-", "object-fit", objectFit, breakpoints);
+	css += complexClass("object-", "object-fit", objectFit, breakpoints, states);
 
 	// object-position
 	const objectPosition: Record<string, string> = {
@@ -80,6 +86,7 @@ export default function layout(config: GrissoConfig): string {
 		"object-position",
 		objectPosition,
 		breakpoints,
+		states,
 	);
 
 	// overflow
@@ -90,9 +97,21 @@ export default function layout(config: GrissoConfig): string {
 		visible: "visible",
 		scroll: "scroll",
 	};
-	css += complexClass("overflow-", "overflow", overflow, breakpoints);
-	css += complexClass("overflow-x-", "overflow-x", overflow, breakpoints);
-	css += complexClass("overflow-y-", "overflow-y", overflow, breakpoints);
+	css += complexClass("overflow-", "overflow", overflow, breakpoints, states);
+	css += complexClass(
+		"overflow-x-",
+		"overflow-x",
+		overflow,
+		breakpoints,
+		states,
+	);
+	css += complexClass(
+		"overflow-y-",
+		"overflow-y",
+		overflow,
+		breakpoints,
+		states,
+	);
 
 	// position
 	const position: Record<string, string> = {
@@ -102,12 +121,12 @@ export default function layout(config: GrissoConfig): string {
 		relative: "relative",
 		sticky: "sticky",
 	};
-	css += complexClass("", "position", position, breakpoints);
+	css += complexClass("", "position", position, breakpoints, states);
 
 	// visibility
-	css += simpleClass("visible", "visibility", "visible", breakpoints);
-	css += simpleClass("invisible", "visibility", "hidden", breakpoints);
-	css += simpleClass("collapse", "visibility", "collapse", breakpoints);
+	css += simpleClass("visible", "visibility", "visible", breakpoints, states);
+	css += simpleClass("invisible", "visibility", "hidden", breakpoints, states);
+	css += simpleClass("collapse", "visibility", "collapse", breakpoints, states);
 
 	// z-index
 	const zIndex: Record<string, string> = {
@@ -126,17 +145,17 @@ export default function layout(config: GrissoConfig): string {
 		"40": "-40",
 		"50": "-50",
 	};
-	css += complexClass("z-", "z-index", zIndex, breakpoints);
-	css += complexClass("-z-", "z-index", zIndexNeg, breakpoints);
+	css += complexClass("z-", "z-index", zIndex, breakpoints, states);
+	css += complexClass("-z-", "z-index", zIndexNeg, breakpoints, states);
 
 	// top/right/bottom/left
-	css += complexClass("top-", "top", spacing, breakpoints);
-	css += complexClass("right-", "right", spacing, breakpoints);
-	css += complexClass("bottom-", "bottom", spacing, breakpoints);
-	css += complexClass("left-", "left", spacing, breakpoints);
+	css += complexClass("top-", "top", spacing, breakpoints, states);
+	css += complexClass("right-", "right", spacing, breakpoints, states);
+	css += complexClass("bottom-", "bottom", spacing, breakpoints, states);
+	css += complexClass("left-", "left", spacing, breakpoints, states);
 
 	// inset (top + right + bottom + left)
-	css += complexClass("inset-", "inset", spacing, breakpoints);
+	css += complexClass("inset-", "inset", spacing, breakpoints, states);
 
 	// inset-x (left + right)
 	for (const [key, value] of Object.entries(spacing)) {
@@ -144,6 +163,8 @@ export default function layout(config: GrissoConfig): string {
 			`inset-x-${key}`,
 			{ left: value, right: value },
 			breakpoints,
+			undefined,
+			states,
 		);
 	}
 
@@ -153,6 +174,8 @@ export default function layout(config: GrissoConfig): string {
 			`inset-y-${key}`,
 			{ top: value, bottom: value },
 			breakpoints,
+			undefined,
+			states,
 		);
 	}
 

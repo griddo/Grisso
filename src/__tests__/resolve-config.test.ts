@@ -63,6 +63,17 @@ describe("resolveConfig", () => {
 		expect(config.safelist[0]).toEqual(/^p-/);
 	});
 
+	it("override top-level de states reemplaza completamente", async () => {
+		const statesPath = path.join(
+			__dirname,
+			"__fixtures__/states-override.config.mjs",
+		);
+		const config = await resolveConfig(statesPath);
+		expect(config.states).toEqual({ hover: ":hover" });
+		expect(config.states).not.toHaveProperty("focus");
+		expect(config.states).not.toHaveProperty("active");
+	});
+
 	it("top-level safelist reemplaza default", async () => {
 		const replaceSafelistPath = path.join(
 			__dirname,

@@ -60,6 +60,16 @@ describe("buildCSS", () => {
 		expect(css).toContain("shadow-");
 	});
 
+	it("CSS completo contiene variantes de estado", async () => {
+		const css = await buildCSS({ minify: false });
+		expect(css).toContain("hover-flex");
+		expect(css).toContain("focus-p-sm");
+		expect(css).toContain(":hover");
+		expect(css).toContain(":focus");
+		expect(css).toContain(":active");
+		expect(css).toContain(":disabled");
+	});
+
 	it("safelist de config se aplica durante tree-shaking", async () => {
 		// Default config tiene safelist vacío, añadimos bg-* via opciones
 		const css = await buildCSS({

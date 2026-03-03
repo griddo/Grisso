@@ -1,6 +1,9 @@
 /** Mapa de breakpoints: nombre → media query */
 export type Breakpoints = Record<string, string>;
 
+/** Mapa de states: nombre → pseudo-clase CSS (e.g. hover → ":hover") */
+export type States = Record<string, string>;
+
 /** Mapa de tokens: nombre → valor CSS */
 export type TokenMap = Record<string, string>;
 
@@ -11,6 +14,7 @@ export type Declarations = Record<string, string>;
 export interface GrissoConfig {
 	columns: number;
 	breakpoints: Breakpoints;
+	states: States;
 	spacing: TokenMap;
 	brandColors: TokenMap;
 	foregroundColors: TokenMap;

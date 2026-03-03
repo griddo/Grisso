@@ -6,6 +6,7 @@ describe("defaults", () => {
 		const expectedKeys = [
 			"columns",
 			"breakpoints",
+			"states",
 			"spacing",
 			"brandColors",
 			"foregroundColors",
@@ -65,5 +66,20 @@ describe("defaults", () => {
 
 	it("safelist está vacío por defecto", () => {
 		expect(defaults.safelist).toHaveLength(0);
+	});
+
+	it("tiene 5 states por defecto", () => {
+		expect(Object.keys(defaults.states)).toHaveLength(5);
+		expect(defaults.states).toHaveProperty("hover");
+		expect(defaults.states).toHaveProperty("focus");
+		expect(defaults.states).toHaveProperty("focus-visible");
+		expect(defaults.states).toHaveProperty("active");
+		expect(defaults.states).toHaveProperty("disabled");
+	});
+
+	it("states usan formato pseudo-clase CSS", () => {
+		for (const pseudo of Object.values(defaults.states)) {
+			expect(pseudo).toMatch(/^:\S+$/);
+		}
 	});
 });
