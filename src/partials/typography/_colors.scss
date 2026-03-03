@@ -1,5 +1,0 @@
-@use "../../mixins" as *;
-///
-/// `Text Color`
-/// `Utilities for controlling the text color of an element`
-@include grisso_complex_class("text-", color, $foreground-colors);

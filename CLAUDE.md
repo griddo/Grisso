@@ -28,12 +28,6 @@ src/js/                    # TypeScript source
 
 lib/                       # Compiled JS output from tsc (gitignored, published via npm)
 
-src/                       # Legacy SCSS source (deprecated)
-├── grisso.scss
-├── grisso.config.scss
-├── mixins.scss
-└── partials/
-
 dist/
 └── grisso.css             # Generated output — do not edit manually
 
@@ -171,8 +165,6 @@ customClass("divide-x", { "border-right-width": "0", "border-left-width": "1px" 
 - **postcss** + plugins (dev) — CSS optimization pipeline (autoprefixer, dedup, sort, minify)
 - **postcss-preset-env** (dev) — modern CSS features, stage 1
 - **@biomejs/biome** (dev) — linting and formatting
-- **sass** (dev) — legacy SCSS compilation (deprecated)
-
 ## Formatting
 
 - Tabs for indentation

@@ -58,7 +58,7 @@ export default function grissoPlugin(options = {}) {
 							}
 							return classes;
 						},
-						extensions: ["css", "scss"],
+						extensions: ["css"],
 					},
 				],
 				safelist: {

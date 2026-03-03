@@ -1,6 +1,0 @@
-@use "../../mixins" as *;
-///
-/// `Flex Grow`
-/// `Utilities for controlling how flex items grow.`
-@include grisso_simple_class("grow", (flex-grow, "1"));
-@include grisso_simple_class("grow-0", (flex-grow, "0"));

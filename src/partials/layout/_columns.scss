@@ -1,9 +1,0 @@
-@use "../../mixins" as *;
-///
-/// `Columns`
-/// `Utilities for controlling the number of columns within an element.`
-@for $i from 1 through $columns {
-	@include grisso_simple_class("columns-#{$i}", (columns, $i));
-}
-
-@include grisso_complex_class("columns-", columns, $spacing);
