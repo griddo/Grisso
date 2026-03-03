@@ -5,6 +5,6 @@
 $justify-self-config: ("auto", "start", "end", "center", "stretch");
 @include grisso_complex_class(
 	"justify-self-",
-	justify-content,
+	justify-self,
 	$justify-self-config
 );

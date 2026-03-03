@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="light">
 <head>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Grisso Playground</title>
+	<link rel="stylesheet" href="themes/global.css" />
 	<link rel="stylesheet" href="themes/light.css" />
 	<link rel="stylesheet" href="themes/dark.css" />
-	<link rel="stylesheet" href="../dist/grisso.css" />
+	<link rel="stylesheet" href="grisso.css" />
 	<style>
 		.playground-section {
 			border-bottom: 1px solid var(--border-1);
@@ -187,6 +188,38 @@
 		</div>
 	</section>
 
+	<!-- ─── Customización ────────────────────────────────────────── -->
+	<section class="playground-section p-lg">
+		<h2 class="text-2">Customización (grisso.config.js)</h2>
+		<p class="text-3 mb-sm">Las clases de abajo se generan extendiendo la config por defecto vía <code>grisso.config.js</code>.</p>
+		<div class="label mb-xs">playground/grisso.config.js</div>
+		<pre class="bg-2 p-sm" style="font-size: 12px; overflow-x: auto;"><code>module.exports = {
+  extend: {
+    backgroundColors: { brand: "var(--brand-1)" },
+    shadows: { "2xl": "0 25px 50px -12px rgb(0 0 0 / 0.25)" },
+    foregroundColors: { brand: "var(--brand-1)" },
+  },
+};</code></pre>
+		<div class="flex gap-md mt-md flex-wrap">
+			<div>
+				<div class="label">bg-brand</div>
+				<div class="swatch bg-brand"></div>
+			</div>
+						<div>
+				<div class="label">bg-foo</div>
+				<div class="swatch bg-foo"></div>
+			</div>
+			<div>
+				<div class="label">text-brand</div>
+				<p class="text-brand" style="font-weight: 700;">Texto brand</p>
+			</div>
+			<div>
+				<div class="label">shadow-2xl</div>
+				<div class="bg-ui p-md shadow-2xl">shadow-2xl</div>
+			</div>
+		</div>
+	</section>
+
 	<!-- ─── Responsive ───────────────────────────────────────────── -->
 	<section class="p-lg">
 		<h2 class="text-2">Responsive (redimensiona el navegador)</h2>
@@ -214,24 +247,25 @@
 		const icon = document.getElementById("theme-icon");
 		const label = document.getElementById("theme-label");
 
-		// Respetar preferencia del sistema al cargar
-		if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-			root.setAttribute("data-theme", "dark");
-			icon.textContent = "☀️";
-			label.textContent = "Light";
+		function setTheme(theme) {
+			root.setAttribute("data-theme", theme);
+			localStorage.setItem("grisso-theme", theme);
+			const isDark = theme === "dark";
+			icon.textContent = isDark ? "☀️" : "🌙";
+			label.textContent = isDark ? "Light" : "Dark";
+		}
+
+		// Restaurar tema guardado, o respetar preferencia del sistema
+		const saved = localStorage.getItem("grisso-theme");
+		if (saved) {
+			setTheme(saved);
+		} else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+			setTheme("dark");
 		}
 
 		function toggleTheme() {
 			const isDark = root.getAttribute("data-theme") === "dark";
-			if (isDark) {
-				root.removeAttribute("data-theme");
-				icon.textContent = "🌙";
-				label.textContent = "Dark";
-			} else {
-				root.setAttribute("data-theme", "dark");
-				icon.textContent = "☀️";
-				label.textContent = "Light";
-			}
+			setTheme(isDark ? "light" : "dark");
 		}
 	</script>
 </body>

@@ -1,16 +1,21 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-module.exports = {
+import postcssPresetEnv from "postcss-preset-env";
+import combineDuplicatedSelectors from "postcss-combine-duplicated-selectors";
+import discardEmpty from "postcss-discard-empty";
+import sortMediaQueries from "postcss-sort-media-queries";
+import minify from "postcss-minify";
+
+export default {
 	plugins: [
-		require("postcss-preset-env")({
+		postcssPresetEnv({
 			features: { "nesting-rules": true },
 			autoprefixer: { flexbox: "no-2009" },
 			stage: 1,
 		}),
-		require("postcss-combine-duplicated-selectors")({
+		combineDuplicatedSelectors({
 			removeDuplicatedProperties: true,
 		}),
-		require("postcss-discard-empty"),
-		require("postcss-sort-media-queries"),
-		require("postcss-minify"),
+		discardEmpty,
+		sortMediaQueries,
+		minify,
 	],
 };

@@ -17,4 +17,4 @@ $width: (
 }
 
 @include grisso_complex_class("min-w-", min-width, $width);
-@include grisso_complex_class("max-w-", min-width, $width);
+@include grisso_complex_class("max-w-", max-width, $width);

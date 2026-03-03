@@ -19,4 +19,4 @@ $height: (
 	@include grisso_simple_class("h-#{$i}", (height, calc($i / $columns * 100%)));
 }
 @include grisso_complex_class("min-h-", min-height, $height);
-@include grisso_complex_class("max-h-", min-height, $height);
+@include grisso_complex_class("max-h-", max-height, $height);

@@ -3,3 +3,9 @@ node_modules/
 
 # Generated CSS output (publicado via npm files, no via git)
 dist/
+
+# Compiled TypeScript output (publicado via npm files, no via git)
+lib/
+
+# Generated playground CSS
+playground/grisso.css

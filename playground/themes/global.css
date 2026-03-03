@@ -1,0 +1,45 @@
+/* playground/tokens.css — tokens para el playground de Grisso */
+
+/* Tokens compartidos (spacing, border-width, opacidad, sombras) — ambos temas */
+:root {
+	/* ─── Spacing ─────────────────────────────────────────────── */
+	--spc-4xs: 2px;
+	--spc-3xs: 4px;
+	--spc-2xs: 8px;
+	--spc-xs: 12px;
+	--spc-sm: 16px;
+	--spc-md: 24px;
+	--spc-lg: 32px;
+	--spc-xl: 40px;
+	--spc-2xl: 48px;
+	--spc-3xl: 64px;
+	--spc-4xl: 80px;
+	--spc-5xl: 96px;
+
+	/* ─── Border widths ───────────────────────────────────────── */
+	--border-width-none: 0px;
+	--border-width-xs: 1px;
+	--border-width-sm: 2px;
+	--border-width-md: 4px;
+	--border-width-lg: 8px;
+
+	/* ─── Opacidad ────────────────────────────────────────────── */
+	--opacity-1: 0.1;
+	--opacity-2: 0.2;
+	--opacity-3: 0.4;
+	--opacity-4: 0.6;
+	--opacity-5: 0.75;
+	--opacity-6: 0.9;
+}
+
+/* Reset base para el playground */
+*, *::before, *::after {
+	box-sizing: border-box;
+}
+
+body {
+	font-family: system-ui, -apple-system, sans-serif;
+	background-color: var(--bg-1);
+	color: var(--text-1);
+	margin: 0;
+}

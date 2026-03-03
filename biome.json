@@ -1,0 +1,14 @@
+{
+	"$schema": "https://biomejs.dev/schemas/2.0.0/schema.json",
+	"formatter": {
+		"indentStyle": "tab"
+	},
+	"linter": {
+		"rules": {
+			"recommended": true
+		}
+	},
+	"files": {
+		"ignore": ["dist/", "lib/", "node_modules/"]
+	}
+}

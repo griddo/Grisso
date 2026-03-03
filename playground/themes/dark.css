@@ -4,6 +4,7 @@
    opacidad y sombras heredan del :root definido en tokens.css.
 */
 [data-theme="dark"] {
+	--brand-foo: purple;
 	/* ─── Colors: texto ───────────────────────────────────────── */
 	--text-1: #f9fafb;
 	--text-2: #e5e7eb;

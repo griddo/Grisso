@@ -4,29 +4,36 @@
 	"version": "1.0.0",
 	"license": "UNLICENSED",
 	"private": false,
+	"type": "module",
 	"exports": {
 		".": {
 			"style": "./dist/grisso.css"
 		},
 		"./plugin": "./plugin.js",
+		"./config": "./lib/defaults.js",
 		"./tokens-example.css": "./tokens-example.css"
 	},
 	"files": [
 		"dist/",
+		"lib/",
 		"plugin.js",
 		"tokens-example.css",
 		"README.md"
 	],
 	"scripts": {
-		"build": "sass --no-source-map ./src/grisso.scss ./dist/grisso.css && postcss -r --config ./src/grisso ./dist/grisso.css",
-		"watch": "sass --watch --no-source-map ./src/grisso.scss ./dist/grisso.css",
-		"playground": "npm run build && open playground/index.html",
+		"build": "tsc && node scripts/build.js",
+		"typecheck": "tsc --noEmit",
+		"lint": "biome check .",
+		"lint:fix": "biome check --write .",
+		"playground": "npm run build && node scripts/build.js --config playground/grisso.config.mjs --content playground/index.html --output playground/grisso.css && open playground/index.html",
 		"prepublishOnly": "npm run build"
 	},
 	"dependencies": {
 		"@fullhuman/postcss-purgecss": "^6.0.0"
 	},
 	"devDependencies": {
+		"@biomejs/biome": "2.4.5",
+		"@types/node": "^25.3.3",
 		"postcss": "^8.4.47",
 		"postcss-cli": "^11.0.0",
 		"postcss-combine-duplicated-selectors": "^10.0.3",
@@ -34,6 +41,7 @@
 		"postcss-minify": "^1.1.0",
 		"postcss-preset-env": "^10.0.3",
 		"postcss-sort-media-queries": "^5.2.0",
-		"sass": "^1.79.1"
+		"sass": "^1.79.1",
+		"typescript": "^5.9.3"
 	}
 }

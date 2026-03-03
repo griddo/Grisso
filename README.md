@@ -29,15 +29,13 @@ O en HTML:
 
 Añade el plugin a tu configuración de PostCSS. El CSS de Grisso se inyecta automáticamente y solo las clases usadas llegan al bundle final.
 
-```bash
-npm install @griddo/grisso
-```
-
 ```js
 // postcss.config.js
-module.exports = {
+import grisso from "@griddo/grisso/plugin";
+
+export default {
   plugins: [
-    require("@griddo/grisso/plugin")({
+    grisso({
       content: ["./src/**/*.{js,ts,jsx,tsx,css}"]
     })
   ]
@@ -47,8 +45,47 @@ module.exports = {
 Sin `content`, se incluye todo el CSS (útil en desarrollo):
 
 ```js
-require("@griddo/grisso/plugin")()
+grisso()
 ```
+
+## Configuración personalizada
+
+Crea un `grisso.config.mjs` en la raíz de tu proyecto para extender o reemplazar los tokens por defecto. Sigue el patrón de Tailwind v3:
+
+```js
+// grisso.config.mjs
+export default {
+  // Las keys de primer nivel REEMPLAZAN los defaults completamente
+  spacing: {
+    sm: "8px",
+    md: "16px",
+    lg: "24px",
+  },
+
+  // `extend` MERGEA con los defaults
+  extend: {
+    foregroundColors: {
+      "5": "var(--text-5)",
+    },
+    shadows: {
+      "2xl": "var(--box-shadow-2xl)",
+    },
+  },
+};
+```
+
+Pasa la ruta al plugin:
+
+```js
+grisso({
+  content: ["./src/**/*.{js,ts,jsx,tsx,css}"],
+  config: "./grisso.config.mjs"
+})
+```
+
+Si no se pasa `config`, el plugin busca automáticamente `grisso.config.mjs` en el directorio de trabajo. Si no existe, usa los defaults.
+
+Los defaults se pueden consultar importando `@griddo/grisso/config`.
 
 ## Design Tokens (CSS custom properties)
 
@@ -102,35 +139,50 @@ Ejemplos: `flex`, `tablet-flex`, `p-md`, `desktop-mt-lg`, `text-center`
 | **Layout** | `flex`, `block`, `hidden`, `relative`, `absolute`, `overflow-hidden` |
 | **Flex/Grid** | `flex-col`, `flex-wrap`, `items-center`, `justify-between`, `gap-md` |
 | **Spacing** | `p-sm`, `pt-lg`, `mx-auto`, `mt-xs`, `mb-md` |
-| **Sizing** | `w-full`, `h-full`, `w-1/2`, `max-w-full` |
+| **Sizing** | `w-full`, `h-full`, `w-1`, `max-w-full` |
 | **Tipografía** | `text-1`, `text-center`, `font-bold`, `leading-tight` |
 | **Fondos** | `bg-1`, `bg-ui`, `bg-cover`, `bg-center` |
-| **Bordes** | `border`, `border-2`, `rounded`, `outline-none` |
+| **Bordes** | `border-sm`, `divide-x`, `outline-none` |
 | **Efectos** | `shadow-md`, `opacity-3`, `overlay-2` |
 | **Iconos** | `icon-1`, `icon-3` |
 
 ## Build
 
 ```bash
-npm run build    # Compila SCSS → dist/grisso.css
-npm run watch    # Modo watch para desarrollo
-npm run playground  # Build + abre playground/index.html en el navegador
+npm run build       # Compila TS + genera dist/grisso.css (~156 KB)
+npm run typecheck   # Type-check sin emitir (tsc --noEmit)
+npm run lint        # Lint con Biome
+npm run playground  # Build + tree-shake + abre playground/index.html
 ```
+
+### Build script
+
+El script de build acepta flags opcionales:
+
+```bash
+node scripts/build.js                                                  # Full build → dist/grisso.css
+node scripts/build.js --config grisso.config.mjs                       # Con config personalizada
+node scripts/build.js --content "src/**/*.html" --output out.css       # Tree-shaken
+node scripts/build.js --config conf.mjs --content "src/**" --output x  # Todo junto
+```
+
+Con `--content`, se usa PurgeCSS para eliminar clases no usadas (156 KB → ~4 KB en el playground).
 
 ## Desarrollo: Añadir nuevas utilities
 
-1. Crea un partial en `src/partials/{category}/_name.scss`
-2. Usa `grisso_simple_class` o `grisso_complex_class`
-3. Importa el partial en `src/grisso.scss`
-4. Ejecuta `npm run build`
+1. Edita el partial correspondiente en `src/js/partials/{category}.ts`
+2. Usa `simpleClass`, `complexClass` o `customClass` con los tokens del config
+3. Ejecuta `npm run build`
 
-```scss
-// src/partials/layout/_display.scss
-@include grisso_simple_class("flex", (display, flex));
-// Genera: .flex, .tablet-flex, .desktop-flex, .ultrawide-flex
+```ts
+// src/js/partials/layout.ts
+import { simpleClass, complexClass } from "../generators.js";
 
-@include grisso_complex_class("p-", padding, $spacing);
-// Genera: .p-xs, .p-sm, ..., .tablet-p-xs, .desktop-p-sm, ...
+// Clase simple — genera .flex + variantes responsive
+simpleClass("flex", "display", "flex", breakpoints);
+
+// Clase basada en tokens — genera .p-xs, .p-sm, etc. + variantes responsive
+complexClass("p-", "padding", spacing, breakpoints);
 ```
 
 ## grisso-reduce (tree-shaking alternativo)
@@ -139,4 +191,4 @@ npm run playground  # Build + abre playground/index.html en el navegador
 
 ---
 
-Documentación en español — comentarios en el código SCSS en español.
+Documentación en español — comentarios en el código en español.

@@ -1,33 +1,31 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const path = require("path");
-const fs = require("fs");
+import { generateCSS } from "./lib/index.js";
 
 /**
  * PostCSS plugin de Grisso.
- * Inyecta el CSS pre-compilado de Grisso y aplica tree-shaking
- * usando PurgeCSS si se pasan rutas de contenido.
+ * Genera CSS desde JS y aplica tree-shaking usando PurgeCSS
+ * si se pasan rutas de contenido.
  *
  * @param {Object} options
  * @param {string[]} [options.content] - Rutas glob de archivos a escanear para tree-shaking.
  *   Si se omite, se incluye todo el CSS de Grisso (útil en desarrollo).
+ * @param {string} [options.config] - Ruta a grisso.config.mjs del consumidor.
  *
  * @example
  * // postcss.config.js del proyecto consumidor
- * const grisso = require("@griddo/grisso/plugin");
- * module.exports = {
+ * import grisso from "@griddo/grisso/plugin";
+ * export default {
  *   plugins: [
  *     grisso({ content: ["./src/**\/*.{js,ts,jsx,tsx,css}"] })
  *   ]
  * }
  */
-module.exports = function grissoPlugin(options = {}) {
-	const { content } = options;
-	const cssPath = path.resolve(__dirname, "dist/grisso.css");
+export default function grissoPlugin(options = {}) {
+	const { content, config: configPath } = options;
 
 	return {
 		postcssPlugin: "postcss-grisso",
 		async Once(root, { parse }) {
-			const grissoSource = fs.readFileSync(cssPath, "utf8");
+			const grissoSource = await generateCSS(configPath);
 
 			if (!content || content.length === 0) {
 				// Sin tree-shaking: inyectar todo el CSS
@@ -37,11 +35,11 @@ module.exports = function grissoPlugin(options = {}) {
 			}
 
 			// Con tree-shaking: usar PurgeCSS para eliminar clases no usadas
-			const { default: PurgeCSS } = await import("@fullhuman/postcss-purgecss");
+			const { PurgeCSS } = await import("purgecss");
 
 			const purgecss = new PurgeCSS();
 			const [result] = await purgecss.purge({
-				content: content.map((pattern) => ({ raw: pattern, extension: "html" })),
+				content,
 				css: [{ raw: grissoSource }],
 				extractors: [
 					{
@@ -74,6 +72,6 @@ module.exports = function grissoPlugin(options = {}) {
 			grissoRoot.each((node) => root.prepend(node.clone()));
 		},
 	};
-};
+}
 
-module.exports.postcss = true;
+grissoPlugin.postcss = true;
