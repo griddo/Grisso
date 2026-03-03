@@ -36,7 +36,8 @@
 		"playground": "npm run build && node scripts/build.js --config playground/grisso.config.mjs --content playground/index.html --content playground/example.module.css --output playground/grisso.css && open playground/index.html",
 		"test": "vitest run",
 		"test:watch": "vitest",
-		"prepublishOnly": "npm run build"
+		"prepublishOnly": "npm run build",
+		"release": "release-it"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.4.5",
@@ -44,6 +45,7 @@
 		"browserslist": "^4.24.0",
 		"lightningcss": "^1.28.0",
 		"purgecss": "^6.0.0",
+		"release-it": "^19.2.4",
 		"typescript": "^5.9.3",
 		"vitest": "^4.0.18"
 	},

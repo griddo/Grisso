@@ -217,6 +217,24 @@ simpleClass("flex", "display", "flex", breakpoints);
 complexClass("p-", "padding", spacing, breakpoints);
 ```
 
+## Publicación (release)
+
+El proyecto usa [release-it](https://github.com/release-it/release-it) para gestionar versiones y publicación a npm. Antes de publicar se ejecutan automáticamente lint, tests y build.
+
+```bash
+npm run release              # Bump interactivo (patch/minor/major)
+npm run release -- patch     # Bump patch directo
+npm run release -- minor     # Bump minor directo
+npm run release -- major     # Bump major directo
+```
+
+El flujo de release:
+
+1. Ejecuta `npm run lint`, `npm test` y `npm run build`
+2. Bump de versión en `package.json`
+3. Commit `chore: release v{version}` + tag `v{version}`
+4. Publica a npm
+
 ## grisso-reduce (tree-shaking alternativo)
 
 `grisso-reduce/index.ts` es una herramienta alternativa de tree-shaking que escanea declaraciones `composes: ... from global` en archivos CSS y elimina clases no usadas del output.
