@@ -5,6 +5,27 @@
 > [!WARNING]
 > En la versión estable 2.0, el paquete se moverá a `@griddo/grisso`. El nombre actual `@hiscovega/grisso` dejará de recibir actualizaciones a partir de ese momento.
 
+## Tabla de contenido
+
+- [Instalación](#instalación)
+- [Uso](#uso)
+  - [CLI](#cli)
+    - [`grisso tokens`](#grisso-tokens)
+  - [API programática](#api-programática)
+    - [Ejemplos](#ejemplos)
+    - [`extractTokens()`](#extracttokens--scaffold-de-tokens)
+- [Configuración personalizada](#configuración-personalizada)
+- [Design Tokens (CSS custom properties)](#design-tokens-css-custom-properties)
+- [Clases disponibles](#clases-disponibles)
+  - [Nomenclatura](#nomenclatura)
+  - [Breakpoints](#breakpoints-mobile-first)
+  - [State variants](#state-variants)
+  - [Categorías](#categorías)
+- [Build](#build)
+- [Desarrollo: Añadir nuevas utilities](#desarrollo-añadir-nuevas-utilities)
+- [Publicación (release)](#publicación-release)
+- [grisso-reduce (tree-shaking alternativo)](#grisso-reduce-tree-shaking-alternativo)
+
 ## Instalación
 
 ```bash
