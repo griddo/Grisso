@@ -120,10 +120,7 @@ describe("purgeCSS", () => {
 	it("extrae clases con : del HTML (naming colon)", async () => {
 		setupTmpDir();
 		const htmlPath = path.join(tmpDir, "test.html");
-		writeFileSync(
-			htmlPath,
-			'<div class="hover:flex tablet:p-sm">Hello</div>',
-		);
+		writeFileSync(htmlPath, '<div class="hover:flex tablet:p-sm">Hello</div>');
 
 		try {
 			const result = await purgeCSS(fullCSS, {

@@ -15,12 +15,9 @@ describe("escapeGrissoComposes", () => {
 	});
 
 	it("escapa : en clases con prefijo responsive + estado", () => {
-		const input =
-			".wrapper { composes: tablet:hover:bg-1 from global; }";
+		const input = ".wrapper { composes: tablet:hover:bg-1 from global; }";
 		const result = escapeGrissoComposes(input);
-		expect(result).toContain(
-			"composes: tablet\\:hover\\:bg-1 from global",
-		);
+		expect(result).toContain("composes: tablet\\:hover\\:bg-1 from global");
 	});
 
 	it("no modifica clases sin :", () => {
