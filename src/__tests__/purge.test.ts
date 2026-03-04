@@ -136,6 +136,25 @@ describe("purgeCSS", () => {
 		}
 	});
 
+	it("extrae clases con : de CSS Modules (composes: ... from global)", async () => {
+		setupTmpDir();
+		const cssPath = path.join(tmpDir, "test.css");
+		writeFileSync(
+			cssPath,
+			".wrapper { composes: hover:flex tablet:p-sm from global; }",
+		);
+
+		try {
+			const result = await purgeCSS(fullCSS, {
+				content: [cssPath],
+			});
+			expect(result).toContain(".hover\\:flex");
+			expect(result).toContain(".tablet\\:p-sm");
+		} finally {
+			cleanTmpDir();
+		}
+	});
+
 	it("acepta safelist adicional", async () => {
 		setupTmpDir();
 		const htmlPath = path.join(tmpDir, "test.html");
