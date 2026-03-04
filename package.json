@@ -35,7 +35,8 @@
 		"test": "vitest run",
 		"test:watch": "vitest",
 		"prepublishOnly": "npm run build",
-		"release": "release-it"
+		"release": "release-it",
+		"release:rc": "release-it --preRelease=rc --npm.tag=next"
 	},
 	"dependencies": {
 		"browserslist": "^4.24.0",
