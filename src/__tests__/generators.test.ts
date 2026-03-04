@@ -21,10 +21,10 @@ describe("simpleClass", () => {
 	it("genera variantes responsive", () => {
 		const css = simpleClass("flex", "display", "flex", breakpoints);
 		expect(css).toContain(
-			"@media (min-width: 700px) { .tablet-flex { display: flex; } }",
+			"@media (min-width: 700px) { .tablet\\:flex { display: flex; } }",
 		);
 		expect(css).toContain(
-			"@media (min-width: 1024px) { .desktop-flex { display: flex; } }",
+			"@media (min-width: 1024px) { .desktop\\:flex { display: flex; } }",
 		);
 	});
 
@@ -37,22 +37,22 @@ describe("simpleClass", () => {
 	it("escapa / en classNames", () => {
 		const css = simpleClass("w-1/2", "width", "50%", breakpoints);
 		expect(css).toContain(".w-1\\/2 { width: 50%; }");
-		expect(css).toContain(".tablet-w-1\\/2 { width: 50%; }");
+		expect(css).toContain(".tablet\\:w-1\\/2 { width: 50%; }");
 	});
 
 	it("genera variantes de estado", () => {
 		const css = simpleClass("flex", "display", "flex", breakpoints, states);
-		expect(css).toContain(".hover-flex:hover { display: flex; }");
-		expect(css).toContain(".focus-flex:focus { display: flex; }");
+		expect(css).toContain(".hover\\:flex:hover { display: flex; }");
+		expect(css).toContain(".focus\\:flex:focus { display: flex; }");
 	});
 
 	it("genera variantes responsive + estado", () => {
 		const css = simpleClass("flex", "display", "flex", breakpoints, states);
 		expect(css).toContain(
-			"@media (min-width: 700px) { .tablet-hover-flex:hover { display: flex; } }",
+			"@media (min-width: 700px) { .tablet\\:hover\\:flex:hover { display: flex; } }",
 		);
 		expect(css).toContain(
-			"@media (min-width: 1024px) { .desktop-focus-flex:focus { display: flex; } }",
+			"@media (min-width: 1024px) { .desktop\\:focus\\:flex:focus { display: flex; } }",
 		);
 	});
 
@@ -64,7 +64,7 @@ describe("simpleClass", () => {
 
 	it("escapa / en classNames con states", () => {
 		const css = simpleClass("w-1/2", "width", "50%", breakpoints, states);
-		expect(css).toContain(".hover-w-1\\/2:hover { width: 50%; }");
+		expect(css).toContain(".hover\\:w-1\\/2:hover { width: 50%; }");
 	});
 });
 
@@ -83,10 +83,10 @@ describe("complexClass", () => {
 	it("genera variantes responsive por token", () => {
 		const css = complexClass("p-", "padding", tokens, breakpoints);
 		expect(css).toContain(
-			"@media (min-width: 700px) { .tablet-p-sm { padding: var(--spc-sm); } }",
+			"@media (min-width: 700px) { .tablet\\:p-sm { padding: var(--spc-sm); } }",
 		);
 		expect(css).toContain(
-			"@media (min-width: 1024px) { .desktop-p-md { padding: var(--spc-md); } }",
+			"@media (min-width: 1024px) { .desktop\\:p-md { padding: var(--spc-md); } }",
 		);
 	});
 
@@ -113,19 +113,19 @@ describe("complexClass", () => {
 		const css = complexClass("w-", "width", fractionTokens, breakpoints);
 		expect(css).toContain(".w-1\\/2 { width: 50%; }");
 		expect(css).toContain(".w-1\\/3 { width: 33.3333%; }");
-		expect(css).toContain(".tablet-w-1\\/2");
+		expect(css).toContain(".tablet\\:w-1\\/2");
 	});
 
 	it("genera variantes de estado por token", () => {
 		const css = complexClass("p-", "padding", tokens, breakpoints, states);
-		expect(css).toContain(".hover-p-sm:hover { padding: var(--spc-sm); }");
-		expect(css).toContain(".focus-p-md:focus { padding: var(--spc-md); }");
+		expect(css).toContain(".hover\\:p-sm:hover { padding: var(--spc-sm); }");
+		expect(css).toContain(".focus\\:p-md:focus { padding: var(--spc-md); }");
 	});
 
 	it("genera variantes responsive + estado", () => {
 		const css = complexClass("p-", "padding", tokens, breakpoints, states);
 		expect(css).toContain(
-			"@media (min-width: 700px) { .tablet-hover-p-sm:hover { padding: var(--spc-sm); } }",
+			"@media (min-width: 700px) { .tablet\\:hover\\:p-sm:hover { padding: var(--spc-sm); } }",
 		);
 	});
 
@@ -143,7 +143,7 @@ describe("complexClass", () => {
 			breakpoints,
 			states,
 		);
-		expect(css).toContain(".hover-w-1\\/2:hover { width: 50%; }");
+		expect(css).toContain(".hover\\:w-1\\/2:hover { width: 50%; }");
 	});
 });
 
@@ -166,8 +166,8 @@ describe("customClass", () => {
 
 	it("genera variantes responsive", () => {
 		const css = customClass("truncate", { overflow: "hidden" }, breakpoints);
-		expect(css).toContain(".tablet-truncate");
-		expect(css).toContain(".desktop-truncate");
+		expect(css).toContain(".tablet\\:truncate");
+		expect(css).toContain(".desktop\\:truncate");
 	});
 
 	it("aplica selectorSuffix", () => {
@@ -187,7 +187,7 @@ describe("customClass", () => {
 			breakpoints,
 			" > * + *",
 		);
-		expect(css).toContain(".tablet-divide-x > * + *");
+		expect(css).toContain(".tablet\\:divide-x > * + *");
 	});
 
 	it("funciona sin selectorSuffix", () => {
@@ -209,10 +209,10 @@ describe("customClass", () => {
 			states,
 		);
 		expect(css).toContain(
-			".hover-truncate:hover { overflow: hidden; text-overflow: ellipsis; }",
+			".hover\\:truncate:hover { overflow: hidden; text-overflow: ellipsis; }",
 		);
 		expect(css).toContain(
-			".focus-truncate:focus { overflow: hidden; text-overflow: ellipsis; }",
+			".focus\\:truncate:focus { overflow: hidden; text-overflow: ellipsis; }",
 		);
 	});
 
@@ -224,8 +224,8 @@ describe("customClass", () => {
 			" > * + *",
 			states,
 		);
-		expect(css).toContain(".hover-divide-x:hover > * + *");
-		expect(css).toContain(".tablet-hover-divide-x:hover > * + *");
+		expect(css).toContain(".hover\\:divide-x:hover > * + *");
+		expect(css).toContain(".tablet\\:hover\\:divide-x:hover > * + *");
 	});
 
 	it("genera variantes responsive + estado", () => {
@@ -237,7 +237,7 @@ describe("customClass", () => {
 			states,
 		);
 		expect(css).toContain(
-			"@media (min-width: 700px) { .tablet-hover-truncate:hover { overflow: hidden; } }",
+			"@media (min-width: 700px) { .tablet\\:hover\\:truncate:hover { overflow: hidden; } }",
 		);
 	});
 

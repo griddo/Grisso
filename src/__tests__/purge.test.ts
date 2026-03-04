@@ -27,6 +27,8 @@ const fullCSS = `
 .font-bold { font-weight: 700; }
 .bg-1 { background-color: var(--bg-1); }
 .bg-2 { background-color: var(--bg-2); }
+.hover\\:flex:hover { display: flex; }
+.tablet\\:p-sm { padding: var(--spc-sm); }
 `.trim();
 
 describe("purgeCSS", () => {
@@ -110,6 +112,25 @@ describe("purgeCSS", () => {
 			});
 			expect(result).toContain(".flex");
 			expect(result).toContain(".gap-md");
+		} finally {
+			cleanTmpDir();
+		}
+	});
+
+	it("extrae clases con : del HTML (naming colon)", async () => {
+		setupTmpDir();
+		const htmlPath = path.join(tmpDir, "test.html");
+		writeFileSync(
+			htmlPath,
+			'<div class="hover:flex tablet:p-sm">Hello</div>',
+		);
+
+		try {
+			const result = await purgeCSS(fullCSS, {
+				content: [htmlPath],
+			});
+			expect(result).toContain(".hover\\:flex");
+			expect(result).toContain(".tablet\\:p-sm");
 		} finally {
 			cleanTmpDir();
 		}

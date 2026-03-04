@@ -4,9 +4,9 @@ import { optimizeCSS } from "../optimize.js";
 describe("optimizeCSS", () => {
 	it("produce CSS válido", async () => {
 		const input = `.flex { display: flex; }
-@media (min-width: 700px) { .tablet-flex { display: flex; } }
+@media (min-width: 700px) { .tablet\\:flex { display: flex; } }
 .block { display: block; }
-@media (min-width: 700px) { .tablet-block { display: block; } }`;
+@media (min-width: 700px) { .tablet\\:block { display: block; } }`;
 
 		const result = await optimizeCSS(input, { minify: false });
 		// Debe contener las clases
@@ -17,9 +17,9 @@ describe("optimizeCSS", () => {
 	it("agrupa media queries idénticas", async () => {
 		const input = `
 .flex { display: flex; }
-@media (min-width: 700px) { .tablet-flex { display: flex; } }
+@media (min-width: 700px) { .tablet\\:flex { display: flex; } }
 .block { display: block; }
-@media (min-width: 700px) { .tablet-block { display: block; } }`;
+@media (min-width: 700px) { .tablet\\:block { display: block; } }`;
 
 		const result = await optimizeCSS(input, { minify: false });
 		// Lightning CSS puede reescribir el media query — contar @media blocks
@@ -29,7 +29,7 @@ describe("optimizeCSS", () => {
 
 	it("preserva reglas top-level al inicio", async () => {
 		const input = `.flex { display: flex; }
-@media (min-width: 700px) { .tablet-flex { display: flex; } }`;
+@media (min-width: 700px) { .tablet\\:flex { display: flex; } }`;
 
 		const result = await optimizeCSS(input, { minify: false });
 		const flexPos = result.indexOf("flex");

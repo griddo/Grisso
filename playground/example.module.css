@@ -4,7 +4,8 @@
  */
 
 .card {
-	composes: flex flex-col gap-sm p-md bg-ui shadow-lg from global;
+	composes:hover-text-3  flex flex-col gap-sm p-md bg-ui shadow-lg from global;
+	border: 10px solid red;
 }
 
 .cardHeader {
