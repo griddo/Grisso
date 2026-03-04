@@ -351,19 +351,196 @@ Se combinan con breakpoints: `tablet-hover-bg-1`, `desktop-focus-p-sm`.
 
 Orden del cascade: base → state → responsive → responsive+state.
 
+### Escalas de tokens (referencia)
+
+| Token              | Valores                                                                                              |
+| ------------------ | ---------------------------------------------------------------------------------------------------- |
+| **Spacing**        | `auto` `zero` `0` `4xs` `3xs` `2xs` `xs` `sm` `md` `lg` `xl` `2xl` `3xl` `4xl` `5xl`              |
+| **Border width**   | `none` `xs` `sm` `md` `lg`                                                                          |
+| **Border color**   | `1` `2` `3` `4` `disabled` `inherit` `current` `transparent`                                        |
+| **Background**     | `ui` `1` `2` `3` `4` `5` `disabled`                                                                 |
+| **Text color**     | `1` `2` `3` `4`                                                                                     |
+| **Icon color**     | `1` `2` `3` `4` `disabled`                                                                          |
+| **Opacity**        | `0` `1` `2` `3` `4` `5` `6`                                                                        |
+| **Shadows**        | `sm` `md` `lg` `xl` `inner` `none`                                                                  |
+| **Overlay**        | `1` `2` `3` `4`                                                                                     |
+
 ### Categorías
 
-| Categoría      | Ejemplos                                                                                              |
-| -------------- | ----------------------------------------------------------------------------------------------------- |
-| **Layout**     | `flex`, `block`, `hidden`, `relative`, `absolute`, `overflow-hidden`, `inset-0`, `inset-x-sm`, `z-10` |
-| **Flex/Grid**  | `flex-col`, `flex-wrap`, `items-center`, `justify-between`, `gap-md`                                  |
-| **Spacing**    | `p-sm`, `pt-lg`, `mx-auto`, `mt-xs`, `mb-md`                                                          |
-| **Sizing**     | `w-full`, `h-full`, `w-1/2`, `w-2/3`, `h-1/4`, `max-w-full`                                           |
-| **Tipografía** | `text-1`, `text-center`, `font-bold`, `font-light`, `leading-snug`, `tracking-tight`                  |
-| **Fondos**     | `bg-1`, `bg-ui`, `bg-cover`, `bg-center`                                                              |
-| **Bordes**     | `border-sm`, `border-1`, `border-t-sm`, `divide-x`, `outline-none`                                    |
-| **Efectos**    | `shadow-md`, `opacity-3`, `overlay-2`                                                                 |
-| **Iconos**     | `icon-1`, `icon-3`                                                                                    |
+#### Layout
+
+**Display:**
+`block` `inline` `inline-block` `flex` `inline-flex` `grid` `inline-grid` `inline-table` `table` `table-row` `table-caption` `table-cell` `table-column` `table-column-group` `table-footer-group` `table-header-group` `table-row-group` `contents` `flow-root` `list-item` `hidden`
+
+**Columns:**
+`columns-1` … `columns-12`
+
+**Float:**
+`float-left` `float-right` `float-none`
+
+**Clear:**
+`clear-left` `clear-right` `clear-both` `clear-none`
+
+**Object fit:**
+`object-contain` `object-cover` `object-fill` `object-none` `object-scale-down`
+
+**Object position:**
+`object-bottom` `object-center` `object-left` `object-left-bottom` `object-left-top` `object-right` `object-right-bottom` `object-right-top` `object-top`
+
+**Overflow:**
+`overflow-auto` `overflow-hidden` `overflow-clip` `overflow-visible` `overflow-scroll`
+`overflow-x-{…}` `overflow-y-{…}` (mismos valores)
+
+**Position:**
+`static` `fixed` `absolute` `relative` `sticky`
+
+**Visibility:**
+`visible` `invisible` `collapse`
+
+**Z-index:**
+`z-auto` `z-0` `z-10` `z-20` `z-30` `z-40` `z-50`
+`-z-10` `-z-20` `-z-30` `-z-40` `-z-50`
+
+**Inset / posicionamiento:**
+`top-{spacing}` `right-{spacing}` `bottom-{spacing}` `left-{spacing}`
+`inset-{spacing}` `inset-x-{spacing}` `inset-y-{spacing}`
+
+---
+
+#### Flex & Grid
+
+**Flex:**
+`flex-row` `flex-row-reverse` `flex-col` `flex-col-reverse`
+`flex-wrap` `flex-wrap-reverse` `flex-nowrap`
+`flex-1` `flex-auto` `flex-initial` `flex-none`
+`grow` `grow-0` `shrink` `shrink-0`
+
+**Order:**
+`order-1` … `order-12` `order-first` `order-last` `order-none`
+
+**Justify:**
+`justify-normal` `justify-start` `justify-end` `justify-center` `justify-between` `justify-around` `justify-evenly` `justify-stretch`
+`justify-items-start` `justify-items-end` `justify-items-center` `justify-items-stretch`
+`justify-self-auto` `justify-self-start` `justify-self-end` `justify-self-center` `justify-self-stretch`
+
+**Align:**
+`items-start` `items-end` `items-center` `items-baseline` `items-stretch`
+`content-normal` `content-center` `content-start` `content-end` `content-between` `content-around` `content-evenly` `content-baseline` `content-stretch`
+`self-auto` `self-start` `self-end` `self-center` `self-baseline` `self-stretch`
+
+**Place:**
+`place-content-center` `place-content-start` `place-content-end` `place-content-between` `place-content-around` `place-content-evenly` `place-content-baseline` `place-content-stretch`
+`place-items-start` `place-items-end` `place-items-center` `place-items-baseline` `place-items-stretch`
+`place-self-auto` `place-self-start` `place-self-end` `place-self-center` `place-self-stretch`
+
+**Grid template columns:**
+`grid-cols-1` … `grid-cols-12` `grid-cols-none`
+
+**Grid column:**
+`col-auto` `col-span-1` … `col-span-12` `col-span-full`
+`col-start-1` … `col-start-12` `col-start-auto`
+`col-end-1` … `col-end-13` `col-end-auto`
+
+**Grid template rows:**
+`grid-rows-1` … `grid-rows-12` `grid-rows-none`
+
+**Grid row:**
+`row-auto` `row-span-1` … `row-span-12` `row-span-full`
+`row-start-1` … `row-start-12` `row-start-auto`
+`row-end-1` … `row-end-12` `row-end-auto`
+
+**Grid auto:**
+`grid-flow-row` `grid-flow-col` `grid-flow-dense` `grid-flow-row-dense` `grid-flow-col-dense`
+`auto-cols-auto` `auto-cols-min` `auto-cols-max` `auto-cols-fr`
+`auto-rows-auto` `auto-rows-min` `auto-rows-max` `auto-rows-fr`
+
+**Gap** (escala de spacing sin `auto`):
+`gap-{spacing}` `gap-x-{spacing}` `gap-y-{spacing}`
+
+---
+
+#### Spacing
+
+**Margin** (escala completa de spacing):
+`m-{spacing}` `mt-{spacing}` `mr-{spacing}` `mb-{spacing}` `ml-{spacing}` `mx-{spacing}` `my-{spacing}`
+
+**Padding** (escala sin `auto`):
+`p-{spacing}` `pt-{spacing}` `pr-{spacing}` `pb-{spacing}` `pl-{spacing}` `px-{spacing}` `py-{spacing}`
+
+---
+
+#### Sizing
+
+**Width:**
+`w-auto` `w-0` `w-full` `w-screen` `w-min` `w-max` `w-fit`
+`w-1/2` `w-1/3` `w-2/3` `w-1/4` `w-2/4` `w-3/4` `w-1/5` `w-2/5` `w-3/5` `w-4/5` `w-1/6` … `w-5/6` `w-1/12` … `w-11/12`
+`min-w-{…}` `max-w-{…}` (mismos valores)
+
+**Height:**
+`h-auto` `h-0` `h-full` `h-screen` `h-min` `h-max` `h-fit`
+`h-1/2` `h-1/3` … `h-11/12` (mismas fracciones que width)
+`min-h-{…}` `max-h-{…}` (mismos valores)
+
+---
+
+#### Fondos
+
+**Background color:** `bg-ui` `bg-1` `bg-2` `bg-3` `bg-4` `bg-5` `bg-disabled`
+**Background attachment:** `bg-fixed` `bg-local` `bg-scroll`
+**Background clip:** `bg-clip-border` `bg-clip-padding` `bg-clip-content` `bg-clip-text`
+**Background origin:** `bg-origin-border` `bg-origin-padding` `bg-origin-content`
+**Background position:** `bg-bottom` `bg-center` `bg-left` `bg-left-bottom` `bg-left-top` `bg-right` `bg-right-bottom` `bg-right-top` `bg-top`
+**Background repeat:** `bg-repeat` `bg-no-repeat` `bg-repeat-x` `bg-repeat-y` `bg-repeat-round` `bg-repeat-space`
+**Background size:** `bg-auto` `bg-cover` `bg-contain` `bg-inherit` `bg-initial` `bg-revert` `bg-unset`
+
+---
+
+#### Bordes
+
+**Border width:** `border-none` `border-xs` `border-sm` `border-md` `border-lg`
+**Border width (lados):** `border-t-{…}` `border-r-{…}` `border-b-{…}` `border-l-{…}` (misma escala)
+**Border color:** `border-1` `border-2` `border-3` `border-4` `border-disabled` `border-inherit` `border-current` `border-transparent`
+**Border style:** `border-solid` `border-dashed` `border-dotted` `border-double` `border-hidden` `border-none`
+
+**Divide color:** `divide-1` `divide-2` `divide-3` `divide-4` `divide-disabled` `divide-inherit` `divide-current` `divide-transparent`
+**Divide width:** `divide-x` `divide-y` `divide-x-{borderWidth}` `divide-y-{borderWidth}`
+**Divide style:** `divide-solid` `divide-dashed` `divide-dotted` `divide-double` `divide-hidden` `divide-none`
+
+**Outline color:** `outline-1` `outline-2` `outline-3` `outline-4` `outline-disabled` `outline-inherit` `outline-current` `outline-transparent`
+**Outline width:** `outline-none` `outline-xs` `outline-sm` `outline-md` `outline-lg`
+**Outline style:** `outline` `outline-dashed` `outline-dotted` `outline-double` `outline-none`
+**Outline offset:** `outline-offset-none` `outline-offset-xs` `outline-offset-sm` `outline-offset-md` `outline-offset-lg`
+
+---
+
+#### Tipografía
+
+**Text color:** `text-1` `text-2` `text-3` `text-4`
+**Text align:** `text-left` `text-center` `text-right` `text-justify` `text-start` `text-end`
+**Text transform:** `uppercase` `lowercase` `capitalize` `normal-case`
+**Text overflow:** `text-ellipsis` `text-clip` `truncate`
+**Vertical align:** `align-baseline` `align-top` `align-middle` `align-bottom` `align-text-top` `align-text-bottom` `align-sub` `align-super`
+**White space:** `whitespace-normal` `whitespace-nowrap` `whitespace-pre` `whitespace-pre-line` `whitespace-pre-wrap` `whitespace-break-spaces`
+**Word break:** `break-all` `break-keep` `break-words` `break-normal`
+**Font smoothing:** `antialiased` `subpixel-antialiased`
+**Font style:** `italic` `not-italic`
+**Font weight:** `font-thin` `font-extralight` `font-light` `font-normal` `font-medium` `font-semibold` `font-bold` `font-extrabold` `font-black`
+**Letter spacing:** `tracking-tighter` `tracking-tight` `tracking-normal` `tracking-wide` `tracking-wider` `tracking-widest`
+**Line height:** `leading-{spacing}` (sin `auto` ni `zero`), además `leading-none` `leading-tight` `leading-snug` `leading-normal` `leading-relaxed` `leading-loose`
+
+---
+
+#### Efectos
+
+**Opacity:** `opacity-0` `opacity-1` `opacity-2` `opacity-3` `opacity-4` `opacity-5` `opacity-6`
+**Box shadow:** `shadow-sm` `shadow-md` `shadow-lg` `shadow-xl` `shadow-inner` `shadow-none`
+**Overlay:** `overlay-1` `overlay-2` `overlay-3` `overlay-4`
+
+---
+
+#### Iconos
+
+`icon-1` `icon-2` `icon-3` `icon-4` `icon-disabled`
 
 ## Build
 
