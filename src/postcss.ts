@@ -70,10 +70,11 @@ const plugin: PluginCreator<GrissoApplyOptions> = (opts = {}) => {
 					const className = match[1].replace(/\\/g, "");
 
 					// Merge declaraciones (complexClass con array de properties genera múltiples reglas)
-					if (!classMap!.has(className)) {
-						classMap!.set(className, new Map());
+					let existing = classMap.get(className);
+					if (!existing) {
+						existing = new Map();
+						classMap.set(className, existing);
 					}
-					const existing = classMap!.get(className)!;
 					rule.walkDecls((decl) => {
 						existing.set(decl.prop, decl.value);
 					});
@@ -132,10 +133,9 @@ const plugin: PluginCreator<GrissoApplyOptions> = (opts = {}) => {
 						} else if (prefix in states) {
 							state = prefix;
 						} else {
-							result.warn(
-								`Prefijo desconocido "${prefix}" en "${token}"`,
-								{ node: atRule },
-							);
+							result.warn(`Prefijo desconocido "${prefix}" en "${token}"`, {
+								node: atRule,
+							});
 							continue;
 						}
 					} else if (parts.length === 3) {
@@ -148,10 +148,7 @@ const plugin: PluginCreator<GrissoApplyOptions> = (opts = {}) => {
 							state = a;
 							bp = b;
 						} else {
-							result.warn(
-								`Prefijos inválidos en "${token}"`,
-								{ node: atRule },
-							);
+							result.warn(`Prefijos inválidos en "${token}"`, { node: atRule });
 							continue;
 						}
 					} else {
@@ -163,10 +160,10 @@ const plugin: PluginCreator<GrissoApplyOptions> = (opts = {}) => {
 
 					const decls = classMap.get(className);
 					if (!decls) {
-						result.warn(
-							`Clase Grisso desconocida "${className}"`,
-							{ node: atRule, word: className },
-						);
+						result.warn(`Clase Grisso desconocida "${className}"`, {
+							node: atRule,
+							word: className,
+						});
 						continue;
 					}
 
@@ -200,10 +197,8 @@ const plugin: PluginCreator<GrissoApplyOptions> = (opts = {}) => {
 				}
 
 				// Nodos a insertar después de la regla padre
-				const newNodes: (
-					| import("postcss").Rule
-					| import("postcss").AtRule
-				)[] = [];
+				const newNodes: (import("postcss").Rule | import("postcss").AtRule)[] =
+					[];
 
 				// 2. Variantes de estado
 				for (const [stateName, entries] of stateGroups) {
@@ -263,10 +258,7 @@ const plugin: PluginCreator<GrissoApplyOptions> = (opts = {}) => {
 				atRule.remove();
 
 				// Limpiar regla padre si queda vacía (e.g. solo tenía @grisso con prefijos)
-				if (
-					parentRule.nodes &&
-					parentRule.nodes.length === 0
-				) {
+				if (parentRule.nodes && parentRule.nodes.length === 0) {
 					parentRule.remove();
 				}
 			}

@@ -5,7 +5,15 @@
 	},
 	"linter": {
 		"rules": {
-			"recommended": true
+			"recommended": true,
+			"suspicious": {
+				"noUnknownAtRules": {
+					"level": "error",
+					"options": {
+						"ignore": ["grisso"]
+					}
+				}
+			}
 		}
 	},
 	"files": {

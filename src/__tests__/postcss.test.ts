@@ -1,5 +1,5 @@
-import { fileURLToPath } from "node:url";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import postcss from "postcss";
 import { describe, expect, it } from "vitest";
 import grissoApply from "../postcss.js";
@@ -53,9 +53,7 @@ describe("grisso-apply PostCSS plugin", () => {
 	});
 
 	it("genera variantes responsive + estado", async () => {
-		const result = await process(
-			".foo { @grisso tablet:hover:text-1; }",
-		);
+		const result = await process(".foo { @grisso tablet:hover:text-1; }");
 		const css = normalize(result.css);
 		expect(css).toContain("@media (min-width: 700px)");
 		expect(css).toContain(".foo:hover");
@@ -63,9 +61,7 @@ describe("grisso-apply PostCSS plugin", () => {
 	});
 
 	it("soporta orden estado:breakpoint", async () => {
-		const result = await process(
-			".foo { @grisso hover:tablet:text-1; }",
-		);
+		const result = await process(".foo { @grisso hover:tablet:text-1; }");
 		const css = normalize(result.css);
 		expect(css).toContain("@media (min-width: 700px)");
 		expect(css).toContain(".foo:hover");
@@ -80,9 +76,7 @@ describe("grisso-apply PostCSS plugin", () => {
 	});
 
 	it("preserva declaraciones existentes en la regla", async () => {
-		const result = await process(
-			".foo { font-size: 16px; @grisso text-1; }",
-		);
+		const result = await process(".foo { font-size: 16px; @grisso text-1; }");
 		const css = result.css;
 		expect(css).toContain("font-size: 16px");
 		expect(css).toContain("color: var(--text-1)");
@@ -138,9 +132,7 @@ describe("grisso-apply PostCSS plugin", () => {
 	});
 
 	it("genera focus-visible como estado", async () => {
-		const result = await process(
-			".btn { @grisso focus-visible:text-1; }",
-		);
+		const result = await process(".btn { @grisso focus-visible:text-1; }");
 		const css = normalize(result.css);
 		expect(css).toContain(".btn:focus-visible");
 		expect(css).toContain("color: var(--text-1)");
@@ -212,9 +204,7 @@ describe("grisso-apply PostCSS plugin", () => {
 	});
 
 	it("emite warning con demasiados prefijos", async () => {
-		const result = await process(
-			".foo { @grisso a:b:c:d; }",
-		);
+		const result = await process(".foo { @grisso a:b:c:d; }");
 		const warnings = result.warnings();
 		expect(warnings).toHaveLength(1);
 		expect(warnings[0].text).toContain("Demasiados prefijos");
@@ -321,9 +311,7 @@ describe("grisso-apply PostCSS plugin", () => {
 	});
 
 	it("merge de declaraciones del mismo estado (hover:text-1 hover:bg-2)", async () => {
-		const result = await process(
-			".foo { @grisso hover:text-1 hover:bg-2; }",
-		);
+		const result = await process(".foo { @grisso hover:text-1 hover:bg-2; }");
 		const css = result.css;
 		// Solo debe haber UNA regla .foo:hover con ambas declaraciones
 		const matches = css.match(/\.foo:hover/g);
@@ -354,9 +342,7 @@ describe("grisso-apply PostCSS plugin", () => {
 	});
 
 	it("preserva regla padre si tiene otras declaraciones", async () => {
-		const result = await process(
-			".foo { color: red; @grisso hover:text-1; }",
-		);
+		const result = await process(".foo { color: red; @grisso hover:text-1; }");
 		const css = result.css;
 		// La regla .foo debe mantenerse con su declaración propia
 		expect(css).toContain(".foo");
