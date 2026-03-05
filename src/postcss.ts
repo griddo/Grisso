@@ -53,7 +53,7 @@ const plugin: PluginCreator<GrissoApplyOptions> = (opts = {}) => {
 
 				const rawCSS = await generateCSS(opts?.config);
 				const grissoRoot = postcss.parse(rawCSS);
-				classMap = new Map();
+				const map = new Map<string, DeclMap>();
 
 				grissoRoot.walkRules((rule) => {
 					// Solo reglas top-level (no dentro de @media)
@@ -70,15 +70,17 @@ const plugin: PluginCreator<GrissoApplyOptions> = (opts = {}) => {
 					const className = match[1].replace(/\\/g, "");
 
 					// Merge declaraciones (complexClass con array de properties genera múltiples reglas)
-					let existing = classMap.get(className);
+					let existing = map.get(className);
 					if (!existing) {
 						existing = new Map();
-						classMap.set(className, existing);
+						map.set(className, existing);
 					}
 					rule.walkDecls((decl) => {
 						existing.set(decl.prop, decl.value);
 					});
 				});
+
+				classMap = map;
 			}
 
 			// Recopilar @grisso rules (para no mutar durante walk)
