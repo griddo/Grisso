@@ -50,6 +50,7 @@ dist/
 └── grisso.css             # Generated output — do not edit manually
 
 tokens-example.css         # Example CSS custom properties for consumers
+vscode-css-custom-data.json # VS Code custom data: registers @grisso at-rule
 playground/
 ├── index.html             # Visual test page
 ├── grisso.config.mjs      # Example consumer config (extends defaults)
@@ -111,6 +112,7 @@ The package exposes:
 - `@hiscovega/grisso/config` → `lib/defaults.js` (default config for reference/extension)
 - `@hiscovega/grisso/postcss` → `lib/postcss.js` (PostCSS plugin: `@grisso` directive)
 - `@hiscovega/grisso/tokens-example.css` → example CSS custom properties
+- `vscode-css-custom-data.json` → VS Code custom CSS data (registers `@grisso` at-rule)
 
 **Consumer usage (programmatic):**
 ```js

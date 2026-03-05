@@ -25,6 +25,7 @@
 		"dist/",
 		"lib/",
 		"tokens-example.css",
+		"vscode-css-custom-data.json",
 		"README.md"
 	],
 	"scripts": {

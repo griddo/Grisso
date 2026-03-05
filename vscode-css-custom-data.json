@@ -1,0 +1,15 @@
+{
+	"version": 1.1,
+	"atDirectives": [
+		{
+			"name": "@grisso",
+			"description": "Directiva Grisso: expande clases utility inline con separador `:` para estados y breakpoints.\n\nSintaxis: `@grisso clase hover:clase tablet:clase tablet:hover:clase;`",
+			"references": [
+				{
+					"name": "Grisso PostCSS plugin",
+					"url": "https://www.npmjs.com/package/@hiscovega/grisso"
+				}
+			]
+		}
+	]
+}

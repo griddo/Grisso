@@ -15,6 +15,7 @@
     - [Ejemplos](#ejemplos)
     - [`extractTokens()`](#extracttokens--scaffold-de-tokens)
   - [PostCSS plugin (`@grisso`)](#postcss-plugin-grisso)
+- [Configuración del editor](#configuración-del-editor)
 - [Configuración personalizada](#configuración-personalizada)
 - [Design Tokens (CSS custom properties)](#design-tokens-css-custom-properties)
 - [Clases disponibles](#clases-disponibles)
@@ -321,6 +322,32 @@ Soporta todos los estados (`hover`, `focus`, `focus-visible`, `active`, `disable
 | `config` | `string` | — | Ruta a `grisso.config.mjs` personalizado |
 
 Requiere `postcss` como peer dependency (`^8.1.0`).
+
+## Configuración del editor
+
+La directiva `@grisso` puede generar warnings de "at-rule desconocida" en editores de código. Aquí cómo solucionarlo:
+
+### VS Code
+
+El paquete incluye un archivo `vscode-css-custom-data.json` que registra `@grisso` como directiva CSS válida. Añade esto a tu `.vscode/settings.json`:
+
+```json
+{
+  "css.customData": ["./node_modules/@hiscovega/grisso/vscode-css-custom-data.json"]
+}
+```
+
+### Stylelint
+
+Si usas stylelint, añade `grisso` a las at-rules ignoradas:
+
+```json
+{
+  "rules": {
+    "at-rule-no-unknown": [true, { "ignoreAtRules": ["grisso"] }]
+  }
+}
+```
 
 ## Configuración personalizada
 
