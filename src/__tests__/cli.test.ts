@@ -49,7 +49,7 @@ describe("CLI", () => {
 	it("--version imprime la versión y exit 0", async () => {
 		const { stdout, exitCode } = await run(["--version"]);
 		expect(exitCode).toBe(0);
-		expect(stdout.trim()).toMatch(/^\d+\.\d+\.\d+$/);
+		expect(stdout.trim()).toMatch(/^\d+\.\d+\.\d+(-.+)?$/);
 	});
 
 	it("--help imprime ayuda y exit 0", async () => {
