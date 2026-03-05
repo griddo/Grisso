@@ -19,6 +19,7 @@ src/                       # TypeScript source
 ├── build.ts              # buildCSS() — generate, purge, optimize pipeline
 ├── purge.ts              # purgeCSS() — tree-shaking via PurgeCSS
 ├── optimize.ts           # optimizeCSS() — media query merge + Lightning CSS
+├── postcss.ts            # PostCSS plugin: @grisso directive (inline classes with `:` separator)
 ├── partials/
 │   ├── index.ts           # Ordered registry of generators
 │   ├── layout.ts          # display, position, overflow, z-index, visibility, columns, inset...
@@ -40,7 +41,8 @@ src/                       # TypeScript source
     ├── purge.test.ts
     ├── build.test.ts
     ├── tokens.test.ts
-    └── cli.test.ts
+    ├── cli.test.ts
+    └── postcss.test.ts
 
 lib/                       # Compiled JS output from tsc (gitignored, published via npm)
 
@@ -52,6 +54,9 @@ playground/
 ├── index.html             # Visual test page
 ├── grisso.config.mjs      # Example consumer config (extends defaults)
 ├── grisso.css             # Generated tree-shaken CSS (gitignored)
+├── example.module.css     # CSS Modules demo using @grisso directive
+├── example.processed.css  # Output of PostCSS processing (gitignored)
+├── build.mjs              # Script: process example.module.css with grisso-apply
 └── themes/                # Token CSS files (global, light, dark)
 
 grisso-reduce/
@@ -104,6 +109,7 @@ The package exposes:
 - `@hiscovega/grisso/build` → `lib/build.js` (programmatic API: `buildCSS()`)
 - `@hiscovega/grisso/tokens` → `lib/tokens.js` (programmatic API: `extractTokens()`)
 - `@hiscovega/grisso/config` → `lib/defaults.js` (default config for reference/extension)
+- `@hiscovega/grisso/postcss` → `lib/postcss.js` (PostCSS plugin: `@grisso` directive)
 - `@hiscovega/grisso/tokens-example.css` → example CSS custom properties
 
 **Consumer usage (programmatic):**
@@ -123,6 +129,35 @@ const css = await buildCSS({
 ```
 
 `buildCSS()` runs the full pipeline: generate → purge (if `content`) → optimize (Lightning CSS: media query merge, autoprefixer, minification).
+
+**PostCSS plugin (`@grisso`):**
+
+Alternative to using utility classes directly in HTML. Allows using Grisso classes inside CSS files (including `.module.css`) with the `:` separator for states and breakpoints:
+
+```js
+// postcss.config.mjs
+import grissoApply from "@hiscovega/grisso/postcss";
+
+export default {
+  plugins: [grissoApply({ config: "./grisso.config.mjs" })],
+};
+```
+
+```css
+/* Input: component.module.css */
+.card {
+  border-radius: 8px;
+  @grisso flex flex-col p-md bg-ui shadow-lg hover:shadow-xl tablet:p-lg;
+}
+
+/* Output: */
+.card { border-radius: 8px; display: flex; flex-direction: column; padding: var(--spc-md); background-color: var(--bg-ui); box-shadow: var(--box-shadow-lg); }
+.card:hover { box-shadow: var(--box-shadow-xl); }
+@media (min-width: 700px) { .card { padding: var(--spc-lg); } }
+```
+
+Prefix syntax: `clase`, `estado:clase`, `breakpoint:clase`, `bp:estado:clase` (order flexible).
+Requires `postcss` as peer dependency (`^8.1.0`). Empty rules are auto-cleaned.
 
 **Token extraction (programmatic):**
 ```js
@@ -245,6 +280,7 @@ npm run test:watch  # Watch mode
 | `build.test.ts` | Full `buildCSS()` pipeline (integration) |
 | `tokens.test.ts` | `extractTokens()` CSS and JSON output |
 | `cli.test.ts` | CLI integration (subprocess via `execFile`) |
+| `postcss.test.ts` | `@grisso` PostCSS plugin (inline, states, responsive, config, fractions, negatives, nested @media) |
 
 **Fixtures** live in `src/__tests__/__fixtures__/` (test config, sample HTML, sample CSS Module).
 
@@ -257,6 +293,7 @@ npm run test:watch  # Watch mode
 - **`purgecss`** — tree-shaking unused CSS classes
 - **`lightningcss`** — CSS optimization (autoprefixer, media query merge, minification)
 - **`browserslist`** — target browsers for autoprefixer
+- **`postcss`** (peer, optional) — required only for the `@grisso` PostCSS plugin (`^8.1.0`)
 - **typescript** (dev) — compiles `src/*.ts` → `lib/`
 - **@biomejs/biome** (dev) — linting and formatting
 - **vitest** (dev) — test runner

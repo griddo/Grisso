@@ -9,6 +9,7 @@ lib/
 
 # Generated playground CSS
 playground/grisso.css
+playground/example.processed.css
 .npmrc
 
 # Test coverage

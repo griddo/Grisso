@@ -14,6 +14,7 @@
   - [API programática](#api-programática)
     - [Ejemplos](#ejemplos)
     - [`extractTokens()`](#extracttokens--scaffold-de-tokens)
+  - [PostCSS plugin (`@grisso`)](#postcss-plugin-grisso)
 - [Configuración personalizada](#configuración-personalizada)
 - [Design Tokens (CSS custom properties)](#design-tokens-css-custom-properties)
 - [Clases disponibles](#clases-disponibles)
@@ -239,6 +240,87 @@ app.get("/grisso.css", async (req, res) => {
   res.type("text/css").send(css);
 });
 ```
+
+### PostCSS plugin (`@grisso`)
+
+Alternativa al uso de clases directamente en HTML. Permite usar clases Grisso dentro de archivos CSS (incluyendo `.module.css`) con el separador `:` para estados y breakpoints — sin depender de `composes: ... from global`.
+
+```bash
+npm install -D postcss
+```
+
+**Configuración PostCSS:**
+
+```js
+// postcss.config.mjs
+import grissoApply from "@hiscovega/grisso/postcss";
+
+export default {
+  plugins: [grissoApply({ config: "./grisso.config.mjs" })],
+};
+```
+
+**Uso en CSS Modules:**
+
+```css
+/* component.module.css */
+.card {
+  border-radius: 8px;
+  transition: box-shadow 0.2s;
+  @grisso flex flex-col p-md bg-ui shadow-lg hover:shadow-xl tablet:p-lg;
+}
+
+.title {
+  @grisso text-1 font-bold hover:text-2;
+}
+
+.input {
+  @grisso p-sm border-sm border-1 focus:border-3 focus-visible:border-3;
+}
+
+.disabledBtn {
+  @grisso p-sm bg-3 text-1 disabled:bg-disabled disabled:opacity-3;
+}
+```
+
+**CSS generado:**
+
+```css
+.card {
+  border-radius: 8px;
+  transition: box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+  padding: var(--spc-md);
+  background-color: var(--bg-ui);
+  box-shadow: var(--box-shadow-lg);
+}
+.card:hover { box-shadow: var(--box-shadow-xl); }
+@media (min-width: 700px) { .card { padding: var(--spc-lg); } }
+
+.title { color: var(--text-1); font-weight: 700; }
+.title:hover { color: var(--text-2); }
+```
+
+**Sintaxis de prefijos:**
+
+| Patrón | Ejemplo | Resultado |
+| --- | --- | --- |
+| `clase` | `text-1` | Declaraciones base |
+| `estado:clase` | `hover:text-2` | `.selector:hover { ... }` |
+| `breakpoint:clase` | `tablet:flex` | `@media (min-width: 700px) { ... }` |
+| `bp:estado:clase` | `tablet:hover:text-1` | Media query + pseudo-clase |
+| `estado:bp:clase` | `hover:tablet:text-1` | Mismo resultado (orden flexible) |
+
+Soporta todos los estados (`hover`, `focus`, `focus-visible`, `active`, `disabled`) y breakpoints (`tablet`, `desktop`, `ultrawide`). Se pueden combinar múltiples clases y prefijos en una sola directiva. Las reglas vacías se eliminan automáticamente.
+
+**Opciones del plugin:**
+
+| Opción | Tipo | Default | Descripción |
+| --- | --- | --- | --- |
+| `config` | `string` | — | Ruta a `grisso.config.mjs` personalizado |
+
+Requiere `postcss` como peer dependency (`^8.1.0`).
 
 ## Configuración personalizada
 

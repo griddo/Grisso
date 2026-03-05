@@ -1,24 +1,46 @@
 /**
- * Ejemplo de CSS Modules con composes from global.
- * El tree-shaker de Grisso detecta estas clases y las preserva en el output.
+ * Ejemplo de CSS Modules con @grisso.
+ * El plugin PostCSS inlinea las clases y genera variantes con separador `:`.
  */
 
 .card {
-	composes: flex flex-col gap-sm p-md bg-ui shadow-lg from global;
+	@grisso flex flex-col gap-xl p-md bg-2 hover:bg-3 shadow-lg hover:shadow-xl;
 }
 
 .cardHeader {
-	composes: flex justify-between items-center from global;
+	@grisso flex justify-between items-center;
 }
 
 .cardTitle {
-	composes: text-1 font-bold from global;
+	@grisso text-1 font-bold hover:text-2;
 }
 
 .cardBody {
-	composes: text-2 mt-xs from global;
+	@grisso text-2 mt-xs;
 }
 
 .badge {
-	composes: inline-flex items-center p-xs bg-3 text-3 from global;
+	border-radius: 4px;
+	font-size: 11px;
+	@grisso inline-flex items-center p-xs bg-3 text-3 hover:bg-4;
+}
+
+.responsiveLayout {
+	@grisso flex flex-col gap-md tablet:flex-row;
+}
+
+.hideOnMobile {
+	@grisso hidden tablet:block;
+}
+
+.interactiveInput {
+	outline: none;
+	transition: border-color 0.15s;
+	@grisso p-sm border-sm border-1 focus:border-3 focus-visible:border-3;
+}
+
+.disabledButton {
+	border: none;
+	cursor: not-allowed;
+	@grisso p-sm bg-3 text-1 disabled:bg-disabled disabled:opacity-3;
 }

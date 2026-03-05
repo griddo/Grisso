@@ -8,6 +8,7 @@
 	<link rel="stylesheet" href="themes/light.css" />
 	<link rel="stylesheet" href="themes/dark.css" />
 	<link rel="stylesheet" href="grisso.css" />
+	<link rel="stylesheet" href="example.processed.css" />
 	<style>
 		.playground-section {
 			border-bottom: 1px solid var(--border-1);
@@ -362,28 +363,67 @@
 		</div>
 	</section>
 
-	<!-- ─── CSS Modules tree-shaking ─────────────────────────────── -->
+	<!-- ─── @grisso PostCSS plugin ──────────────────────────────── -->
 	<section class="playground-section p-lg">
-		<h2 class="text-2">CSS Modules (tree-shaking con composes)</h2>
-		<p class="text-3 mb-sm">Las clases de abajo se preservan porque <code>example.module.css</code> las usa vía <code>composes: ... from global</code>.</p>
+		<h2 class="text-2">@grisso PostCSS plugin (separador <code>:</code>)</h2>
+		<p class="text-3 mb-sm">
+			El plugin <code>@hiscovega/grisso/postcss</code> permite usar clases Grisso en archivos <code>.module.css</code>
+			con el separador <code>:</code> para estados y breakpoints, sin depender de <code>composes: ... from global</code>.
+		</p>
+
 		<div class="label mb-xs">playground/example.module.css</div>
 		<pre class="bg-2 p-sm" style="font-size: 12px; overflow-x: auto;"><code>.card {
-  composes: flex flex-col gap-sm p-md bg-ui shadow-lg from global;
+  @grisso flex flex-col gap-sm p-md bg-ui shadow-lg hover:shadow-xl;
 }
 .cardTitle {
-  composes: text-1 font-bold from global;
+  @grisso text-1 font-bold hover:text-2;
 }
 .badge {
-  composes: inline-flex items-center p-xs bg-3 text-3 from global;
+  border-radius: 4px;
+  font-size: 11px;
+  @grisso inline-flex items-center p-xs bg-3 text-3 hover:bg-4;
+}
+.responsiveLayout {
+  @grisso flex flex-col gap-md tablet:flex-row;
+}
+.interactiveInput {
+  @grisso p-sm border-sm border-1 focus:border-3;
+}
+.disabledButton {
+  @grisso p-sm bg-3 text-1 disabled:bg-disabled disabled:opacity-3;
 }</code></pre>
-		<div class="mt-md">
-			<div class="label mb-xs">Resultado visual (usando las clases directamente)</div>
-			<div class="flex flex-col gap-sm p-md bg-ui shadow-lg" style="max-width: 360px;">
-				<div class="flex justify-between items-center">
-					<span class="text-1 font-bold">Card title</span>
-					<span class="inline-flex items-center p-xs bg-3 text-3" style="font-size: 11px; border-radius: 4px;">Badge</span>
+
+		<h3 class="text-2 mt-md mb-sm">Resultado visual (clases procesadas por el plugin)</h3>
+		<div class="mt-sm">
+			<div class="label mb-xs">Card con hover:shadow-xl y hover:text-2</div>
+			<div class="card" style="max-width: 360px; cursor: pointer;">
+				<div class="cardHeader">
+					<span class="cardTitle">Card title</span>
+					<span class="badge">Badge</span>
 				</div>
-				<p class="text-2 mt-xs" style="margin: 0;">Contenido del card usando clases extraídas de composes.</p>
+				<p class="cardBody" style="margin: 0;">Hover sobre el card para ver shadow-xl. Hover sobre el título para ver text-2.</p>
+			</div>
+		</div>
+
+		<div class="mt-md">
+			<div class="label mb-xs">Responsive: flex-col en mobile → tablet:flex-row en tablet+</div>
+			<div class="responsiveLayout bg-2 p-sm">
+				<div class="bg-3 p-xs">Item 1</div>
+				<div class="bg-3 p-xs">Item 2</div>
+				<div class="bg-3 p-xs">Item 3</div>
+			</div>
+		</div>
+
+		<div class="mt-md flex gap-md flex-wrap">
+			<div>
+				<div class="label mb-xs">focus:border-3</div>
+				<input type="text" placeholder="Click to focus" class="interactiveInput" style="border-radius: 4px; font-size: 14px;" />
+			</div>
+			<div>
+				<div class="label mb-xs">disabled:bg-disabled + disabled:opacity-3</div>
+				<button type="button" disabled class="disabledButton" style="border-radius: 4px; font-size: 14px;">
+					Disabled button
+				</button>
 			</div>
 		</div>
 	</section>

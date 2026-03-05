@@ -12,6 +12,7 @@
 		"./build": "./lib/build.js",
 		"./tokens": "./lib/tokens.js",
 		"./config": "./lib/defaults.js",
+		"./postcss": "./lib/postcss.js",
 		"./tokens-example.css": "./tokens-example.css"
 	},
 	"engines": {
@@ -31,7 +32,7 @@
 		"typecheck": "tsc --noEmit",
 		"lint": "biome check .",
 		"lint:fix": "biome check --write .",
-		"playground": "npm run build && node lib/cli.js build --config playground/grisso.config.mjs --content playground/index.html --content playground/example.module.css --output playground/grisso.css && open playground/index.html",
+		"playground": "npm run build && node lib/cli.js build --config playground/grisso.config.mjs --content playground/index.html --output playground/grisso.css && node playground/build.mjs && open playground/index.html",
 		"test": "vitest run",
 		"test:watch": "vitest",
 		"prepublishOnly": "npm run build",
@@ -42,9 +43,18 @@
 		"lightningcss": "^1.28.0",
 		"purgecss": "^6.0.0"
 	},
+	"peerDependencies": {
+		"postcss": "^8.1.0"
+	},
+	"peerDependenciesMeta": {
+		"postcss": {
+			"optional": true
+		}
+	},
 	"devDependencies": {
 		"@biomejs/biome": "2.4.5",
 		"@types/node": "^25.3.3",
+		"postcss": "^8.5.8",
 		"release-it": "^19.2.4",
 		"typescript": "^5.9.3",
 		"vitest": "^4.0.18"
