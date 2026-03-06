@@ -4,7 +4,7 @@
  */
 let _mod;
 
-const plugin = function (opts) {
+const plugin = (opts) => {
 	let delegate;
 	return {
 		postcssPlugin: "grisso-apply",
