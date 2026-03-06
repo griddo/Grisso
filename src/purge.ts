@@ -22,9 +22,9 @@ export async function purgeCSS(
 		css: [{ raw: css }],
 		extractors: [
 			{
-				// Extractor para uso directo en HTML/JSX: class="flex gap-md w-1/2"
+				// Extractor para uso directo en HTML/JSX: class="flex gap-md hover:bg-1 w-1/2"
 				extractor: (content: string) =>
-					content.match(/[A-Za-z0-9_/.-]+/g) || [],
+					content.match(/[A-Za-z0-9_/:.-]+/g) || [],
 				extensions: ["html", "jsx", "tsx", "js", "ts"],
 			},
 			{

@@ -7,7 +7,7 @@ import type { Breakpoints, Declarations, States, TokenMap } from "./types.js";
 
 /** Escapa caracteres especiales en classNames para selectores CSS válidos. */
 function escapeCSS(name: string): string {
-	return name.replace(/\//g, "\\/");
+	return name.replace(/[/:]/g, "\\$&");
 }
 
 /**
@@ -27,17 +27,17 @@ export function simpleClass(
 	// Variantes de estado
 	if (states) {
 		for (const [state, pseudo] of Object.entries(states)) {
-			css += `.${state}-${escaped}${pseudo} { ${property}: ${value}; }\n`;
+			css += `.${state}\\:${escaped}${pseudo} { ${property}: ${value}; }\n`;
 		}
 	}
 
 	for (const [bp, mq] of Object.entries(breakpoints)) {
-		css += `@media ${mq} { .${bp}-${escaped} { ${property}: ${value}; } }\n`;
+		css += `@media ${mq} { .${bp}\\:${escaped} { ${property}: ${value}; } }\n`;
 
 		// Variantes responsive + estado
 		if (states) {
 			for (const [state, pseudo] of Object.entries(states)) {
-				css += `@media ${mq} { .${bp}-${state}-${escaped}${pseudo} { ${property}: ${value}; } }\n`;
+				css += `@media ${mq} { .${bp}\\:${state}\\:${escaped}${pseudo} { ${property}: ${value}; } }\n`;
 			}
 		}
 	}
@@ -67,21 +67,21 @@ export function complexClass(
 		if (states) {
 			for (const [state, pseudo] of Object.entries(states)) {
 				for (const prop of props) {
-					css += `.${state}-${escaped}${pseudo} { ${prop}: ${value}; }\n`;
+					css += `.${state}\\:${escaped}${pseudo} { ${prop}: ${value}; }\n`;
 				}
 			}
 		}
 
 		for (const [bp, mq] of Object.entries(breakpoints)) {
 			for (const prop of props) {
-				css += `@media ${mq} { .${bp}-${escaped} { ${prop}: ${value}; } }\n`;
+				css += `@media ${mq} { .${bp}\\:${escaped} { ${prop}: ${value}; } }\n`;
 			}
 
 			// Variantes responsive + estado
 			if (states) {
 				for (const [state, pseudo] of Object.entries(states)) {
 					for (const prop of props) {
-						css += `@media ${mq} { .${bp}-${state}-${escaped}${pseudo} { ${prop}: ${value}; } }\n`;
+						css += `@media ${mq} { .${bp}\\:${state}\\:${escaped}${pseudo} { ${prop}: ${value}; } }\n`;
 					}
 				}
 			}
@@ -111,17 +111,17 @@ export function customClass(
 	// Variantes de estado: pseudo va antes del selectorSuffix
 	if (states) {
 		for (const [state, pseudo] of Object.entries(states)) {
-			css += `.${state}-${escaped}${pseudo}${suffix} { ${decls}; }\n`;
+			css += `.${state}\\:${escaped}${pseudo}${suffix} { ${decls}; }\n`;
 		}
 	}
 
 	for (const [bp, mq] of Object.entries(breakpoints)) {
-		css += `@media ${mq} { .${bp}-${escaped}${suffix} { ${decls}; } }\n`;
+		css += `@media ${mq} { .${bp}\\:${escaped}${suffix} { ${decls}; } }\n`;
 
 		// Variantes responsive + estado
 		if (states) {
 			for (const [state, pseudo] of Object.entries(states)) {
-				css += `@media ${mq} { .${bp}-${state}-${escaped}${pseudo}${suffix} { ${decls}; } }\n`;
+				css += `@media ${mq} { .${bp}\\:${state}\\:${escaped}${pseudo}${suffix} { ${decls}; } }\n`;
 			}
 		}
 	}
