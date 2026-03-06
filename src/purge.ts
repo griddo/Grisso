@@ -28,17 +28,34 @@ export async function purgeCSS(
 				extensions: ["html", "jsx", "tsx", "js", "ts"],
 			},
 			{
-				// Extractor para CSS Modules: composes: flex gap-md from global
+				// Extractor para CSS: composes: ... from global y @grisso directives
 				extractor: (content: string) => {
-					const matches =
-						content.match(/composes:\s*([^;]+)\s*from\s+global/g) || [];
 					const classes: string[] = [];
-					for (const match of matches) {
+
+					// composes: flex gap-md from global
+					const composes =
+						content.match(/composes:\s*([^;]+)\s*from\s+global/g) || [];
+					for (const match of composes) {
 						const classStr = match
 							.replace(/composes:\s*/, "")
 							.replace(/\s*from\s+global/, "");
 						classes.push(...classStr.trim().split(/\s+/));
 					}
+
+					// @grisso flex hover:text-2 tablet:p-lg;
+					const grissoMatches =
+						content.match(/@grisso\s+([^;}]+)/g) || [];
+					for (const match of grissoMatches) {
+						const tokens = match.replace(/@grisso\s+/, "").trim().split(/\s+/);
+						for (const token of tokens) {
+							// Token completo (e.g. "hover:text-2") para preservar variantes
+							classes.push(token);
+							// Clase base sin prefijos (e.g. "text-2") para preservar regla base
+							const base = token.split(":").pop();
+							if (base && base !== token) classes.push(base);
+						}
+					}
+
 					return classes;
 				},
 				extensions: ["css"],

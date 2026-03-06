@@ -115,6 +115,71 @@ describe("purgeCSS", () => {
 		}
 	});
 
+	it("extrae clases base de @grisso en CSS", async () => {
+		setupTmpDir();
+		const cssPath = path.join(tmpDir, "test.css");
+		writeFileSync(
+			cssPath,
+			".card { @grisso flex p-sm text-1; }",
+		);
+
+		try {
+			const result = await purgeCSS(fullCSS, {
+				content: [cssPath],
+			});
+			expect(result).toContain(".flex");
+			expect(result).toContain(".p-sm");
+			expect(result).toContain(".text-1");
+			// No usadas
+			expect(result).not.toContain(".grid");
+			expect(result).not.toContain(".hidden");
+		} finally {
+			cleanTmpDir();
+		}
+	});
+
+	it("extrae clases con prefijos de estado/breakpoint de @grisso", async () => {
+		setupTmpDir();
+		const cssPath = path.join(tmpDir, "test.css");
+		writeFileSync(
+			cssPath,
+			".card { @grisso flex hover:bg-1 tablet:p-md; }",
+		);
+
+		try {
+			const result = await purgeCSS(fullCSS, {
+				content: [cssPath],
+			});
+			// Clases base
+			expect(result).toContain(".flex");
+			expect(result).toContain(".bg-1");
+			expect(result).toContain(".p-md");
+		} finally {
+			cleanTmpDir();
+		}
+	});
+
+	it("combina @grisso y composes en el mismo archivo CSS", async () => {
+		setupTmpDir();
+		const cssPath = path.join(tmpDir, "test.css");
+		writeFileSync(
+			cssPath,
+			`.wrapper { composes: flex from global; }
+.card { @grisso p-sm bg-1; }`,
+		);
+
+		try {
+			const result = await purgeCSS(fullCSS, {
+				content: [cssPath],
+			});
+			expect(result).toContain(".flex");
+			expect(result).toContain(".p-sm");
+			expect(result).toContain(".bg-1");
+		} finally {
+			cleanTmpDir();
+		}
+	});
+
 	it("acepta safelist adicional", async () => {
 		setupTmpDir();
 		const htmlPath = path.join(tmpDir, "test.html");
