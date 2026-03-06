@@ -250,13 +250,24 @@ Alternativa al uso de clases directamente en HTML. Permite usar clases Grisso de
 npm install -D postcss
 ```
 
-**Configuración PostCSS:**
+**Configuración PostCSS (ESM):**
 
 ```js
 // postcss.config.mjs
 import grissoApply from "@hiscovega/grisso/postcss";
 
 export default {
+  plugins: [grissoApply({ config: "./grisso.config.mjs" })],
+};
+```
+
+**Configuración PostCSS (CommonJS):**
+
+```js
+// postcss.config.js
+const grissoApply = require("@hiscovega/grisso/postcss");
+
+module.exports = {
   plugins: [grissoApply({ config: "./grisso.config.mjs" })],
 };
 ```
@@ -430,19 +441,19 @@ Importa los tokens antes que Grisso en tu CSS global:
 ### Nomenclatura
 
 ```
-{breakpoint}-{state}-{propiedad}-{escala}
+{breakpoint}:{state}:{propiedad}-{escala}
 ```
 
-Ejemplos: `flex`, `tablet-flex`, `p-md`, `hover-bg-1`, `focus-border-1`, `tablet-hover-p-sm`, `desktop-mt-lg`, `w-1/2`
+Ejemplos: `flex`, `tablet:flex`, `p-md`, `hover:bg-1`, `focus:border-1`, `tablet:hover:p-sm`, `desktop:mt-lg`, `w-1/2`
 
 ### Breakpoints (mobile-first)
 
 | Prefijo         | Tamaño  |
 | --------------- | ------- |
 | _(sin prefijo)_ | 0px+    |
-| `tablet-`       | 700px+  |
-| `desktop-`      | 1024px+ |
-| `ultrawide-`    | 1680px+ |
+| `tablet:`       | 700px+  |
+| `desktop:`      | 1024px+ |
+| `ultrawide:`    | 1680px+ |
 
 ### State variants
 
@@ -450,13 +461,13 @@ Todas las utilidades generan variantes de estado automáticamente. El tree-shaki
 
 | Prefijo            | Pseudo-clase     |
 | ------------------ | ---------------- |
-| `hover-`           | `:hover`         |
-| `focus-`           | `:focus`         |
-| `focus-visible-`   | `:focus-visible` |
-| `active-`          | `:active`        |
-| `disabled-`        | `:disabled`      |
+| `hover:`           | `:hover`         |
+| `focus:`           | `:focus`         |
+| `focus-visible:`   | `:focus-visible` |
+| `active:`          | `:active`        |
+| `disabled:`        | `:disabled`      |
 
-Se combinan con breakpoints: `tablet-hover-bg-1`, `desktop-focus-p-sm`.
+Se combinan con breakpoints: `tablet:hover:bg-1`, `desktop:focus:p-sm`.
 
 Orden del cascade: base → state → responsive → responsive+state.
 
@@ -681,7 +692,7 @@ import { simpleClass, complexClass } from "../generators.js";
 // Clase simple — genera .flex + variantes de estado y responsive
 simpleClass("flex", "display", "flex", breakpoints, states);
 
-// Clase basada en tokens — genera .p-xs, .hover-p-xs:hover, .tablet-p-xs, etc.
+// Clase basada en tokens — genera .p-xs, .hover\:p-xs:hover, .tablet\:p-xs, etc.
 complexClass("p-", "padding", spacing, breakpoints, states);
 ```
 
