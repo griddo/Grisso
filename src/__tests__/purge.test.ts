@@ -118,10 +118,7 @@ describe("purgeCSS", () => {
 	it("extrae clases base de @grisso en CSS", async () => {
 		setupTmpDir();
 		const cssPath = path.join(tmpDir, "test.css");
-		writeFileSync(
-			cssPath,
-			".card { @grisso flex p-sm text-1; }",
-		);
+		writeFileSync(cssPath, ".card { @grisso flex p-sm text-1; }");
 
 		try {
 			const result = await purgeCSS(fullCSS, {
@@ -141,10 +138,7 @@ describe("purgeCSS", () => {
 	it("extrae clases con prefijos de estado/breakpoint de @grisso", async () => {
 		setupTmpDir();
 		const cssPath = path.join(tmpDir, "test.css");
-		writeFileSync(
-			cssPath,
-			".card { @grisso flex hover:bg-1 tablet:p-md; }",
-		);
+		writeFileSync(cssPath, ".card { @grisso flex hover:bg-1 tablet:p-md; }");
 
 		try {
 			const result = await purgeCSS(fullCSS, {

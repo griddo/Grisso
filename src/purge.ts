@@ -43,10 +43,12 @@ export async function purgeCSS(
 					}
 
 					// @grisso flex hover:text-2 tablet:p-lg;
-					const grissoMatches =
-						content.match(/@grisso\s+([^;}]+)/g) || [];
+					const grissoMatches = content.match(/@grisso\s+([^;}]+)/g) || [];
 					for (const match of grissoMatches) {
-						const tokens = match.replace(/@grisso\s+/, "").trim().split(/\s+/);
+						const tokens = match
+							.replace(/@grisso\s+/, "")
+							.trim()
+							.split(/\s+/);
 						for (const token of tokens) {
 							// Token completo (e.g. "hover:text-2") para preservar variantes
 							classes.push(token);
