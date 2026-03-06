@@ -12,7 +12,10 @@
 		"./build": "./lib/build.js",
 		"./tokens": "./lib/tokens.js",
 		"./config": "./lib/defaults.js",
-		"./postcss": "./lib/postcss.js",
+		"./postcss": {
+			"import": "./lib/postcss.js",
+			"require": "./postcss.cjs"
+		},
 		"./tokens-example.css": "./tokens-example.css"
 	},
 	"engines": {
@@ -24,6 +27,7 @@
 	"files": [
 		"dist/",
 		"lib/",
+		"postcss.cjs",
 		"tokens-example.css",
 		"vscode-css-custom-data.json",
 		"README.md"

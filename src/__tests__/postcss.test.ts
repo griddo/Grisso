@@ -350,3 +350,20 @@ describe("grisso-apply PostCSS plugin", () => {
 		expect(css).toContain(".foo:hover");
 	});
 });
+
+describe("grisso-apply CJS wrapper", () => {
+	it("funciona igual que la versión ESM", async () => {
+		const cjsPath = path.resolve(__dirname, "../../postcss.cjs");
+		const cjsPlugin = (await import(cjsPath)).default;
+		const result = await postcss([cjsPlugin()]).process(
+			".foo { @grisso flex hover:text-2 tablet:p-lg; }",
+			{ from: undefined },
+		);
+		const css = normalize(result.css);
+		expect(css).toContain("display: flex");
+		expect(css).toContain(".foo:hover");
+		expect(css).toContain("color: var(--text-2)");
+		expect(css).toContain("@media (min-width: 700px)");
+		expect(css).toContain("padding: var(--spc-lg)");
+	});
+});
