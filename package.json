@@ -16,7 +16,7 @@
 		"./tokens-example.css": "./tokens-example.css"
 	},
 	"engines": {
-		"node": ">=24"
+		"node": ">=20"
 	},
 	"bin": {
 		"grisso": "lib/cli.js"
